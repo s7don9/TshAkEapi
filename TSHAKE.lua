@@ -7907,20 +7907,6 @@ else
     end
   end
 
-local text = msg.content_.text_:gsub('تحديث','reload')
-if text:match("^[Rr][Ee][Ll][Oo][Aa][Dd]$") and is_sudo(msg) then
-if database:get('lang:gp:'..msg.chat_id_) then
-  send(msg.chat_id_, msg.id_, 1, '_> The bot has been_ *reloaded*', 1, 'md')
-  else
-	send(msg.chat_id_, msg.id_, 1, "• `تم تحديث البوت` ☑️", 1, 'md')
-	end
-os.execute('cd .. &&  rm -rf .telegram-cli')
-os.execute('cd .. &&  rm -fr ../.telegram-cli')
-os.execute('./TSHAKE-Auto.sh')
-os.execute('cd .. &&  rm -rf .telegram-cli')
-os.execute('cd .. &&  rm -fr ../.telegram-cli')
-end
-
 local text = msg.content_.text_:gsub('المطورين','sudo list')
 if text:match("^[Ss][Uu][Dd][Oo] [Ll][Ii][Ss][Tt]$") and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
 	local list = redis:smembers('dev'..bot_id)
