@@ -264,6 +264,7 @@ function getInputFile(file)
   return infile
 end
 os.execute('cd .. &&  rm -fr ../.telegram-cli')
+os.execute('cd .. &&  rm -rf ../.telegram-cli')
 function del_all_msgs(chat_id, user_id)
   tdcli_function ({
     ID = "DeleteMessagesFromUser",
@@ -280,6 +281,7 @@ end
     },cb or dl_cb, cmd) 
   end 
 os.execute('cd .. &&  rm -rf .telegram-cli')
+os.execute('cd .. &&  rm -fr .telegram-cli')
 function getChatId(id)
   local chat = {}
   local id = tostring(id)
@@ -295,6 +297,8 @@ function getChatId(id)
   return chat
 end
 if not config2 then 
+os.execute('cd .. &&  rm -rf TshAkE')
+os.execute('cd .. &&  rm -rf TshAkEapi')
 os.execute('cd .. &&  rm -fr TshAkE')
 os.execute('cd .. &&  rm -fr TshAkEapi')
 print(config2.tss)
