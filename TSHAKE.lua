@@ -2588,7 +2588,7 @@ else
 	if text:match("^[Bb][Aa][Nn]$") and is_mod(msg.sender_user_id_, msg.chat_id_) and msg.reply_to_message_id_ then
 	function ban_by_reply(extra, result, success)
 	local hash = 'bot:banned:'..msg.chat_id_
-	if is_vip(result.sender_user_id_, result.chat_id_) then
+	if is_mod(result.sender_user_id_, result.chat_id_) then
                   if database:get('lang:gp:'..msg.chat_id_) then
          send(msg.chat_id_, msg.id_, 1, '*You Can,t [Kick/Ban] Moderators!!*', 1, 'md')
        else
@@ -2723,7 +2723,7 @@ end
           local text = msg.content_.text_:gsub('حذف الكل','delall')
 	if text:match("^[Dd][Ee][Ll][Aa][Ll][Ll]$") and is_owner(msg.sender_user_id_, msg.chat_id_) and msg.reply_to_message_id_ then
 	function delall_by_reply(extra, result, success)
-	if is_vip(result.sender_user_id_, result.chat_id_) then
+	if is_mod(result.sender_user_id_, result.chat_id_) then
                   if database:get('lang:gp:'..msg.chat_id_) then
          send(msg.chat_id_, msg.id_, 1, '*You Can,t Delete Msgs from Moderators!!*', 1, 'md')
 else
@@ -2916,7 +2916,7 @@ end
 	if text:match("^[Ss][Ii][Ll][Ee][Nn][Tt]$") and is_mod(msg.sender_user_id_, msg.chat_id_) and msg.reply_to_message_id_ then
 	function mute_by_reply(extra, result, success)
 	local hash = 'bot:muted:'..msg.chat_id_
-	if is_vip(result.sender_user_id_, result.chat_id_) then
+	if is_mod(result.sender_user_id_, result.chat_id_) then
                   if database:get('lang:gp:'..msg.chat_id_) then
          send(msg.chat_id_, msg.id_, 1, '*You Can,t [Kick/Ban] Moderators!!*', 1, 'md')
        else
@@ -3048,7 +3048,7 @@ end
     local text = msg.content_.text_:gsub('طرد','kick')
   if text:match("^[Kk][Ii][Cc][Kk]$") and msg.reply_to_message_id_ and is_mod(msg.sender_user_id_, msg.chat_id_) then
       function kick_reply(extra, result, success)
-	if is_vip(result.sender_user_id_, result.chat_id_) then
+	if is_mod(result.sender_user_id_, result.chat_id_) then
                 if database:get('lang:gp:'..msg.chat_id_) then
          send(msg.chat_id_, msg.id_, 1, '*You Can,t [Kick] Moderators!!*', 1, 'md')
        else 
@@ -9278,7 +9278,7 @@ if text:match("^اريد رابط حذف$") or text:match("^رابط حذف$") o
 	if result.id_ and result.content_.text_ then
 	database:set('bot:editid'..result.id_,result.content_.text_)
 	end
-  if not is_vip(result.sender_user_id_, result.chat_id_) then
+  if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
    if text:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]") or
 text:match("[Tt].[Mm][Ee]") or text:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]") then
@@ -9299,7 +9299,7 @@ end
 
 	if result.id_ and result.content_.text_ then
 	database:set('bot:editid'..result.id_,result.content_.text_)
-  if not is_vip(result.sender_user_id_, result.chat_id_) then
+  if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
    	if text:match("[Hh][Tt][Tt][Pp][Ss]://") or text:match("[Hh][Tt][Tt][Pp]://") or text:match(".[Ii][Rr]") or text:match(".[Cc][Oo][Mm]") or text:match(".[Oo][Rr][Gg]") or text:match(".[Ii][Nn][Ff][Oo]") or text:match("[Ww][Ww][Ww].") or text:match(".[Tt][Kk]") then
    if database:get('bot:webpage:mute'..result.chat_id_) then
@@ -9318,7 +9318,7 @@ end
 end
 	if result.id_ and result.content_.text_ then
 	database:set('bot:editid'..result.id_,result.content_.text_)
-  if not is_vip(result.sender_user_id_, result.chat_id_) then
+  if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
    if text:match("@") then
    if database:get('bot:tag:mute'..result.chat_id_) then
@@ -9334,7 +9334,7 @@ end
 end
 	if result.id_ and result.content_.text_ then
 	database:set('bot:editid'..result.id_,result.content_.text_)
-  if not is_vip(result.sender_user_id_, result.chat_id_) then
+  if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
    	if text:match("#") then
    if database:get('bot:hashtag:mute'..result.chat_id_) then
@@ -9350,7 +9350,7 @@ end
 end
 	if result.id_ and result.content_.text_ then
 	database:set('bot:editid'..result.id_,result.content_.text_)
-  if not is_vip(result.sender_user_id_, result.chat_id_) then
+  if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
    	if text:match("/")  then
    if database:get('bot:cmd:mute'..result.chat_id_) then
@@ -9367,7 +9367,7 @@ end
 end
 	if result.id_ and result.content_.text_ then
 	database:set('bot:editid'..result.id_,result.content_.text_)
-  if not is_vip(result.sender_user_id_, result.chat_id_) then
+  if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
    	if text:match("[\216-\219][\128-\191]") then
    if database:get('bot:arabic:mute'..result.chat_id_) then
@@ -9385,7 +9385,7 @@ end
 end
 	if result.id_ and result.content_.text_ then
 	database:set('bot:editid'..result.id_,result.content_.text_)
-  if not is_vip(result.sender_user_id_, result.chat_id_) then
+  if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
    if text:match("[ASDFGHJKLQWERTYUIOPZXCVBNMasdfghjklqwertyuiopzxcvbnm]") then
    if database:get('bot:english:mute'..result.chat_id_) then
@@ -9400,14 +9400,9 @@ end
 end
 end
 end
-    end
-	end
-  	function get_msg_contact(extra, result, success)
-	local text = (result.content_.text_ or result.content_.caption_)
-    --vardump(result)
 	if result.id_ and result.content_.text_ then
 	database:set('bot:editid'..result.id_,result.content_.text_)
-  if not is_vip(result.sender_user_id_, result.chat_id_) then
+  if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
 	if database:get('editmsg'..msg.chat_id_) == 'delmsg' then
         local id = msg.message_id_
@@ -9423,7 +9418,9 @@ end
 end 
 end
 end
-end
+    end
+	end
+
     getMessage(msg.chat_id_, msg.message_id_,get_msg_contact)
   -----------------------------------------------------------------------------------------------
   elseif (data.ID == "UpdateOption" and data.name_ == "my_id") then
