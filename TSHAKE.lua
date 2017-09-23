@@ -6063,7 +6063,7 @@ end
       end
       end
       if unmutept[2] == "english ban" or UNTSHAKE[2] == "الانكليزيه بالطرد" then
-	  if database:get('bot:text:ban'..msg.chat_id_) then
+	  if database:get('bot:english:ban'..msg.chat_id_) then
     if database:get('lang:gp:'..msg.chat_id_) then
          send(msg.chat_id_, msg.id_, 1, '_> english ban has been_ *unLocked*', 1, 'md')
       else
