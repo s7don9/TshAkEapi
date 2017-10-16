@@ -1521,7 +1521,8 @@ elseif msg_type == 'MSG:Text' then
     check_filter_words(msg, text)
 	if text:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]") or 
 text:match("[Tt].[Mm][Ee]") or
-text:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]") then
+text:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]") or
+text:match("[Tt][Ee][Ll][Ee][Ss][Cc][Oo].[Pp][Ee]") then
      if database:get('bot:links:mute'..msg.chat_id_) then
      local id = msg.id_
         local msgs = {[0] = id}
@@ -9285,14 +9286,16 @@ if text:match("^اريد رابط حذف$") or text:match("^رابط حذف$") o
   if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
    if text:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]") or
-text:match("[Tt].[Mm][Ee]") or text:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]") then
+text:match("[Tt].[Mm][Ee]") or text:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]") or
+text:match("[Tt][Ee][Ll][Ee][Ss][Cc][Oo].[Pp][Ee]") then
    if database:get('bot:links:mute'..result.chat_id_) then
     local msgs = {[0] = data.message_id_}
        delete_msg(msg.chat_id_,msgs)
 	end
 
    if text:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]") or
-text:match("[Tt].[Mm][Ee]") or text:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]") then
+text:match("[Tt].[Mm][Ee]") or text:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]") or
+text:match("[Tt][Ee][Ll][Ee][Ss][Cc][Oo].[Pp][Ee]") then
    if database:get('bot:links:warn'..result.chat_id_) then
     local msgs = {[0] = data.message_id_}
        delete_msg(msg.chat_id_,msgs)
