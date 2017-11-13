@@ -1082,53 +1082,6 @@ end
           return 
    end
    end
-elseif text then
-        for i=0, #msg.content_.entities_ do
-        if msg.content_.entities_ then
-          if msg.content_.entities_[i] and (msg.content_.entities_[i].ID == 'MessageEntityUrl' or msg.content_.entities_[i].ID == 'MessageEntityTextUrl' or msg.content_.text_.web_page_) then
-   if not is_vip(msg.sender_user_id_, msg.chat_id_) then
-    if database:get('bot:markdown:mute'..msg.chat_id_) then
-    local id = msg.id_
-    local msgs = {[0] = id}
-    local chat = msg.chat_id_
-       delete_msg(chat,msgs)
-  return 
-  end  
-           if msg.forward_info_ then
-          if database:get('bot:forward:mute'..msg.chat_id_) then
-            if msg.forward_info_.ID == "MessageForwardedFromUser" or msg.forward_info_.ID == "MessageForwardedPost" then
-              local id = msg.id_
-              local msgs = {[0] = id}
-              local chat = msg.chat_id_
-              delete_msg(chat,msgs)
-            end
-          end
-      end
-        if database:get('bot:markdown:ban'..msg.chat_id_) then
-    local id = msg.id_
-    local msgs = {[0] = id}
-    local chat = msg.chat_id_
-    local user_id = msg.sender_user_id_
-       delete_msg(chat,msgs)
-       chat_kick(msg.chat_id_, msg.sender_user_id_)
-          send(msg.chat_id_, 0, 1, "• <code>الايدي 📍 : </code><code>"..msg.sender_user_id_.."</code>\n• <code>الماركدون تم قفلها ممنوع ارسالها</code> ⚠️\n• <code>تم طردك</code> ❌", 1, 'html')
-          return 
-   end
-   
-        if database:get('bot:markdown:warn'..msg.chat_id_) then
-    local id = msg.id_
-    local msgs = {[0] = id}
-    local chat = msg.chat_id_
-    local user_id = msg.sender_user_id_
-       delete_msg(chat,msgs)
-          send(msg.chat_id_, 0, 1, "• <code>الايدي 📍 : </code><code>"..msg.sender_user_id_.."</code>\n• <code>الماركدون تم قفلها ممنوع ارسالها</code> ⚠️❌", 1, 'html')
-          return 
-   end
- end
-end
-end
- end
-
   elseif msg_type == 'MSG:Inline' then
    if not is_vip(msg.sender_user_id_, msg.chat_id_) then
     if database:get('bot:inline:mute'..msg.chat_id_) then
@@ -2481,7 +2434,33 @@ else
   end
   end
   -----------------------------------------------------------------------------------------------
+if msg.content_.entities_ then
+if msg.content_.entities_[0] then
+if msg.content_.entities_[0] and msg.content_.entities_[0].ID == "MessageEntityUrl" or msg.content_.entities_[0].ID == "MessageEntityTextUrl" then
+if database:get('bot:markdown:mute'..msg.chat_id_) then
+  delete_msg(msg.chat_id_, {[0] = msg.id_})
+end
+if database:get('bot:markdown:ban'..msg.chat_id_) then
+delete_msg(msg.chat_id_, {[0] = msg.id_})
+chat_kick(msg.chat_id_, msg.sender_user_id_)
+  send(msg.chat_id_, 0, 1, "• <code>الايدي 📍 : </code><code>"..msg.sender_user_id_.."</code>\n• <code>الماركدون تم قفلها ممنوع ارسالها</code> ⚠️\n• <code>تم طردك</code> ❌", 1, 'html')
+end
+if database:get('bot:markdown:warn'..msg.chat_id_) then
+delete_msg(msg.chat_id_, {[0] = msg.id_})
+  send(msg.chat_id_, 0, 1, "• <code>الايدي 📍 : </code><code>"..msg.sender_user_id_.."</code>\n• <code>الماركدون تم قفلها ممنوع ارسالها</code> ⚠️❌", 1, 'html')
+end
+if msg.forward_info_ then
+if database:get('bot:forward:mute'..msg.chat_id_) then
+ if msg.forward_info_.ID == "MessageForwardedFromUser" or msg.forward_info_.ID == "MessageForwardedPost" then
+delete_msg(msg.chat_id_, {[0] = msg.id_})
+end
+end
+end
+end
+end
+end
 
+  -----------------------------------------------------------------------------------------------
         local text = msg.content_.text_:gsub('رفع عضو مميز','setvip')
 	if text:match("^[Ss][Ee][Tt][Vv][Ii][Pp]$")  and is_owner(msg.sender_user_id_, msg.chat_id_) and msg.reply_to_message_id_ then
 	function promote_by_reply(extra, result, success)
