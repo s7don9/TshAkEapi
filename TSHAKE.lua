@@ -1082,17 +1082,19 @@ end
           return 
    end
    end
-
-  elseif msg_type == 'MSG:MarkDown' then
+elseif text then
+        for i=0, #msg.content_.entities_ do
+        if msg.content_.entities_ then
+          if msg.content_.entities_[i] and (msg.content_.entities_[i].ID == 'MessageEntityUrl' or msg.content_.entities_[i].ID == 'MessageEntityTextUrl' or msg.content_.text_.web_page_) then
    if not is_vip(msg.sender_user_id_, msg.chat_id_) then
     if database:get('bot:markdown:mute'..msg.chat_id_) then
     local id = msg.id_
     local msgs = {[0] = id}
     local chat = msg.chat_id_
        delete_msg(chat,msgs)
-          return 
-   end
-        if msg.forward_info_ then
+  return 
+  end  
+           if msg.forward_info_ then
           if database:get('bot:forward:mute'..msg.chat_id_) then
             if msg.forward_info_.ID == "MessageForwardedFromUser" or msg.forward_info_.ID == "MessageForwardedPost" then
               local id = msg.id_
@@ -1123,7 +1125,10 @@ end
           return 
    end
  end
- 
+end
+end
+ end
+
   elseif msg_type == 'MSG:Inline' then
    if not is_vip(msg.sender_user_id_, msg.chat_id_) then
     if database:get('bot:inline:mute'..msg.chat_id_) then
