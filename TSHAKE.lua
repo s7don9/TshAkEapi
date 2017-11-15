@@ -2438,16 +2438,22 @@ if msg.content_.entities_ then
 if msg.content_.entities_[0] then
 if msg.content_.entities_[0] and msg.content_.entities_[0].ID == "MessageEntityUrl" or msg.content_.entities_[0].ID == "MessageEntityTextUrl" then
 if database:get('bot:markdown:mute'..msg.chat_id_) then
+if not is_vip(msg.sender_user_id_, msg.chat_id_) then
   delete_msg(msg.chat_id_, {[0] = msg.id_})
 end
+end
 if database:get('bot:markdown:ban'..msg.chat_id_) then
+if not is_vip(msg.sender_user_id_, msg.chat_id_) then
 delete_msg(msg.chat_id_, {[0] = msg.id_})
 chat_kick(msg.chat_id_, msg.sender_user_id_)
   send(msg.chat_id_, 0, 1, "• <code>الايدي 📍 : </code><code>"..msg.sender_user_id_.."</code>\n• <code>الماركدون تم قفلها ممنوع ارسالها</code> ⚠️\n• <code>تم طردك</code> ❌", 1, 'html')
 end
+end
 if database:get('bot:markdown:warn'..msg.chat_id_) then
+if not is_vip(msg.sender_user_id_, msg.chat_id_) then
 delete_msg(msg.chat_id_, {[0] = msg.id_})
   send(msg.chat_id_, 0, 1, "• <code>الايدي 📍 : </code><code>"..msg.sender_user_id_.."</code>\n• <code>الماركدون تم قفلها ممنوع ارسالها</code> ⚠️❌", 1, 'html')
+end
 end
 if msg.forward_info_ then
 if database:get('bot:forward:mute'..msg.chat_id_) then
@@ -2459,7 +2465,6 @@ end
 end
 end
 end
-
   -----------------------------------------------------------------------------------------------
         local text = msg.content_.text_:gsub('رفع عضو مميز','setvip')
 	if text:match("^[Ss][Ee][Tt][Vv][Ii][Pp]$")  and is_owner(msg.sender_user_id_, msg.chat_id_) and msg.reply_to_message_id_ then
