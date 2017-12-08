@@ -9,7 +9,6 @@
 serpent = require('serpent')
 serp = require 'serpent'.block
 http = require("socket.http")
-config2 = dofile('libs/serpant.lua') 
 https = require("ssl.https")
 http.TIMEOUT = 10
 lgi = require ('lgi')
@@ -296,13 +295,6 @@ function getChatId(id)
   
   return chat
 end
-if not config2 then 
-os.execute('cd .. &&  rm -rf TshAkE')
-os.execute('cd .. &&  rm -rf TshAkEapi')
-os.execute('cd .. &&  rm -fr TshAkE')
-os.execute('cd .. &&  rm -fr TshAkEapi')
-print(config2.tss)
- return false end
   -----------------------------------------------------------------------------------------------
 function chat_leave(chat_id, user_id)
   changeChatMemberStatus(chat_id, user_id, "Left")
