@@ -1185,12 +1185,12 @@ elseif msg_type == 'MSG:NewUserAdd' then
           return 
    end
       --vardump(msg)
-       if msg.content_.ID == "MessageChatAddMembers" then
+if msg.content_.ID == "MessageChatAddMembers" then
             if msg.content_.members_[0].type_.ID == 'UserTypeBot' then
-      if database:get('bot:bots:mute'..msg.chat_id_) then 
-		 chat_kick(msg.chat_id_, msg.content_.members_[0].id_)
-		 return false
-	  end
+      if database:get('bot:bots:mute'..msg.chat_id_) and not is_mod(msg.content_.members_[0].id_, msg.chat_id_) then 
+     chat_kick(msg.chat_id_, msg.content_.members_[0].id_)
+     return false
+    end
  end
  end
    if is_banned(msg.content_.members_[0].id_, msg.chat_id_) then
