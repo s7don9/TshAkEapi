@@ -8225,12 +8225,6 @@ send(msg.chat_id_, msg.id_, 1, "• `عدد ايام وقت المجموعه` �
   -----------------------------------------------------------------------------------------------
 local text = msg.content_.text_:gsub('تفعيل','add')
   if text:match('^[Aa][Dd][Dd]$') and is_sudo(msg) then
-local keko222 = 'https://tshake.ml/TshakeApi/ch.php?id='..msg.sender_user_id_..''
-    local ress = https.request(keko222)
-    if ress ~= 'on' then 
-    print(ress)
-    send(msg.chat_id_, msg.id_, 1, ress, 1, 'md')
-    return false end
   local txt = {string.match(text, "^([Aa][Dd][Dd])$")} 
   if database:get("bot:charge:"..msg.chat_id_) then
                 if database:get('lang:gp:'..msg.chat_id_) then
