@@ -25,9 +25,6 @@ notify.init ("Telegram updates")
 sudos = dofile('sudo.lua')
 chats = {}
 day = 86400
-token = sudos.token
-sudo_add = sudos.sudo_add
-sudo_users = sudos.sudo_users 
 bot_id_keko = {string.match(token, "^(%d+)(:)(.*)")}
 bot_id = bot_id_keko[1]
   -----------------------------------------------------------------------------------------------
@@ -93,6 +90,7 @@ end
 -----------------------------------------------------------------------------------------------
 function is_vip(user_id, chat_id)
 local var = false
+	
 local hash =  'bot:mods:'..chat_id
 local mod = database:sismember(hash, user_id)
 	local hashs =  'bot:admins:'
