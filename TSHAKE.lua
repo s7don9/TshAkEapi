@@ -8804,9 +8804,9 @@ local text = msg.content_.text_:gsub('اعدادات المسح','sdd1')
    	end
    	------------
    	if database:get('anti-flood:'..msg.chat_id_) then
-   	mute_flood = '✔️┇'
-   	else
    	mute_flood = '✖️┇'
+   	else
+   	mute_flood = '✔️┇'
    end
    	------------
    	if not database:get('flood:max:'..msg.chat_id_) then
@@ -8960,15 +8960,15 @@ if database:get('bot:spam:mute'..msg.chat_id_) then
    end
 
    	if database:get('anti-flood:warn'..msg.chat_id_) then
-   	lock_flood = '✔️┇'
-   	else
    	lock_flood = '✖️┇'
+   	else
+   	lock_flood = '✔️┇'
    end
 
    	if database:get('anti-flood:del'..msg.chat_id_) then
-   	del_flood = '✔️┇'
-   	else
    	del_flood = '✖️┇'
+   	else
+   	del_flood = '✔️┇'
    	end
    	------------
  if database:get('bot:forward:mute'..msg.chat_id_) then
@@ -8999,6 +8999,16 @@ if database:get('bot:spam:mute'..msg.chat_id_) then
    	lock_id = '✔️┇'
    	else
    	lock_id = '✖️┇'
+   	end
+ if database:get('bot:pin:mute'..msg.chat_id_) then
+   	lock_pind = '✔️┇'
+   	else
+   	lock_pind = '✖️┇'
+   	end
+ if database:get('bot:id:mute'..msg.chat_id_) then
+   	lock_id_photo = '✔️┇'
+   	else
+   	lock_id_photo = '✖️┇'
    	end
    	------------
    	if database:get("bot:welcome"..msg.chat_id_) then
@@ -9060,16 +9070,16 @@ exp_dat = math.floor(ex / 86400) + 1
 ..lock_repsudo.." ردود المطور".."\n\n"
 ..lock_repowner.." ردود المدير".."\n"
 ..lock_id.."الايدي".."\n"
+..lock_pind.."خاصية التثبيت".."\n"
+..lock_id_photo.."الايدي بالصوره".."\n"
 ..send_welcome.." الترحيب".."\n"
 .."┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ️ \n"
-..flood_t.." زمن التكرار".."\n"
-..flood_m.." عدد التكرار بالطرد".."\n"
-..flood_warn.." عدد التكرار بالكتم".."\n"
-..flood_del.." عدد التكرار بالمسح".."\n"
-..spam_c.." عدد الكلايش بالمسح".."\n"
-..spam_d.." عدد الكلايش بالتحذير".."\n"
-..exp_dat.." انقضاء البوت".." يوم\n"
-.."┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ \n"
+..'🔗┇┇عدد التكرار بالطرد : '..flood_m..'\n'
+..'🔗┇عدد التكرار بالكتم : '..flood_warn..'\n'
+..'🔗┇عدد التكرار بالمسح : '..flood_del..'\n'
+..'🔗┇عدد الكلايش بالمسح : '..spam_c..'\n'
+..'🔗┇عدد الكلايش بالتحذير : '..spam_d..'\n'
+..'🔗┇انقضاء البوت: '..exp_dat..' يوم \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉'
  send(msg.chat_id_, msg.id_, 1, TXT, 1, 'md')
   end
 
