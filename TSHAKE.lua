@@ -3684,7 +3684,7 @@ local hash =  'bot:muted:'..msg.chat_id_
   if database:get('bot:lang:'..msg.chat_id_) then
   text = "<b>Silent List:</b>\n\n"
 else
-  text = "🚫┇قائمة المتومين  ،\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ \n"
+   text = "🚫┇قائمة المكتومين  ،\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ \n"
 end
 for k,v in pairs(list) do
 	local user_info = database:hgetall('user:'..v)
