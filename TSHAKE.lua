@@ -4115,7 +4115,7 @@ end
 if database:get('bot:lang:'..msg.chat_id_) then
    send(msg.chat_id_, msg.id_, 1, '<b>Group link:</b>\n'..link, 1, 'html')
  else
-  send(msg.chat_id_, msg.id_, 1, '\n📌┇[رابط المجموعه]('..link..')', 1, "md")
+  send(msg.chat_id_, msg.id_, 1, '📮┇رابط المجموعه ~⪼\n'..link..'', 1, "md")
 end
 	  else
 if database:get('bot:lang:'..msg.chat_id_) then
