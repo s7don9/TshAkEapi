@@ -4269,13 +4269,23 @@ bot.channel_get_bots(msg.chat_id_,cb)
  end
 	-----------------------------------------------------------------------------------------------
 
-if text:match("^[Gg][Rr][Oo][Uu][Pp][Ss]$") or text:match("^الكروبات$") and is_sudo(msg) then
+if text:match("^[Nn][Uu][Mm][Bb][Ee][Rr][Ss] [Gg][Rr][Oo][Uu][Pp][Ss]$") and is_sudo(msg) or text:match("^عدد الكروبات$") and is_sudo(msg) then
+    local gps = database:scard("bot:groups")
+  local users = database:scard("bot:userss")
+    local allmgs = database:get("bot:allmsgs")
+                if database:get('bot:lang:'..msg.chat_id_) then
+                   send(msg.chat_id_, msg.id_, 1, '*Groups :* '..gps..'', 1, 'md')
+                 else
+                   send(msg.chat_id_, msg.id_, 1, '📊┇عدد الكروبات ~⪼  *{'..gps..'}*', 1, 'md')
+end
+end
+if text:match("^[Ll][Ii][Nn][Kk][Ss] [Gg][Rr][Oo][Uu][Pp][Ss]$") or text:match("^روابط الكروبات$") and is_sudo(msg) then
 local gpss = database:smembers("bot:groups") or 0
 local gps = database:scard("bot:groups")
 if database:get('bot:lang:'..msg.chat_id_) then
-text = '*Groups* '..gps..'\n'
+text = '*Links Groups*\n\n'
 else
-text = '📊┇عدد الكروبات ~⪼ ('..gps..')\n'
+text = '📊┇روابط الكروبات\n\n'
  end
  for i=1, #gpss do
 local link = database:get("bot:group:link"..gpss[i])
@@ -9758,11 +9768,11 @@ else
   end
 if text:match("^[Dd][Ee][Vv]$")or text:match("^مطور بوت$") or text:match("^مطورين$") or text:match("^مطور البوت$") or text:match("^مطور$") or text:match("^المطور$") and msg.reply_to_message_id_ == 0 then
   local text_sudo = redis:get('text_sudo'..bot_id)
-  local lkeko = redis:get('nmkeko'..bot_id)
+local nkeko = redis:get('nmkeko'..bot_id)
+local nakeko = redis:get('nakeko'..bot_id)
   if text_sudo then
   send(msg.chat_id_, msg.id_, 1, text_sudo, 1, 'md')
   else
-  local nakeko = redis:get('nakeko'..bot_id)
   sendContact(msg.chat_id_, msg.id_, 0, 1, nil, (nkeko or 9647707641864), (nakeko or "TshAke TEAM"), "", bot_id)
 end
  end
@@ -10184,12 +10194,10 @@ else
 end
 end
 
-   local text = msg.content_.text_:gsub('وضع وصف','setabout')
+local text = msg.content_.text_:gsub('وضع وصف','setabout')
        if text:match("^[Ss][Ee][Tt][Aa][Bb][Oo][Uu][Tt] (.*)$") and is_mod(msg.sender_user_id_, msg.chat_id_) then
        local text = {string.match(text, "^([Ss][Ee][Tt][Aa][Bb][Oo][Uu][Tt]) (.*)$")}
-       local url = 'https://api.telegram.org/bot' .. token .. '/setChatDescription?chat_id='..msg.chat_id_..'&description='..text[2]
-       https.request(url)
-
+             bot.changeChannelAbout(msg.chat_id_,text[2])
        if database:get('bot:lang:'..msg.chat_id_) then
                   send(msg.chat_id_, msg.id_, 1, "*> Group About Upadted..._", 1, 'md')
                   else
@@ -11340,7 +11348,8 @@ send(msg.chat_id_, msg.id_, 1, text, 1, 'md')
 *| silentall |* `لحظر العام`
 *| unsilentall |* `لالغاء العام`
 *| invite |* `لاضافه عضو`
-*| groups |* `عدد كروبات البوت`
+*| numbers groups |* `عدد كروبات البوت`
+*| links groups |* `روابط كروبات البوت`
 *| bc |* `لنشر شي للمطورين`
 *| send |* `لنشر شي للمطور الاساسي`
 *| disable bc |* `تعطيل الاذاعه`
@@ -11818,7 +11827,8 @@ local h6 = redis:get('h6'..bot_id)
 
 🚫┇كتم عام
 ⭕️┇الغاء كتم العام
-🔘┇الكروبات
+🔘┇عدد الكروبات
+🔘┇روابط الكروبات
 📣┇اذاعه + كليشه
 📣┇ارسال + كليشه (للاساسي)
 🛄┇اضف مطور
