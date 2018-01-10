@@ -8273,7 +8273,7 @@ if txt[2] == 'bots' or txt[2] == 'Bots' or txt[2] == 'البوتات' then
 local function cb(extra,result,success)
 local bots = result.members_
 for i=0 , #bots do
-  if bots[i].user_id_ ~= bot_id then chat_kick(msg.chat_id_,bots[i].user_id_)
+  if tonumber(bots[i].user_id_) ~= tonumber(bot_id) then chat_kick(msg.chat_id_,bots[i].user_id_)
 end
 end
 end
