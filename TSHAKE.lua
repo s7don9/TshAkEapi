@@ -4110,21 +4110,22 @@ end
 	end
 	-----------------------------------------------------------------------------------------------
 	if text:match("^[Ll][Ii][Nn][Kk]$") or text:match("^الرابط$") then
-	local link = database:get("bot:group:link"..msg.chat_id_)
-	  if link then
+  local link = database:get("bot:group:link"..msg.chat_id_)
+    if link then
 if database:get('bot:lang:'..msg.chat_id_) then
    send(msg.chat_id_, msg.id_, 1, '<b>Group link:</b>\n'..link, 1, 'html')
  else
-  send(msg.chat_id_, msg.id_, 1, '📮┇رابط المجموعه ~⪼\n'..link..'', 1, "md")
+  send(msg.chat_id_, msg.id_, 1, '📮┇رابط المجموعه\n'..link, 1, "html")
 end
-	  else
+
+    else
 if database:get('bot:lang:'..msg.chat_id_) then
-   send(msg.chat_id_, msg.id_, 1, '*There is not link set yet. Please add one by #setlink .*', 1, 'md')
+   send(msg.chat_id_, msg.id_, 1, '*There is not link set yet. Please add one by #setlink .*', 1, 'html')
  else
-  send(msg.chat_id_, msg.id_, 1, '🔘┇ ليتم حفظ الرابط ارسل { وضع الرابط } لحفظ الرابط الجديد', 1, 'md')
+  send(msg.chat_id_, msg.id_, 1, '🔘┇ ليتم حفظ الرابط ارسل { وضع الرابط } لحفظ الرابط الجديد', 1, 'html')
 end
-	  end
- 	end
+    end
+   end
 	-----------------------------------------------------------
 	if text:match("^[Ww][Ll][Cc] [Oo][Nn]$") and is_mod(msg.sender_user_id_, msg.chat_id_) then
    send(msg.chat_id_, msg.id_, 1, '#Done\nWelcome *Enabled* In This Supergroup.', 1, 'md')
