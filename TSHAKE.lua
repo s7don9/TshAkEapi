@@ -3192,7 +3192,7 @@ if database:sismember(hash, result.sender_user_id_) then
   if database:get('bot:lang:'..msg.chat_id_) then
    send(msg.chat_id_, msg.id_, 1, '_User_ *'..result.sender_user_id_..'* _is Already silent._', 1, 'md')
 else
-   send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..result.sender_user_id_..')* /n🚫┇بافعل تم كتمه️', 1, 'md')
+   send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..result.sender_user_id_..')* \n🚫┇بالفعل تم كتمه️', 1, 'md')
 end
 	else
    database:sadd(hash, result.sender_user_id_)
