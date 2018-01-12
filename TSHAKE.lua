@@ -6236,14 +6236,14 @@ local infoo = "💬┇بواسطه ~⪼ [(] "..keko_info.." [)]\n┉ ┉ ┉ ┉
 if database:get('bot:lang:'..msg.chat_id_) then
    send(msg.chat_id_, msg.id_, 1, '_> tgservice has been_ *Locked*', 1, 'md')
 else
-   send(msg.chat_id_, msg.id_, 1, ""..infoo.."☑┇تم قفل الماركدون"..lockmute.." ", 1, 'md')
+   send(msg.chat_id_, msg.id_, 1, ""..infoo.."☑┇تم قفل الاشعارات"..lockmute.." ", 1, 'md')
 end
    database:set('bot:tgservice:mute'..msg.chat_id_,true)
  else
 if database:get('bot:lang:'..msg.chat_id_) then
   send(msg.chat_id_, msg.id_, 1, '_> tgservice is already_ *Locked*', 1, 'md')
 else
-   send(msg.chat_id_, msg.id_, 1, ""..infoo.."☑┇تم قفل الماركدون"..lockmute.." ", 1, 'md')
+   send(msg.chat_id_, msg.id_, 1, ""..infoo.."☑┇بالفعل تم قفل الاشعارات"..lockmute.." ", 1, 'md')
 end
 end
 end
