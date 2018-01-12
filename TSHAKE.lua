@@ -4403,12 +4403,6 @@ end
 
 if text:match("^[Ll][Ii][Nn][Kk][Ss] [Gg][Rr][Oo][Uu][Pp][Ss]$") or text:match("^روابط الكروبات$") and is_sudo(msg) then
 local gpss = database:smembers("bot:groups") or 0
-local gps = database:scard("bot:groups")
-if database:get('bot:lang:'..msg.chat_id_) then
-text = 'Links Groups\n\n'
-else
-text = '📊┇روابط الكروبات\n\n'
- end
  for i=1, #gpss do
 local link = database:get("bot:group:link"..gpss[i])
 if database:get('bot:lang:'..msg.chat_id_) then
