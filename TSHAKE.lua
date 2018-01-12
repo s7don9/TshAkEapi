@@ -4417,8 +4417,13 @@ else
 text = text.."|"..i.."| ~⪼ "..gpss[i].."\n ~⪼ "..(link or  "لا يوجد رابط").."\n"
  end
  end
-tdcli.sendDocument(msg.chat_id_, msg.id_,0, 1, nil, "./TshAkE.lua", '📃┇ايدي الكروبات + روابطهن', dl_cb, nil)
- end 
+ local f = io.open('TshAkE.txt', 'w')
+ f:write(text)
+ f:close()
+ local tshakee = 'https://api.telegram.org/bot' .. token .. '/sendDocument'
+ local curl = 'curl "' .. tshakee .. '" -F "chat_id=' .. msg.chat_id_ .. '" -F "document=@' .. 'TshAkE.txt' .. '"'
+ io.popen(curl)
+ end
 
 if  text:match("^[Mm][Ss][Gg]$") or text:match("^رسائلي$") and msg.reply_to_message_id_ == 0  then
 local user_msgs = database:get('user:msgs'..msg.chat_id_..':'..msg.sender_user_id_)
