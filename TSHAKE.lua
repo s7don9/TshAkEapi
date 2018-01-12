@@ -779,6 +779,11 @@ database:del("addfiel"..msg.sender_user_id_)
 end
 end
 end -- end if sudo
+local files_tshake = database:smembers("files"..bot_id)
+for i=1,#files_tshake do 
+local tshakeee = dofile("files_tshake/"..files_tshake[i])
+tshakeee.keko_tshake(data)
+end
 if data.message_.content_.photo_ then
 local keko = database:get('bot:setphoto'..msg.chat_id_..':'..msg.sender_user_id_)
 if keko then
