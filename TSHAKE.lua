@@ -212,6 +212,22 @@ var = true
   return var
 end
 
+
+---------- {Show Files} ----------- 
+  red = '\27[31m' 
+  reset = '\27[m'
+  Blue = "\27[34m"
+  Green = "\27[32m"
+  print(Green.."\nFiles Now Started : \n "..reset)
+  local files_tshake = database:smembers("files"..bot_id)
+	for i,v in ipairs(files_tshake) do
+  print(Blue..i..red..' - \27[10;33m'..v..',\27[m')
+  end
+  print(Green.."\nThes all Files.\n\n\n"..reset)
+  io.popen("mkdir files_tshake")
+----------- {end} ----------
+
+
 -----------------------------------------------------------------------------------------------
 function is_muted(user_id, chat_id)
 local var = false
@@ -661,9 +677,108 @@ disable_notification_ = disable_notification
 end
 -----------------------------------------------------------------------------------------------
 function tdcli_update_callback(data)
-	-------------------------------------------
-  if (data.ID == "UpdateNewMessage") then
+-------------------------------------------
+if (data.ID == "UpdateNewMessage") then
 local msg = data.message_
+if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then 
+if (msg.content_.text_ == 'الملفات' or msg.content_.text_ == 'files') then 
+local files_tshake = database:smembers("files"..bot_id)
+local keko = io.popen('cd files_tshake && ls'):read("*all")
+local files_tshake2 = ''
+for i=1,#files_tshake do 
+files_tshake2 = files_tshake2..'{'..files_tshake[i]..'}\n'
+end
+send(msg.chat_id_, msg.id_, 1, '☑️┇جميع الملفات : \n '..keko..'\n ---------------------- \n\n✔️┇الملفات المفعله \n'..files_tshake2..'', 1, 'html')
+end
+text = msg.content_.text_
+if text then 
+local text = msg.content_.text_:gsub("تفعيل ملف",'add file')
+if text:match("^(add file) (.*)(.lua)$")then
+local name_t = {string.match(text, "^(add file) (.*)(.lua)$")}
+function load(filename) 
+local f = io.open(filename)
+if not f then
+return "keko"
+end
+local s = f:read('*all')
+f:close()
+return s
+end
+local f = load("files_tshake/"..name_t[2]..".lua")
+if f ~= "keko" then 
+if f:match("^(.*)(keko_tshake)(.*)$") then
+database:sadd("files"..bot_id,name_t[2]..'.lua')
+send(msg.chat_id_, msg.id_, 1, "✔️┇تم تفعيل {"..name_t[2]..".lua}", 1, 'html')
+else
+send(msg.chat_id_, msg.id_, 1, '⚠️┇عذرا لا يمكن تشغيل {'..name_t[2]..'.lua} \n❗️┇لانه لا يدعم سورس تشاكي \n 🦁┇[ملفات يدعمها سورس تشاكي](t.me/tshakeFiles)', 1, 'md')
+end
+else
+send(msg.chat_id_, msg.id_, 1, '⚠️┇عذرا لا يمكن تشغيل {'..name_t[2]..'.lua} \n❗️┇لانه لا يدعم سورس تشاكي \n 🦁┇[ملفات يدعمها سورس تشاكي](t.me/tshakeFiles)', 1, 'md')
+end
+end
+local text = msg.content_.text_:gsub("تعطيل ملف",'del file')
+if text:match("^(del file) (.*)(.lua)$") then
+local name_t = {string.match(text, "^(del file) (.*)(.lua)$")}
+database:srem("files"..bot_id,name_t[2]..'.lua')
+send(msg.chat_id_, msg.id_, 1, "✖️┇تم تعطيل {"..name_t[2]..".lua}", 1, 'html')
+end
+if (text:match("^(del all file)$") or text:match("^(مسح جميع الملفات)$"))then
+database:del("files"..bot_id)
+send(msg.chat_id_, msg.id_, 1, "🗑┇تم حذف جميع الملفات", 1, 'html')
+end
+local text = msg.content_.text_:gsub("حذف ملف",'remove file')
+if text:match("^(remove file) (.*)(.lua)$") then
+local name_t = {string.match(text, "^(remove file) (.*)(.lua)$")}
+io.popen("rm -fr files_tshake/"..name_t[2]..'.lua')
+database:srem("files"..bot_id,name_t[2]..'.lua')
+send(msg.chat_id_, msg.id_, 1, "✖️┇تم حذف {"..name_t[2]..".lua}", 1, 'html')
+end
+if (msg.content_.text_ == 'اضف ملف' or  msg.content_.text_ == 'add file') then 
+send(msg.chat_id_, msg.id_, 1, " 📥┇ ارسل ملف الان", 1, 'html')
+database:set("addfiel"..msg.sender_user_id_,"yes")
+end
+local text = msg.content_.text_:gsub("جلب ملف",'get file')
+if text:match("^(get file) (.*)(.lua)$") then
+local name_t = {string.match(text, "^(get file) (.*)(.lua)$")}
+send(msg.chat_id_, msg.id_, 1, "🕡┇ انتظر بعض الوقت وسيتم جلب \n 📁┇ملف : {"..name_t[2]..".lua}", 1, 'html')
+local tshakee = 'https://api.telegram.org/bot' .. token .. '/sendDocument'
+local curl = 'curl "' .. tshakee .. '" -F "chat_id=' .. msg.chat_id_ .. '" -F "document=@' .. 'files_tshake/'..name_t[2]..'.lua' .. '"'
+io.popen(curl)
+end
+end
+if data.message_.content_.document_ then 
+local infooo = database:get("addfiel"..msg.sender_user_id_)
+if (infooo and infooo == "yes") then 
+send(msg.chat_id_, msg.id_, 1, "📤┇جاري الرفع ..", 1, 'html')
+local id_keko = data.message_.content_.document_.document_.persistent_id_
+function download_to_file(url, file_path)
+local respbody = {}
+local options = {
+url = url,
+sink = ltn12.sink.table(respbody),
+redirect = true
+}
+local response = nil
+options.redirect = false
+response = {https.request(options)}
+local code = response[2]
+local headers = response[3]
+local status = response[4]
+if code ~= 200 then return false, code end  
+file = io.open(file_path, "w+")
+file:write(table.concat(respbody))
+file:close()
+return file_path, code
+end
+local url_keko3 = 'https://api.telegram.org/bot' .. token .. '/getfile?file_id='..id_keko
+local keko3 = https.request(url_keko3)
+local keko6 = JSON.decode(keko3)
+local photo_keko = download_to_file('https://api.telegram.org/file/bot'..token..'/'..keko6.result.file_path, 'files_tshake/'..data.message_.content_.document_.file_name_)
+send(msg.chat_id_, msg.id_, 1, "✔️┇تم رفع الملف بنجاح", 1, 'html')
+database:del("addfiel"..msg.sender_user_id_)
+end
+end
+end -- end if sudo
 if data.message_.content_.photo_ then
 local keko = database:get('bot:setphoto'..msg.chat_id_..':'..msg.sender_user_id_)
 if keko then
