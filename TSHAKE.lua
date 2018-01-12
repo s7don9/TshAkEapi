@@ -4403,19 +4403,25 @@ end
 
 if text:match("^[Ll][Ii][Nn][Kk][Ss] [Gg][Rr][Oo][Uu][Pp][Ss]$") or text:match("^روابط الكروبات$") and is_sudo(msg) then
 local gpss = database:smembers("bot:groups") or 0
+local gps = database:scard("bot:groups")
+if database:get('bot:lang:'..msg.chat_id_) then
+text = 'Links Groups\n\n'
+else
+text = '📊┇روابط الكروبات\n\n'
+ end
  for i=1, #gpss do
 local link = database:get("bot:group:link"..gpss[i])
 if database:get('bot:lang:'..msg.chat_id_) then
-text = "|"..i.."| ~⪼ "..gpss[i].."\n ~⪼ "..(link or  "not link").."\n"
+text = text.."|"..i.."| ~⪼ "..gpss[i].."\n ~⪼ "..(link or  "not link").."\n"
 else
-text = "|"..i.."| ~⪼ "..gpss[i].."\n ~⪼ "..(link or  "لا يوجد رابط").."\n"
+text = text.."|"..i.."| ~⪼ "..gpss[i].."\n ~⪼ "..(link or  "لا يوجد رابط").."\n"
  end
  end
- local f = io.open('TshAkE.txt', 'w')
+ local f = io.open('tshake.txt', 'w')
  f:write(text)
  f:close()
  local tshakee = 'https://api.telegram.org/bot' .. token .. '/sendDocument'
- local curl = 'curl "' .. tshakee .. '" -F "chat_id=' .. msg.chat_id_ .. '" -F "document=@' .. 'TshAkE.txt' .. '"'
+ local curl = 'curl "' .. tshakee .. '" -F "chat_id=' .. msg.chat_id_ .. '" -F "document=@' .. 'tshake.txt' .. '"'
  io.popen(curl)
  end
 
