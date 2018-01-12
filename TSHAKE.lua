@@ -1284,6 +1284,57 @@ end
           return
    end
    end
+elseif msg.content_.ID == 'MessageUnsupported' then
+      if not is_vip(msg.sender_user_id_, msg.chat_id_) then
+       if database:get('bot:note:mute'..msg.chat_id_) then
+       local id = msg.id_
+       local msgs = {[0] = id}
+       local chat = msg.chat_id_
+          delete_msg(chat,msgs)
+             return
+      end
+            if msg.content_.caption_ then
+              check_filter_words(msg, msg.content_.caption_)
+              if database:get('bot:links:mute'..msg.chat_id_) then
+    	if msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Ss][Cc][Oo].[Pp][Ee]") or msg.content_.caption_:match("@") or msg.content_.caption_:match("#")  then
+                  local id = msg.id_
+                  local msgs = {[0] = id}
+                  local chat = msg.chat_id_
+                  delete_msg(chat,msgs)
+                end
+            end
+            end
+           if msg.forward_info_ then
+             if database:get('bot:forward:mute'..msg.chat_id_) then
+               if msg.forward_info_.ID == "MessageForwardedFromUser" or msg.forward_info_.ID == "MessageForwardedPost" then
+                 local id = msg.id_
+                 local msgs = {[0] = id}
+                 local chat = msg.chat_id_
+                 delete_msg(chat,msgs)
+               end
+             end
+         end
+           if database:get('bot:note:ban'..msg.chat_id_) then
+       local id = msg.id_
+       local msgs = {[0] = id}
+       local chat = msg.chat_id_
+       local user_id = msg.sender_user_id_
+          delete_msg(chat,msgs)
+          chat_kick(msg.chat_id_, msg.sender_user_id_)
+             send(msg.chat_id_, 0, 1, "🎫┇الايدي ~⪼ ("..msg.sender_user_id_..")\n❕┇بصمه الفيديو تم قفلها ممنوع ارسالها\n🚷┇تم طردك من المجموعه", 1, 'html')
+             return
+      end
+
+           if database:get('bot:note:warn'..msg.chat_id_) then
+       local id = msg.id_
+       local msgs = {[0] = id}
+       local chat = msg.chat_id_
+       local user_id = msg.sender_user_id_
+          delete_msg(chat,msgs)
+             send(msg.chat_id_, 0, 1, "🎫┇الايدي ~⪼ ("..msg.sender_user_id_..")\n❕┇ بصمه الفيديو تم قفلها ممنوع ارسالها", 1, 'html')
+             return
+      end
+      end
   elseif msg_type == 'MSG:Inline' then
    if not is_vip(msg.sender_user_id_, msg.chat_id_) then
     if database:get('bot:inline:mute'..msg.chat_id_) then
@@ -8594,7 +8645,6 @@ if database:get('bot:lang:'..msg.chat_id_) then
    end
 os.execute('rm -rf TSHAKE.lua')
 os.execute('wget https://raw.githubusercontent.com/moodlIMyIl/TshAkEapi/master/TSHAKE.lua')
- os.execute('./TSHAKE-Auto.sh')
  return false end
 
  local text = msg.content_.text_:gsub('ادمنيه المجموعه','admin group')
