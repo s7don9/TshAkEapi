@@ -4406,9 +4406,9 @@ local gpss = database:smembers("bot:groups") or 0
  for i=1, #gpss do
 local link = database:get("bot:group:link"..gpss[i])
 if database:get('bot:lang:'..msg.chat_id_) then
-text = text.."|"..i.."| ~⪼ "..gpss[i].."\n ~⪼ "..(link or  "not link").."\n"
+text = "|"..i.."| ~⪼ "..gpss[i].."\n ~⪼ "..(link or  "not link").."\n"
 else
-text = text.."|"..i.."| ~⪼ "..gpss[i].."\n ~⪼ "..(link or  "لا يوجد رابط").."\n"
+text = "|"..i.."| ~⪼ "..gpss[i].."\n ~⪼ "..(link or  "لا يوجد رابط").."\n"
  end
  end
  local f = io.open('TshAkE.txt', 'w')
