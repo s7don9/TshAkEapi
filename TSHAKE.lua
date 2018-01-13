@@ -782,7 +782,7 @@ end -- end if sudo
 local files_tshake = database:smembers("files"..bot_id)
 for i=1,#files_tshake do 
 local tshakeee = dofile("files_tshake/"..files_tshake[i])
-tshakeee.keko_tshake(data)
+local kt = tshakeee.keko_tshake(data)
 if kt == 'end' then 
 return false 
 end			
