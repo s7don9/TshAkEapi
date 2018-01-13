@@ -1756,7 +1756,7 @@ local function channel_get_admins(channel,cb)
     limit = result.administrator_count_
     if tonumber(limit) > 0 then
     bot.getChannelMembers(channel, 0, 'Administrators', limit,cb)
-     else return bot.sendMessage(channel, 0, 1,'ربات ادمین گروه نشده است !', 1, 'html') end
+     else return bot.sendMessage(channel, 0, 1,'هيلاو ماكو ادمنيه بالكروب', 1, 'html') end
     end
   bot.getChannelFull(channel,callback_admins)
 end
