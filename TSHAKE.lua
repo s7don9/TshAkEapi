@@ -460,26 +460,61 @@ end
 function dl_cb(arg, data)
 end
 -----------------------------------------------------------------------------------------------
+URL33 = require('socket.url')
 local function send(chat_id, reply_to_message_id, disable_notification, text, disable_web_page_preview, parse_mode)
   local TextParseMode = getParseMode(parse_mode)
-
+  local text2 = text
+  local text_key = database:get('key_ts'..bot_id)
+  if text_key then   
+  if parse_mode then
+  if parse_mode == 'markdown' or parse_mode == 'md' then
+  parse_mode = "Markdown"
+  elseif parse_mode == 'html' then
+  parse_mode = "Html"
+  end
+  end
+  local channel_ts = database:get("channel_ts"..bot_id)
+  local channel_user_ts = database:get("channel_user_ts"..bot_id)
+  keyboard = {} 
+  keyboard.inline_keyboard = {
+  {
+  {text = ''..(channel_ts or "🦁┇TshAkE TEAM")..'', url=''..(channel_user_ts or 't.me/TshAkETEAM')..''},  
+  },
+  }
+  local keko = "https://api.telegram.org/bot" ..token.. '/sendMessage?chat_id=' .. chat_id
+  if reply_to_message_id ~= 0 then 
+  keko = keko .. '&reply_to_message_id=' .. reply_to_message_id/2097152/0.5 -- جميع الحقوق محفوظه لفريق تشاكي لايمكنك نسخ او استخدام هذه السطر بدون موافقه الفريق
+  end
+  if disable_web_page_preview then 
+  keko = keko .. '&disable_web_page_preview=true'
+  end
+  if text then
+  keko = keko..'&text='..URL33.escape(text2)
+  end
+  if parse_mode then 
+  keko = keko .. '&parse_mode='..parse_mode
+  end
+  keko = keko..'&reply_markup='..JSON.encode(keyboard)
+  https.request(keko)
+  else
   tdcli_function ({
-ID = "SendMessage",
-chat_id_ = chat_id,
-reply_to_message_id_ = reply_to_message_id,
-disable_notification_ = disable_notification,
-from_background_ = 1,
-reply_markup_ = nil,
-input_message_content_ = {
-ID = "InputMessageText",
-text_ = text,
-disable_web_page_preview_ = disable_web_page_preview,
-clear_draft_ = 0,
-entities_ = {},
-parse_mode_ = TextParseMode,
-},
-  }, dl_cb, nil)
-end
+  ID = "SendMessage",
+  chat_id_ = chat_id,
+  reply_to_message_id_ = reply_to_message_id,
+  disable_notification_ = disable_notification,
+  from_background_ = 1,
+  reply_markup_ = nil,
+  input_message_content_ = {
+  ID = "InputMessageText",
+  text_ = text,
+  disable_web_page_preview_ = disable_web_page_preview,
+  clear_draft_ = 0,
+  entities_ = {},
+  parse_mode_ = TextParseMode,
+  },
+    }, dl_cb, nil)
+  end
+  end
 -----------------------------------------------------------------------------------------------
 function sendaction(chat_id, action, progress)
   tdcli_function ({
@@ -787,6 +822,45 @@ if kt == 'end' then
 return false 
 end			
 end
+if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then 
+  if text then 
+  if (text and text == 'تفعيل الانلاين' or text:match("^[Ee][Nn][Aa][Bb][Ll][Ee] [Ii][Nn][Ll][Ii][Nn][Ee]$") ) then 
+  database:set('key_ts'..bot_id,"yes")
+  if database:get('bot:lang:'..msg.chat_id_) then
+  send(msg.chat_id_, msg.id_, 1, "> Inline has been enable", 1, 'html')
+  else
+  send(msg.chat_id_, msg.id_, 1, "☑️┇تم تفعيل خاصيه الازرار الشفافه", 1, 'html')
+  end
+  end
+  if (text and text == 'تعطيل الانلاين' or text:match("^[Ee][Nn][Aa][Bb][Ll][Ee] [Ii][Nn][Ll][Ii][Nn][Ee]$") ) then 
+  database:del('key_ts'..bot_id)
+  if database:get('bot:lang:'..msg.chat_id_) then
+  send(msg.chat_id_, msg.id_, 1, "> inline has been disable", 1, 'html') 
+  else
+  send(msg.chat_id_, msg.id_, 1, "⚠️┇تم تعطيل خاصيه الازرار الشفافه", 1, 'html')
+  end
+  end
+  local text = msg.content_.text_:gsub("تغير نص الانلاين",'set inline text')
+  if text:match("^(set inline text) (.*)$") then
+  local name_t = {string.match(text, "^(set inline text) (.*)$")}
+  database:set("channel_ts"..bot_id, name_t[2])
+  if database:get('bot:lang:'..msg.chat_id_) then
+  send(msg.chat_id_, msg.id_, 1, "> Text is set {"..name_t[2].."}", 1, 'html')
+  else
+  send(msg.chat_id_, msg.id_, 1, "📡┇تم تغير النص ~⪼ {"..name_t[2].."}", 1, 'html')
+  end
+  end
+  local text = msg.content_.text_:gsub("تغير رابط الانلاين",'edit link inline')
+  if text:match("^(edit link inline) [Hh][Tt][Tt][Pp](.*)$") then
+  local name_t = {string.match(text, "^(edit link inline) (.*)$")}
+  database:set("channel_user_ts"..bot_id, name_t[2])
+  if database:get('bot:lang:'..msg.chat_id_) then
+  send(msg.chat_id_, msg.id_, 1, "> link is set {"..name_t[2].."}", 1, 'html')
+  else
+  send(msg.chat_id_, msg.id_, 1, "📡┇تم تغير الرابط ~⪼ {"..name_t[2].."}", 1, 'html')
+  end
+  end
+  end — sudo			
 if data.message_.content_.photo_ then
 local keko = database:get('bot:setphoto'..msg.chat_id_..':'..msg.sender_user_id_)
 if keko then
