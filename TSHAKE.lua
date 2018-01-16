@@ -1053,7 +1053,6 @@ end
 io.popen('rm -fr keko2_'..bot_id..'.json')
 end
 end
-end
 local d = data.disable_notification_
 local chat = chats[msg.chat_id_]
 	-------------------------------------------
