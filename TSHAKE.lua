@@ -27,9 +27,166 @@ chats = {}
 day = 86400
 bot_id_keko = {string.match(token, "^(%d+)(:)(.*)")}
 bot_id = tonumber(bot_id_keko[1])
-  -----------------------------------------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------------------------------------
+--  BY TshAkETEAM       ---       KEKO JSON              ---          BY  TshAkETEAM        --
+-----------------------------------------------------------------------------------------------
+function load_keko(fileName) 
+	local keko = io.open(fileName)
+	if not keko then
+	return {}
+	end
+	local keko2 = keko:read('*all')
+	keko:close()
+	local keko3 = JSON.decode(keko2)
+	return keko3
+end
+function save_keko(fileName, data) 
+	local keko = JSON.encode(data)
+	local keko2 = io.open(fileName, 'w')
+	keko2:write(keko)
+	keko2:close()
+end
+function kekoSet(keko, keko2)
+  local keko3 = 'keko_'..bot_id..'.json'
+  if (keko and keko2 and keko3) then 
+  local keko_data = load_keko(keko3)
+  if not keko_data then
+  keko_data = {}
+  save_keko(keko3, keko_data)
+  end    
+  keko_data[tostring(keko)] = {
+  keko = keko2
+  }
+  save_keko(keko3, keko_data)
+  end
+  if not keko then print('no keko') end
+  if not keko2 then print('no keko2') end
+  if not keko3 then print('no keko3') end
+  end
+  function kekoGet(keko)
+  local keko3 = 'keko_'..bot_id..'.json'
+  local keko_text = nil 
+  local keko_data = load_keko(keko3)
+  if keko_data then 
+  if keko_data[tostring(keko)] then 
+  keko_text = keko_data[tostring(keko)].keko
+  end
+  end
+  return keko_text
+  end
+  function kekoDel(keko)
+    local keko3 = 'keko_'..bot_id..'.json'
+    if (keko) then 
+    local keko_data = load_keko(keko3)
+    if not keko_data then
+    data = {}
+    save_keko(keko3, keko_data)
+    end
+    keko_data[tostring(keko)] = {
+    keko = nil
+    }
+    save_keko(keko3, keko_data)
+end
+end
+  function kekoDel1(keko)
+    local keko3 = 'keko_'..bot_id..'.json'
+    if (keko) then 
+    local keko_data = load_keko(keko3)
+    if not keko_data then
+    data = {}
+    save_keko(keko3, keko_data)
+end
+    if keko_data[tostring(keko)].keko then
+    keko_data[tostring(keko)] = {
+    keko = nil
+    }
+end
+  if #keko_data[tostring(keko)] == 1 then 
+  for k,v in pairs(keko_data[tostring(keko)]) do
+  table.remove(keko_data[tostring(keko)],k)
+end
+end
+  save_keko(keko3, keko_data)
+end
+end
+function kekoSet2(keko, keko2)
+    local keko3 = 'keko2_'..bot_id..'.json'
+    if (keko and keko2 and keko3) then 
+    local keko_data = load_keko(keko3)
+    if not keko_data then
+    keko_data = {}
+    save_keko(keko3, keko_data)
+end
+    keko_data[tostring(keko)] = {
+    keko = keko2
+    }
+    save_keko(keko3, keko_data)
+end
+    if not keko then print('no keko') end
+    if not keko2 then print('no keko2') end
+    if not keko3 then print('no keko3') end
+end
+    function kekoGet2(keko)
+    local keko3 = 'keko2_'..bot_id..'.json'
+    local keko_text = nil 
+    local keko_data = load_keko(keko3)
+    if keko_data[tostring(keko)] then 
+    keko_text = keko_data[tostring(keko)].keko
+end
+    return keko_text
+end
+function kekoSetl(keko, keko2)
+  local keko3 = 'keko_'..bot_id..'.json'
+  if (keko and keko2 and keko3) then 
+  local keko_data = load_keko(keko3)
+  if not keko_data then
+  keko_data = {}
+  save_keko(keko3, keko_data)
+  end
+  if not (keko_data[tostring(keko)]) then 
+	keko_data[tostring(keko)] = {}
+	end
+  table.insert(keko_data[tostring(keko)], keko2)
+	save_keko(keko3, keko_data)
+	end
+  if not keko then print('no keko') end
+  if not keko2 then print('no keko2') end
+  if not keko3 then print('no keko3') end
+end
+function kekoGetl(keko)
+  local keko3 = 'keko_'..bot_id..'.json'
+  local keko_text = nil 
+  local keko_data = load_keko(keko3)
+  if keko_data then 
+  keko_text = keko_data[tostring(keko)]
+  end
+  return keko_text
+  end
+  function kekoC(keko)
+    local keko3 = 'keko_'..bot_id..'.json'
+    local keko_text = nil 
+    local keko_data = load_keko(keko3)
+    if keko_data then 
+    keko_text2 = keko_data[tostring(keko)]
+    if keko_text2 then 
+    for i=1, #keko_text2 do 
+    keko_text = i
+    end
+  end
+end
+return keko_text
+end
+-----------------------------------------------------------------------------------------------
+--  BY TshAkETEAM       ---      End KEKO JSON              ---          BY TshAkETEAM       --
+-----------------------------------------------------------------------------------------------  
+
+
+-----------------------------------------------------------------------------------------------
                                     -- start functions --
-  -----------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
 function is_sudo(msg)
   local var = false
   for k,v in pairs(sudo_users) do
@@ -1232,8 +1389,13 @@ if database:get('bot:muteallban'..msg.chat_id_) and not is_vip(msg.sender_user_i
 send(msg.chat_id_, 0, 1, "🎫┇الايدي ~⪼ ("..msg.sender_user_id_..") \n❕┇الوسائط تم قفلها ممنوع ارسالها\n☑┇تم طردك من المجموعه", 1, 'html')
   return
 end
-database:incr('user:msgs'..msg.chat_id_..':'..msg.sender_user_id_)
-	database:incr('group:msgs'..msg.chat_id_)
+local msgs_keko = kekoGet2('user:msgs'..msg.chat_id_..':'..msg.sender_user_id_)
+if msgs_keko then 
+local keko2 = msgs_keko + 1 
+kekoSet2('user:msgs'..msg.chat_id_..':'..msg.sender_user_id_, keko2)
+else
+kekoSet2('user:msgs'..msg.chat_id_..':'..msg.sender_user_id_, 1)
+end
 if msg.content_.ID == "MessagePinMessage" then
   if database:get('pinnedmsg'..msg.chat_id_) and database:get('bot:pin:mute'..msg.chat_id_) then
    unpinmsg(msg.chat_id_)
@@ -1241,8 +1403,13 @@ if msg.content_.ID == "MessagePinMessage" then
    pin(msg.chat_id_,pin_id,0)
    end
 end
-database:incr('user:msgs'..msg.chat_id_..':'..msg.sender_user_id_)
-	database:incr('group:msgs'..msg.chat_id_)
+local msgs_keko = kekoGet2('user:msgs'..msg.chat_id_..':'..msg.sender_user_id_)
+if msgs_keko then 
+local keko2 = msgs_keko + 1 
+kekoSet2('user:msgs'..msg.chat_id_..':'..msg.sender_user_id_, keko2)
+else
+kekoSet2('user:msgs'..msg.chat_id_..':'..msg.sender_user_id_, 1)
+end
 if msg.content_.ID == "MessagePinMessage" then
   if database:get('pinnedmsg'..msg.chat_id_) and database:get('bot:pin:warn'..msg.chat_id_) then
    send(msg.chat_id_, msg.id_, 1, "🎫┇الايدي ~⪼ ("..msg.sender_user_id_..") \n📌┇المعرف ~⪼ ("..get_info(msg.sender_user_id_)..")\n❕┇التثبيت مقفول لا تستطيع التثبيت حاليا️\n", 1, 'md')
@@ -1851,8 +2018,8 @@ if database:get('bot:bots:mute'..msg.chat_id_) and not is_mod(result.id_, msg.ch
 	  end
    end
 getUser(msg.sender_user_id_,check_username)
-   database:set('bot:editid'.. msg.id_,msg.content_.text_)
-   if not is_vip(msg.sender_user_id_, msg.chat_id_) then
+kekoSet2('bot:editid'.. msg.id_,msg.content_.text_)
+if not is_vip(msg.sender_user_id_, msg.chat_id_) then
 check_filter_words(msg, text)
 	if text:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]") or
 text:match("[Tt].[Mm][Ee]") or
@@ -4092,7 +4259,7 @@ end
 	-----------------------------------------------------------------------------------------------
 if text:match("^[Ii][Dd]$") and msg.reply_to_message_id_ ~= 0 or text:match("^ايدي$") and msg.reply_to_message_id_ ~= 0 then
 function id_by_reply(extra, result, success)
-	  local user_msgs = database:get('user:msgs'..result.chat_id_..':'..result.sender_user_id_)
+local user_msgs = kekoGet2('user:msgs'..msg.chat_id_..':'..msg.sender_user_id_)
   send(msg.chat_id_, msg.id_, 1, "🎫┇الايدي ~⪼ (`"..result.sender_user_id_.."`)", 1, 'md')
   end
    getMessage(msg.chat_id_, msg.reply_to_message_id_,id_by_reply)
@@ -4555,7 +4722,7 @@ text = text.."|"..i.."| ~⪼ "..gpss[i].."\n ~⪼ "..(link or  "لا يوجد ر
  end
 
 if  text:match("^[Mm][Ss][Gg]$") or text:match("^رسائلي$") and msg.reply_to_message_id_ == 0  then
-local user_msgs = database:get('user:msgs'..msg.chat_id_..':'..msg.sender_user_id_)
+local user_msgs = kekoGet2('user:msgs'..msg.chat_id_..':'..msg.sender_user_id_)
 if database:get('bot:lang:'..msg.chat_id_) then
  if not database:get('bot:id:mute'..msg.chat_id_) then
 send(msg.chat_id_, msg.id_, 1, "*Msgs : * `"..user_msgs.."`", 1, 'md')
@@ -10993,7 +11160,7 @@ end
 	-----------------------------------------------------------------------------------------------
 if  text:match("^[Ii][Dd]$") and msg.reply_to_message_id_ == 0 or text:match("^ايدي$") and msg.reply_to_message_id_ == 0 then
 local function getpro(extra, result, success)
-local user_msgs = database:get('user:msgs'..msg.chat_id_..':'..msg.sender_user_id_)
+local user_msgs = kekoGet2('user:msgs'..msg.chat_id_..':'..msg.sender_user_id_)
    if result.photos_[0] then
 if is_sudo(msg) then
 if database:get('bot:lang:'..msg.chat_id_) then
@@ -12190,7 +12357,7 @@ chats[chat.id_] = chat
 	local text = (result.content_.text_ or result.content_.caption_)
 --vardump(result)
 	if result.id_ and result.content_.text_ then
-	database:set('bot:editid'..result.id_,result.content_.text_)
+	kekoSet2('bot:editid'..result.id_,result.content_.text_)
 	end
   if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
@@ -12214,7 +12381,7 @@ end
 end
 
 	if result.id_ and result.content_.text_ then
-	database:set('bot:editid'..result.id_,result.content_.text_)
+	kekoSet2('bot:editid'..result.id_,result.content_.text_)
   if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
    	if text:match("[Hh][Tt][Tt][Pp][Ss]://") or text:match("[Hh][Tt][Tt][Pp]://") or text:match(".[Ii][Rr]") or text:match(".[Cc][Oo][Mm]") or text:match(".[Oo][Rr][Gg]") or text:match(".[Ii][Nn][Ff][Oo]") or text:match("[Ww][Ww][Ww].") or text:match(".[Tt][Kk]") then
@@ -12233,7 +12400,7 @@ end
 end
 end
 	if result.id_ and result.content_.text_ then
-	database:set('bot:editid'..result.id_,result.content_.text_)
+	kekoSet2('bot:editid'..result.id_,result.content_.text_)
   if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
    if text:match("@") then
@@ -12250,7 +12417,7 @@ send(msg.chat_id_, 0, 1,  "🚫┇ممنوع عمل تعديل للمعرفات"
 end
 end
 	if result.id_ and result.content_.text_ then
-	database:set('bot:editid'..result.id_,result.content_.text_)
+	kekoSet2('bot:editid'..result.id_,result.content_.text_)
   if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
    	if text:match("#") then
@@ -12266,7 +12433,7 @@ send(msg.chat_id_, 0, 1, "🚫┇ممنوع عمل تعديل للتاكات", 1
 end
 end
 	if result.id_ and result.content_.text_ then
-	database:set('bot:editid'..result.id_,result.content_.text_)
+	kekoSet2('bot:editid'..result.id_,result.content_.text_)
   if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
    	if text:match("/")  then
@@ -12283,7 +12450,7 @@ end
 end
 end
 	if result.id_ and result.content_.text_ then
-	database:set('bot:editid'..result.id_,result.content_.text_)
+	kekoSet2('bot:editid'..result.id_,result.content_.text_)
   if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
    	if text:match("[\216-\219][\128-\191]") then
@@ -12301,7 +12468,7 @@ send(msg.chat_id_, 0, 1, "🚫┇ممنوع عمل تعديل  للغه العر
 end
 end
 	if result.id_ and result.content_.text_ then
-	database:set('bot:editid'..result.id_,result.content_.text_)
+	kekoSet2('bot:editid'..result.id_,result.content_.text_)
   if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
    if text:match("[ASDFGHJKLQWERTYUIOPZXCVBNMasdfghjklqwertyuiopzxcvbnm]") then
@@ -12318,7 +12485,7 @@ end
 end
 end
 	if result.id_ and result.content_.text_ then
-	database:set('bot:editid'..result.id_,result.content_.text_)
+	kekoSet2('bot:editid'..result.id_,result.content_.text_)
   if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
 	if database:get('editmsg'..msg.chat_id_) == 'delmsg' then
@@ -12328,8 +12495,8 @@ end
   delete_msg(chat,msgs)
   send(msg.chat_id_, 0, 1, "🚫┇ممنوع التعديل هنا", 1, 'html')
 	elseif database:get('editmsg'..msg.chat_id_) == 'didam' then
-	if database:get('bot:editid'..msg.message_id_) then
-		local old_text = database:get('bot:editid'..msg.message_id_)
+	if kekoGet2('bot:editid'..msg.message_id_) then
+	local old_text = kekoGet2('bot:editid'..msg.message_id_)
 send(msg.chat_id_, msg.message_id_, 1, '🚫┇لقد قمت بالتعديل\n\n✉┇رسالتك السابقه \n\n• {'..old_text..'}', 1, 'md')
 	end
 end
