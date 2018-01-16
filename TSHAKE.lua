@@ -1017,14 +1017,14 @@ if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
   send(msg.chat_id_, msg.id_, 1, "📡┇تم تغير الرابط ~⪼ {"..name_t[2].."}", 1, 'html')
   end
   end
-			end	
+	end	
 if (msg.content_.text_:match("[Dd][Ee][Ll] [Ww][Aa][Ss][Tt][Ee]") or msg.content_.text_ == 'تنظيف المخلفات') then 
+io.popen("rm -fr keko2_"..bot_id..".json")
 if database:get('bot:lang:'..msg.chat_id_) then
  send(msg.chat_id_, msg.id_, 1, "🗑┇ Waste has been deleted", 1, 'md')
 else
  send(msg.chat_id_, msg.id_, 1, "🗑┇تم حذف جميع المخلفات المحفوظه", 1, 'md')
 end
-io.popen('rm -fr keko2_'..bot_id..'.json')
 end
 end --sudo	
 
