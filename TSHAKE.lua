@@ -832,7 +832,7 @@ if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
   send(msg.chat_id_, msg.id_, 1, "☑️┇تم تفعيل خاصيه الازرار الشفافه", 1, 'html')
   end
   end
-  if (text and text == 'تعطيل الانلاين' or text:match("^[Ee][Nn][Aa][Bb][Ll][Ee] [Ii][Nn][Ll][Ii][Nn][Ee]$") ) then 
+  if (text and text == 'تعطيل الانلاين' or text:match("^[Dd][Ii][Ss][Aa][Bb][Ll][Ee] [Ii][Nn][Ll][Ii][Nn][Ee]$") ) then 
   database:del('key_ts'..bot_id)
   if database:get('bot:lang:'..msg.chat_id_) then
   send(msg.chat_id_, msg.id_, 1, "> inline has been disable", 1, 'html') 
@@ -841,8 +841,8 @@ if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
   end
   end
   local text = msg.content_.text_:gsub("تغير نص الانلاين",'set inline text')
-  if text:match("^(set inline text) (.*)$") then
-  local name_t = {string.match(text, "^(set inline text) (.*)$")}
+  if text:match("^([Ss][Ee][Tt] [Ii][Nn][Ll][Ii][Nn][Ee] [Tt][Ee][Xx][Tt]) (.*)$") then
+  local name_t = {string.match(text, "^([Ss][Ee][Tt] [Ii][Nn][Ll][Ii][Nn][Ee] [Tt][Ee][Xx][Tt]) (.*)$")}
   database:set("channel_ts"..bot_id, name_t[2])
   if database:get('bot:lang:'..msg.chat_id_) then
   send(msg.chat_id_, msg.id_, 1, "> Text is set {"..name_t[2].."}", 1, 'html')
@@ -850,9 +850,9 @@ if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
   send(msg.chat_id_, msg.id_, 1, "📡┇تم تغير النص ~⪼ {"..name_t[2].."}", 1, 'html')
   end
   end
-  local text = msg.content_.text_:gsub("تغير رابط الانلاين",'edit link inline')
-  if text:match("^(edit link inline) [Hh][Tt][Tt][Pp](.*)$") then
-  local name_t = {string.match(text, "^(edit link inline) (.*)$")}
+  local text = msg.content_.text_:gsub("تغير رابط الانلاين",'set inline link')
+  if text:match("^([Ss][Ee][Tt] [Ii][Nn][Ll][Ii][Nn][Ee] [Ll][Ii][Nn][Kk]) [Hh][Tt][Tt][Pp](.*)$") then
+  local name_t = {string.match(text, "^([Ss][Ee][Tt] [Ii][Nn][Ll][Ii][Nn][Ee] [Ll][Ii][Nn][Kk]) (.*)$")}
   database:set("channel_user_ts"..bot_id, name_t[2])
   if database:get('bot:lang:'..msg.chat_id_) then
   send(msg.chat_id_, msg.id_, 1, "> link is set {"..name_t[2].."}", 1, 'html')
@@ -11637,6 +11637,10 @@ send(msg.chat_id_, msg.id_, 1, text, 1, 'md')
 *| get file + name file  |* `جلب ملف`
 *| remove file + name file  |* `حذف ملف`
 *| add file + name file |* `تفعيل ملف`
+*| set inline text + text |* تغير نص الانلاين
+*| set inline link + link  |* تغير رابط الانلاين
+*| enable inline  |* تفعيل الانلاين
+*| disable inline |* تعطيل الانلاين
 *======================*
 ]]
 send(msg.chat_id_, msg.id_, 1, text, 1, 'md')
@@ -12132,6 +12136,11 @@ local h6 = redis:get('h6'..bot_id)
 🗂┇مسح جميع الملفات
 🗂┇جلب ملف + اسم الملف
 🗂┇حذف ملف + اسم الملف
+
+🗯┇تغير نص الانلاين + النص
+🗯┇تغير رابط الانلاين + الرابط
+🗯┇تفعيل الانلاين
+🗯┇تعطيل الانلاين
 ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉
 ]]
 send(msg.chat_id_, msg.id_, 1, (h6 or text), 1, 'html')
