@@ -1018,7 +1018,16 @@ if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
   end
   end
 			end	
-  end --sudo			
+if (msg.content_.text_:match("[Dd][Ee][Ll] [Ww][Aa][Ss][Tt][Ee]") or msg.content_.text_ == 'تنظيف المخلفات') then 
+if database:get('bot:lang:'..msg.chat_id_) then
+ send(msg.chat_id_, msg.id_, 1, "🗑┇ Waste has been deleted", 1, 'md')
+else
+ send(msg.chat_id_, msg.id_, 1, "🗑┇تم حذف جميع المخلفات المحفوظه", 1, 'md')
+end
+io.popen('rm -fr keko2_'..bot_id..'.json')
+end
+end --sudo	
+
 if data.message_.content_.photo_ then
 local keko = database:get('bot:setphoto'..msg.chat_id_..':'..msg.sender_user_id_)
 if keko then
@@ -1043,16 +1052,7 @@ send(msg.chat_id_, msg.id_, 1, '✔️┇تم وضع صوره للمجموعه�
 database:del('bot:setphoto'..msg.chat_id_..':'..msg.sender_user_id_)
 end
 end
-if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then 
-if (msg.content_.text_:match("[Dd][Ee][Ll] [Ww][Aa][Ss][Tt][Ee]") or msg.content_.text_ == 'تنظيف المخلفات') then 
-if database:get('bot:lang:'..msg.chat_id_) then
- send(msg.chat_id_, msg.id_, 1, "🗑┇ Waste has been deleted", 1, 'md')
-else
- send(msg.chat_id_, msg.id_, 1, "🗑┇تم حذف جميع المخلفات المحفوظه", 1, 'md')
-end
-io.popen('rm -fr keko2_'..bot_id..'.json')
-end
-end
+
 local d = data.disable_notification_
 local chat = chats[msg.chat_id_]
 	-------------------------------------------
