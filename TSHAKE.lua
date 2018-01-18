@@ -1024,7 +1024,131 @@ else
 end
 end
 end --sudo	
-
+if msg.content_.text_ then 
+ text = msg.content_.text_
+ if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then 
+if (text == 'تفعيل التفعيل التلقائي' or text:match("[Ee][Nn][Aa][Bb][Ll][Ee] [Aa][Dd][Dd] [Aa][Uu][Tt][Oo]")) then 
+database:set("add"..bot_id, "yes")
+if database:get('bot:lang:'..msg.chat_id_) then
+send(msg.chat_id_, msg.id_, 1, '> Add auto has been enable', 1, 'md')
+else
+send(msg.chat_id_, msg.id_, 1, "☑️┇تم تفعيل التفعيل التلقائي", 1, 'html')
+end
+end   
+if (text == 'تعطيل التفعيل التلقائي' or text:match("[Dd][Ii][Ss][Aa][Bb][Ll][Ee] [Aa][Dd][Dd] [Aa][Uu][Tt][Oo]")) then 
+database:del("add"..bot_id)
+if database:get('bot:lang:'..msg.chat_id_) then
+send(msg.chat_id_, msg.id_, 1, '> Add auto has been disable', 1, 'md')
+else
+send(msg.chat_id_, msg.id_, 1, "❎┇تم تعطيل التفعيل التلقائي", 1, 'html')
+end
+end
+local text = msg.content_.text_:gsub("[Ss][Ee][Tt] [Nn][Uu][Mm][Bb][Ee][Rr] [Mm][Ee][Mm][Bb][Ee][Rr][Ss]",'تعين عدد الاعضاء')
+if text:match("^(تعين عدد الاعضاء) (.*)$") then
+local kekoj = {string.match(text, "^(تعين عدد الاعضاء) (.*)$")} 
+database:set("ts_a"..bot_id,kekoj[2])
+if database:get('bot:lang:'..msg.chat_id_) then
+send(msg.chat_id_, msg.id_, 1, '> set : '..kekoj[2], 1, 'md')
+else
+send(msg.chat_id_, msg.id_, 1, "🔘┇ تم تعين : "..kekoj[2], 1, 'html')
+end
+end   
+end
+if (text == "add" or text == 'تفعيل') then 
+local keko2 = database:get("add"..bot_id)
+if keko2 then 
+local keko = "https://api.telegram.org/bot" ..token.. '/getChatMember?chat_id=' .. msg.chat_id_ .. '&user_id='..msg.sender_user_id_
+local stats = https.request(keko)
+local data = json:decode(stats)
+if (data.result and data.result.can_promote_members or data.result.status == 'creator') then 
+    local keko = "https://api.telegram.org/bot" ..token.. '/getChatMembersCount?chat_id=' .. msg.chat_id_
+    local stats = https.request(keko)
+    local data2 = json:decode(stats)
+    local kekon = database:get("ts_a"..bot_id) or 1000
+    if (data2.result and (tonumber(data2.result) == tonumber(kekon) or tonumber(data2.result) > tonumber(kekon))) then 
+    local txt = {string.match(text, "^([Aa][Dd][Dd])$")}
+    if database:get("bot:charge:"..msg.chat_id_) then
+    if database:get('bot:lang:'..msg.chat_id_) then
+    send(msg.chat_id_, msg.id_, 1, '*Bot is already Added Group*', 1, 'md')
+    else
+    send(msg.chat_id_, msg.id_, 1, "❕┇المجموعه مفعله سابقا", 1, 'md')
+    end
+    end
+    if not database:get("bot:charge:"..msg.chat_id_) then
+    database:set("bot:charge:"..msg.chat_id_,true)
+    if database:get('bot:lang:'..msg.chat_id_) then
+    send(msg.chat_id_, msg.id_, 1, "*> Your ID :* _"..msg.sender_user_id_.."_\n*> Bot Added To Group*", 1, 'md')
+    else
+    send(msg.chat_id_, msg.id_, 1, "🎫┇ايديك ~⪼ ("..msg.sender_user_id_..")\n☑┇تم تفعيل المجموعه", 1, 'md')
+    end
+    if database:get('bot:lang:'..msg.chat_id_) then
+    send(sudo_add, 0, 1, "*> Your ID :* _"..msg.sender_user_id_.."_\n*> added bot to new group*" , 1, 'md')
+    else
+    send(sudo_add, 0, 1, "🔘┇قام بتفعيل مجموعه جديده \n🎫┇ايدي المدير ~⪼ ("..msg.sender_user_id_..")\n🌐┇معلومات المجموعه \n\n🎫┇ايدي المجموعه ~⪼ ("..msg.chat_id_..")" , 1, 'md')
+    end
+    if data.result.can_promote_members  then 
+    database:sadd('bot:owners:'..msg.chat_id_,msg.sender_user_id_)
+    end
+    database:set("bot:enable:"..msg.chat_id_,true)
+    if data.result.status == 'creator' then 
+    database:sadd('bot:creator:'..msg.chat_id_, msg.sender_user_id_)
+    end    
+    end
+    else
+   if database:get('bot:lang:'..msg.chat_id_) then
+  send(msg.chat_id_, msg.id_, 1, "> A few group can not be add", 1, 'md')
+   else
+    send(msg.chat_id_, msg.id_, 1, "⚠️┇المجموعه قليله لا يمكن تفعيلها", 1, 'md')   
+    end
+end
+    else
+  if database:get('bot:lang:'..msg.chat_id_) then
+  send(msg.chat_id_, msg.id_, 1, "> You are not a creator or a manager", 1, 'md')
+  else
+  send(msg.chat_id_, msg.id_, 1, "⚠️┇انت لست (منشئ او مدير) في المجموعة", 1, 'md')
+  end
+end
+   end
+   end
+   if (text == "unadd" or text == 'تعطيل') then 
+    local keko2 = database:get("add"..bot_id)
+    if keko2 then 
+    local keko = "https://api.telegram.org/bot" ..token.. '/getChatMember?chat_id=' .. msg.chat_id_ .. '&user_id='..msg.sender_user_id_
+    local stats = https.request(keko)
+    local data = json:decode(stats)
+    if (data.result and data.result.status == 'creator') then 
+        local txt = {string.match(text, "^([Aa][Dd][Dd])$")}
+        if not database:get("bot:charge:"..msg.chat_id_) then
+        if database:get('bot:lang:'..msg.chat_id_) then
+        send(msg.chat_id_, msg.id_, 1, '*Bot is already remove Group*', 1, 'md')
+        else
+        send(msg.chat_id_, msg.id_, 1, "❕┇المجموعه معطله سابقا", 1, 'md')
+        end
+        end
+        if database:get("bot:charge:"..msg.chat_id_) then
+        database:set("bot:charge:"..msg.chat_id_,true)
+        if database:get('bot:lang:'..msg.chat_id_) then
+        send(msg.chat_id_, msg.id_, 1, "*> Your ID :* _"..msg.sender_user_id_.."_\n*> Bot Removed To Group!*", 1, 'md')
+        else
+        send(msg.chat_id_, msg.id_, 1, "🎫┇ايديك ~⪼ ("..msg.sender_user_id_..")\n☑┇تم تعطيل المجموعه", 1, 'md')
+        end
+        if database:get('bot:lang:'..msg.chat_id_) then
+        send(sudo_add, 0, 1, "*> Your ID :* _"..msg.sender_user_id_.."_\n*> unadd bot *" , 1, 'md')
+        else
+        send(sudo_add, 0, 1, "🔘┇قام بتعطيل مجموعه \n🎫┇ايدي المدير ~⪼ ("..msg.sender_user_id_..")\n🌐┇معلومات المجموعه \n\n🎫┇ايدي المجموعه ~⪼ ("..msg.chat_id_..")" , 1, 'md')
+        end
+        database:del("bot:enable:"..msg.chat_id_)
+        end
+        else
+  if database:get('bot:lang:'..msg.chat_id_) then
+  send(msg.chat_id_, msg.id_, 1, "> You are not a creator or a manager", 1, 'md')
+  else
+  send(msg.chat_id_, msg.id_, 1, "⚠️┇انت لست (منشئ او مدير) في المجموعة", 1, 'md')
+  end    
+  end
+  end
+  end
+  end 
 if data.message_.content_.photo_ then
 local keko = database:get('bot:setphoto'..msg.chat_id_..':'..msg.sender_user_id_)
 if keko then
@@ -11813,6 +11937,9 @@ send(msg.chat_id_, msg.id_, 1, text, 1, 'md')
 *| enable inline  |* تفعيل الانلاين
 *| disable inline |* تعطيل الانلاين
 *| del waste |* تنظيف المخلفات
+*| enable add auto  |* تفعيل التفعيل التلقائي
+*| disable add auto |* تعطيل التفعيل التلقائي
+*| set |* وضع عدد الاعضاء
 *======================*
 ]]
 send(msg.chat_id_, msg.id_, 1, text, 1, 'md')
@@ -12246,6 +12373,8 @@ local h6 = redis:get('h6'..bot_id)
 ✖️┇تعطيل المغادره
 ✔️┇تفعيل الاذاعه
 ✖️┇تعطيل الاذاعه
+✔️┇تفعيل التفعيل التلقائي
+✖️┇تعطيل التفعيل التلقائي
 🚷┇مغادره + id
 🚷┇مغادره
 
@@ -12314,6 +12443,7 @@ local h6 = redis:get('h6'..bot_id)
 🗯┇تغير رابط الانلاين + الرابط
 🗯┇تفعيل الانلاين
 🗯┇تعطيل الانلاين
+				
 ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉
 ]]
 send(msg.chat_id_, msg.id_, 1, (h6 or text), 1, 'html')
