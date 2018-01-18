@@ -27,9 +27,6 @@ chats = {}
 day = 86400
 bot_id_keko = {string.match(token, "^(%d+)(:)(.*)")}
 bot_id = tonumber(bot_id_keko[1])
-
-
-
 -----------------------------------------------------------------------------------------------
 --  BY TshAkETEAM       ---       KEKO JSON              ---          BY  TshAkETEAM        --
 -----------------------------------------------------------------------------------------------
@@ -2010,12 +2007,10 @@ elseif msg_type == 'MSG:Gif' then
    end
    end
 elseif msg_type == 'MSG:Text' then
- --vardump(msg)
 if database:get("bot:group:link"..msg.chat_id_) == 'Waiting For Link!\nPls Send Group Link' and is_mod(msg.sender_user_id_, msg.chat_id_) then if text:match("(https://telegram.me/joinchat/%S+)") or text:match("(https://t.me/joinchat/%S+)") then 	 local glink = text:match("(https://telegram.me/joinchat/%S+)") or text:match("(https://t.me/joinchat/%S+)") local hash = "bot:group:link"..msg.chat_id_ database:set(hash,glink) 			 send(msg.chat_id_, msg.id_, 1, '☑┇تم وضع رابط', 1, 'md') send(msg.chat_id_, 0, 1, '↙️┇رابط المجموعه الجديد\n'..glink, 1, 'html')
 end
    end
 function check_username(extra,result,success)
-	 --vardump(result)
 	local username = (result.username_ or '')
 	local svuser = 'user:'..result.id_
 	if username then
@@ -2028,10 +2023,9 @@ if database:get('bot:bots:mute'..msg.chat_id_) and not is_mod(result.id_, msg.ch
 	  end
    end
 getUser(msg.sender_user_id_,check_username)
-kekoSet2('bot:editid'.. msg.id_,msg.content_.text_)
 if not is_vip(msg.sender_user_id_, msg.chat_id_) then
 check_filter_words(msg, text)
-	if text:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]") or
+if text:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]") or
 text:match("[Tt].[Mm][Ee]") or
 text:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]") or
 text:match("[Tt][Ee][Ll][Ee][Ss][Cc][Oo].[Pp][Ee]") then
@@ -6379,14 +6373,14 @@ end
 end
 getUser(msg.sender_user_id_, keko333)
 local keko_info = nil
- function keko333(extra,result,success)
-  keko_info ='['..result.first_name_..'](t.me/'..(result.username_ or 'لا يوجد معرف')..')'
+function keko333(extra,result,success)
+keko_info ='['..result.first_name_..'](t.me/'..(result.username_ or 'لا يوجد معرف')..')'
 local lockmute = "\n🗑┇خاصية ~⪼ المسح"
 local lockwarn = "\n📛┇خاصية ~⪼ التحذير"
 local lockban = "\n🚫┇خاصية ~⪼ الطرد"
 local infoo = "💬┇بواسطه ~⪼ [(] "..keko_info.." [)]\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ \n"
 if mutept[2] == "file" or TSHAKE[2] == "الملفات" then
-	  if not database:get('bot:document:mute'..msg.chat_id_) then
+if not database:get('bot:document:mute'..msg.chat_id_) then
 if database:get('bot:lang:'..msg.chat_id_) then
    send(msg.chat_id_, msg.id_, 1, '_> file has been_ *Locked*', 1, 'md')
 else
@@ -6415,7 +6409,7 @@ if mutept[2] == "file ban" or TSHAKE[2] == "الملفات بالطرد" then
 if database:get('bot:lang:'..msg.chat_id_) then
    send(msg.chat_id_, msg.id_, 1, '_> file ban has been_ *Locked*', 1, 'md')
 else
-   send(msg.chat_id_, msg.id_, 1, ""..infoo.."☑┇تم قفل الملفات"..lockban.." ", 1, 'md')
+  send(msg.chat_id_, msg.id_, 1, ""..infoo.."☑┇تم قفل الملفات"..lockban.." ", 1, 'md')
 end
    database:set('bot:document:ban'..msg.chat_id_,true)
 else
@@ -12364,13 +12358,8 @@ chats[chat.id_] = chat
   -----------------------------------------------------------------------------------------------
   elseif (data.ID == "UpdateMessageEdited") then
    local msg = data
-  -- vardump(msg)
   	function get_msg_contact(extra, result, success)
 	local text = (result.content_.text_ or result.content_.caption_)
---vardump(result)
-	if result.id_ and result.content_.text_ then
-	kekoSet2('bot:editid'..result.id_,result.content_.text_)
-	end
   if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
    if text:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]") or
@@ -12393,7 +12382,6 @@ end
 end
 
 	if result.id_ and result.content_.text_ then
-	kekoSet2('bot:editid'..result.id_,result.content_.text_)
   if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
    	if text:match("[Hh][Tt][Tt][Pp][Ss]://") or text:match("[Hh][Tt][Tt][Pp]://") or text:match(".[Ii][Rr]") or text:match(".[Cc][Oo][Mm]") or text:match(".[Oo][Rr][Gg]") or text:match(".[Ii][Nn][Ff][Oo]") or text:match("[Ww][Ww][Ww].") or text:match(".[Tt][Kk]") then
@@ -12412,7 +12400,6 @@ end
 end
 end
 	if result.id_ and result.content_.text_ then
-	kekoSet2('bot:editid'..result.id_,result.content_.text_)
   if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
    if text:match("@") then
@@ -12429,7 +12416,6 @@ send(msg.chat_id_, 0, 1,  "🚫┇ممنوع عمل تعديل للمعرفات"
 end
 end
 	if result.id_ and result.content_.text_ then
-	kekoSet2('bot:editid'..result.id_,result.content_.text_)
   if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
    	if text:match("#") then
@@ -12445,7 +12431,6 @@ send(msg.chat_id_, 0, 1, "🚫┇ممنوع عمل تعديل للتاكات", 1
 end
 end
 	if result.id_ and result.content_.text_ then
-	kekoSet2('bot:editid'..result.id_,result.content_.text_)
   if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
    	if text:match("/")  then
@@ -12462,7 +12447,6 @@ end
 end
 end
 	if result.id_ and result.content_.text_ then
-	kekoSet2('bot:editid'..result.id_,result.content_.text_)
   if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
    	if text:match("[\216-\219][\128-\191]") then
@@ -12480,7 +12464,6 @@ send(msg.chat_id_, 0, 1, "🚫┇ممنوع عمل تعديل  للغه العر
 end
 end
 	if result.id_ and result.content_.text_ then
-	kekoSet2('bot:editid'..result.id_,result.content_.text_)
   if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
    if text:match("[ASDFGHJKLQWERTYUIOPZXCVBNMasdfghjklqwertyuiopzxcvbnm]") then
@@ -12497,7 +12480,6 @@ end
 end
 end
 	if result.id_ and result.content_.text_ then
-	kekoSet2('bot:editid'..result.id_,result.content_.text_)
   if not is_mod(result.sender_user_id_, result.chat_id_) then
    check_filter_words(result, text)
 	if database:get('editmsg'..msg.chat_id_) == 'delmsg' then
@@ -12506,17 +12488,11 @@ end
   local chat = msg.chat_id_
   delete_msg(chat,msgs)
   send(msg.chat_id_, 0, 1, "🚫┇ممنوع التعديل هنا", 1, 'html')
-	elseif database:get('editmsg'..msg.chat_id_) == 'didam' then
-	if kekoGet2('bot:editid'..msg.message_id_) then
-	local old_text = kekoGet2('bot:editid'..msg.message_id_)
-send(msg.chat_id_, msg.message_id_, 1, '🚫┇لقد قمت بالتعديل\n\n✉┇رسالتك السابقه \n\n• {'..old_text..'}', 1, 'md')
 	end
 end
 end
 end
-end
 	end
-
 getMessage(msg.chat_id_, msg.message_id_,get_msg_contact)
   -----------------------------------------------------------------------------------------------
   elseif (data.ID == "UpdateOption" and data.name_ == "my_id") then
