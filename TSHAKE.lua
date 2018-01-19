@@ -1014,7 +1014,8 @@ if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
   send(msg.chat_id_, msg.id_, 1, "📡┇تم تغير الرابط ~⪼ {"..name_t[2].."}", 1, 'html')
   end
   end
-	end --sudo	
+	end 
+    end --sudo	
 if msg.content_.text_ then 
  text = msg.content_.text_
  if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then 
