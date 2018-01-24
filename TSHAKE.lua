@@ -3042,6 +3042,119 @@ end
 end
 end
 end
+
+local text = msg.content_.text_:gsub('اضف مطور','add sudo')
+	if text:match("^[Aa][Dd][Dd] [Ss][Uu][Dd][Oo]$")  and tonumber(msg.sender_user_id_) == tonumber(sudo_add) and msg.reply_to_message_id_ then
+	function promote_by_reply(extra, result, success)
+	if redis:sismember('dev'..bot_id, result.sender_user_id_) then
+  if database:get('bot:lang:'..msg.chat_id_) then
+   send(msg.chat_id_, msg.id_, 1, '_User_ *'..result.sender_user_id_..'* _is Already sudo._', 1, 'md')
+  else
+   send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..result.sender_user_id_..')*\n☑┇بالفعل تم رفعه مطور', 1, 'md')
+  end
+else
+	redis:set('sudoo'..result.sender_user_id_..''..bot_id, 'yes')
+	redis:sadd('dev'..bot_id, result.sender_user_id_)
+  if database:get('bot:lang:'..msg.chat_id_) then
+   send(msg.chat_id_, msg.id_, 1, '_User_ *'..result.sender_user_id_..'* _add as sudo._', 1, 'md')
+  else
+   send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..result.sender_user_id_..')* \n☑┇تم رفعه مطور', 1, 'md')
+  end
+	end
+end
+	getMessage(msg.chat_id_, msg.reply_to_message_id_,promote_by_reply)
+end
+	-----------------------------------------------------------------------------------------------
+	if text:match("^[Aa][Dd][Dd] [Ss][Uu][Dd][Oo] @(.*)$") and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
+	local apmd = {string.match(text, "^([Aa][Dd][Dd] [Ss][Uu][Dd][Oo]) @(.*)$")}
+	function promote_by_username(extra, result, success)
+	if result.id_ then
+	redis:set('sudoo'..result.id_..''..bot_id, 'yes')
+	redis:sadd('dev'..bot_id, result.id_)
+  if database:get('bot:lang:'..msg.chat_id_) then
+texts = '<code>User '..result.id_..' add as sudo.!</code>'
+else
+  texts = '👤┇العضو ~⪼ ('..result.id_..')\n☑️┇تم رفعه مطور'
+end
+else
+  if database:get('bot:lang:'..msg.chat_id_) then
+texts = '<code>User not found!</code>'
+else
+  texts = '✖┇خطاء'
+end
+end
+	   send(msg.chat_id_, msg.id_, 1, texts, 1, 'html')
+end
+	resolve_username(apmd[2],promote_by_username)
+end
+	-----------------------------------------------------------------------------------------------
+	if text:match("^[Aa][Dd][Dd] [Ss][Uu][Dd][Oo] (%d+)$") and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
+	local apmd = {string.match(text, "^([Aa][Dd][Dd] [Ss][Uu][Dd][Oo]) (%d+)$")}
+	redis:set('sudoo'..apmd[2]..''..bot_id, 'yes')
+	redis:sadd('dev'..bot_id, apmd[2])
+if database:get('bot:lang:'..msg.chat_id_) then
+	send(msg.chat_id_, msg.id_, 1, '_User_ *'..apmd[2]..'* _add as sudo._', 1, 'md')
+else
+   send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..apmd[2]..')* \n☑┇تم رفعه مطور', 1, 'md')
+end
+end
+	-----------------------------------------------------------------------------------------------
+  local text = msg.content_.text_:gsub('حذف مطور','rem sudo')
+	if text:match("^[Rr][Ee][Mm] [Ss][Uu][Dd][Oo]$") and tonumber(msg.sender_user_id_) == tonumber(sudo_add) and msg.reply_to_message_id_ then
+	function demote_by_reply(extra, result, success)
+	if not redis:sismember('dev'..bot_id, result.sender_user_id_) then
+  if database:get('bot:lang:'..msg.chat_id_) then
+   send(msg.chat_id_, msg.id_, 1, '_User_ *'..result.sender_user_id_..'* _is not sudo._', 1, 'md')
+  else
+send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..result.sender_user_id_..')* ️\n☑┇ بالفعل تم تنزيله من المطورين', 1, 'md')
+  end
+	else
+	redis:del('sudoo'..result.sender_user_id_..''..bot_id, 'no')
+	redis:srem('dev'..bot_id, result.sender_user_id_)
+  if database:get('bot:lang:'..msg.chat_id_) then
+
+   send(msg.chat_id_, msg.id_, 1, '_User_ *'..result.sender_user_id_..'* _Demoted sudo._', 1, 'md')
+else
+send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..result.sender_user_id_..')* \n☑┇ تم تنزيله من مطورين البوت', 1, 'md')
+	end
+  end
+  end
+	getMessage(msg.chat_id_, msg.reply_to_message_id_,demote_by_reply)
+end
+	-----------------------------------------------------------------------------------------------
+	if text:match("^[Rr][Ee][Mm] [Ss][Uu][Dd][Oo] @(.*)$") and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
+	local apmd = {string.match(text, "^([Rr][Ee][Mm] [Ss][Uu][Dd][Oo]) @(.*)$")}
+	function demote_by_username(extra, result, success)
+	if result.id_ then
+	redis:del('sudoo'..result.id_..''..bot_id, 'no')
+	redis:srem('dev'..bot_id, result.id_)
+  if database:get('bot:lang:'..msg.chat_id_) then
+texts = '<b>User </b><code>'..result.id_..'</code> <b>Demoted sudo</b>'
+else
+  texts = '👤┇العضو ~⪼ ('..result.id_..') \n☑┇ تم تنزيله من مطورين البوت️'
+end
+else
+  if database:get('bot:lang:'..msg.chat_id_) then
+texts = '<code>User not found!</code>'
+else
+  texts = '✖┇خطاء️'
+  end
+end
+	   send(msg.chat_id_, msg.id_, 1, texts, 1, 'html')
+end
+	resolve_username(apmd[2],demote_by_username)
+end
+	-----------------------------------------------------------------------------------------------
+	if text:match("^[Rr][Ee][Mm] [Ss][Uu][Dd][Oo] (%d+)$") and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
+	local apmd = {string.match(text, "^([Rr][Ee][Mm] [Ss][Uu][Dd][Oo]) (%d+)$")}
+	redis:del('sudoo'..apmd[2]..''..bot_id, 'no')
+	redis:srem('dev'..bot_id, apmd[2])
+  if database:get('bot:lang:'..msg.chat_id_) then
+	send(msg.chat_id_, msg.id_, 1, '_User_ *'..apmd[2]..'* _Demoted sudo._', 1, 'md')
+else
+send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..apmd[2]..')*  \n☑┇ تم تنزيله من مطورين البوت️ ', 1, 'md')
+  end
+  end
 	-----------------------------------------------------------------------------------------------
 local text = msg.content_.text_:gsub('رفع ادمن','setmote')
 	if text:match("^[Ss][Ee][Tt][Mm][Oo][Tt][Ee]$")  and is_owner(msg.sender_user_id_, msg.chat_id_) and msg.reply_to_message_id_ then
@@ -10356,118 +10469,6 @@ local nmkeko = redis:get('nmkeko'..bot_id)
 sendContact(msg.chat_id_, msg.id_, 0, 1, nil, nmkeko, text , "", bot_id)
   return false end
 end
-local text = msg.content_.text_:gsub('اضف مطور','add sudo')
-	if text:match("^[Aa][Dd][Dd] [Ss][Uu][Dd][Oo]$")  and tonumber(msg.sender_user_id_) == tonumber(sudo_add) and msg.reply_to_message_id_ then
-	function promote_by_reply(extra, result, success)
-	if redis:sismember('dev'..bot_id, result.sender_user_id_) then
-  if database:get('bot:lang:'..msg.chat_id_) then
-   send(msg.chat_id_, msg.id_, 1, '_User_ *'..result.sender_user_id_..'* _is Already sudo._', 1, 'md')
-  else
-   send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..result.sender_user_id_..')*\n☑┇بالفعل تم رفعه مطور', 1, 'md')
-  end
-else
-	redis:set('sudoo'..result.sender_user_id_..''..bot_id, 'yes')
-	redis:sadd('dev'..bot_id, result.sender_user_id_)
-  if database:get('bot:lang:'..msg.chat_id_) then
-   send(msg.chat_id_, msg.id_, 1, '_User_ *'..result.sender_user_id_..'* _add as sudo._', 1, 'md')
-  else
-   send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..result.sender_user_id_..')* \n☑┇تم رفعه مطور', 1, 'md')
-  end
-	end
-end
-	getMessage(msg.chat_id_, msg.reply_to_message_id_,promote_by_reply)
-end
-	-----------------------------------------------------------------------------------------------
-	if text:match("^[Aa][Dd][Dd] [Ss][Uu][Dd][Oo] @(.*)$") and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
-	local apmd = {string.match(text, "^([Aa][Dd][Dd] [Ss][Uu][Dd][Oo]) @(.*)$")}
-	function promote_by_username(extra, result, success)
-	if result.id_ then
-	redis:set('sudoo'..result.id_..''..bot_id, 'yes')
-	redis:sadd('dev'..bot_id, result.id_)
-  if database:get('bot:lang:'..msg.chat_id_) then
-texts = '<code>User '..result.id_..' add as sudo.!</code>'
-else
-  texts = '👤┇العضو ~⪼ ('..result.id_..')\n☑️┇تم رفعه مطور'
-end
-else
-  if database:get('bot:lang:'..msg.chat_id_) then
-texts = '<code>User not found!</code>'
-else
-  texts = '✖┇خطاء'
-end
-end
-	   send(msg.chat_id_, msg.id_, 1, texts, 1, 'html')
-end
-	resolve_username(apmd[2],promote_by_username)
-end
-	-----------------------------------------------------------------------------------------------
-	if text:match("^[Aa][Dd][Dd] [Ss][Uu][Dd][Oo] (%d+)$") and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
-	local apmd = {string.match(text, "^([Aa][Dd][Dd] [Ss][Uu][Dd][Oo]) (%d+)$")}
-	redis:set('sudoo'..apmd[2]..''..bot_id, 'yes')
-	redis:sadd('dev'..bot_id, apmd[2])
-if database:get('bot:lang:'..msg.chat_id_) then
-	send(msg.chat_id_, msg.id_, 1, '_User_ *'..apmd[2]..'* _add as sudo._', 1, 'md')
-else
-   send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..apmd[2]..')* \n☑┇تم رفعه مطور', 1, 'md')
-end
-end
-	-----------------------------------------------------------------------------------------------
-  local text = msg.content_.text_:gsub('حذف مطور','rem sudo')
-	if text:match("^[Rr][Ee][Mm] [Ss][Uu][Dd][Oo]$") and tonumber(msg.sender_user_id_) == tonumber(sudo_add) and msg.reply_to_message_id_ then
-	function demote_by_reply(extra, result, success)
-	if not redis:sismember('dev'..bot_id, result.sender_user_id_) then
-  if database:get('bot:lang:'..msg.chat_id_) then
-   send(msg.chat_id_, msg.id_, 1, '_User_ *'..result.sender_user_id_..'* _is not sudo._', 1, 'md')
-  else
-send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..result.sender_user_id_..')* ️\n☑┇ بالفعل تم تنزيله من المطورين', 1, 'md')
-  end
-	else
-	redis:del('sudoo'..result.sender_user_id_..''..bot_id, 'no')
-	redis:srem('dev'..bot_id, result.sender_user_id_)
-  if database:get('bot:lang:'..msg.chat_id_) then
-
-   send(msg.chat_id_, msg.id_, 1, '_User_ *'..result.sender_user_id_..'* _Demoted sudo._', 1, 'md')
-else
-send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..result.sender_user_id_..')* \n☑┇ تم تنزيله من مطورين البوت', 1, 'md')
-	end
-  end
-  end
-	getMessage(msg.chat_id_, msg.reply_to_message_id_,demote_by_reply)
-end
-	-----------------------------------------------------------------------------------------------
-	if text:match("^[Rr][Ee][Mm] [Ss][Uu][Dd][Oo] @(.*)$") and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
-	local apmd = {string.match(text, "^([Rr][Ee][Mm] [Ss][Uu][Dd][Oo]) @(.*)$")}
-	function demote_by_username(extra, result, success)
-	if result.id_ then
-	redis:del('sudoo'..result.id_..''..bot_id, 'no')
-	redis:srem('dev'..bot_id, result.id_)
-  if database:get('bot:lang:'..msg.chat_id_) then
-texts = '<b>User </b><code>'..result.id_..'</code> <b>Demoted sudo</b>'
-else
-  texts = '👤┇العضو ~⪼ ('..result.id_..') \n☑┇ تم تنزيله من مطورين البوت️'
-end
-else
-  if database:get('bot:lang:'..msg.chat_id_) then
-texts = '<code>User not found!</code>'
-else
-  texts = '✖┇خطاء️'
-  end
-end
-	   send(msg.chat_id_, msg.id_, 1, texts, 1, 'html')
-end
-	resolve_username(apmd[2],demote_by_username)
-end
-	-----------------------------------------------------------------------------------------------
-	if text:match("^[Rr][Ee][Mm] [Ss][Uu][Dd][Oo] (%d+)$") and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
-	local apmd = {string.match(text, "^([Rr][Ee][Mm] [Ss][Uu][Dd][Oo]) (%d+)$")}
-	redis:del('sudoo'..apmd[2]..''..bot_id, 'no')
-	redis:srem('dev'..bot_id, apmd[2])
-  if database:get('bot:lang:'..msg.chat_id_) then
-	send(msg.chat_id_, msg.id_, 1, '_User_ *'..apmd[2]..'* _Demoted sudo._', 1, 'md')
-else
-send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..apmd[2]..')*  \n☑┇ تم تنزيله من مطورين البوت️ ', 1, 'md')
-  end
-  end
 
 local text = msg.content_.text_:gsub('اضف رد','add rep')
 if text:match("^[Aa][Dd][Dd] [Rr][Ee][Pp]$") and is_owner(msg.sender_user_id_ , msg.chat_id_) then
@@ -12207,7 +12208,6 @@ local h3 = redis:get('h3'..bot_id)
 🔐┇الصوت بالطرد
 🔐┇الجهات بالطرد
 🔐┇الشبكات بالطرد
-🔐┇الكلايش بالطرد
 🔐┇العربيه بالطرد
 🔐┇الانكليزيه بالطرد
 🔐┇الكل بالطرد
