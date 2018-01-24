@@ -10359,7 +10359,7 @@ end
 local text = msg.content_.text_:gsub('اضف مطور','add sudo')
 	if text:match("^[Aa][Dd][Dd] [Ss][Uu][Dd][Oo]$")  and tonumber(msg.sender_user_id_) == tonumber(sudo_add) and msg.reply_to_message_id_ then
 	function promote_by_reply(extra, result, success)
-	if redis:sismember('sudoo'..result.sender_user_id_..''..bot_id, 'yes') then
+	if redis:sismember('dev'..bot_id, result.sender_user_id_) then
   if database:get('bot:lang:'..msg.chat_id_) then
    send(msg.chat_id_, msg.id_, 1, '_User_ *'..result.sender_user_id_..'* _is Already sudo._', 1, 'md')
   else
@@ -10632,43 +10632,30 @@ end
 
 local text = msg.content_.text_:gsub('المطورين','sudo list')
 if text:match("^[Ss][Uu][Dd][Oo] [Ll][Ii][Ss][Tt]$") and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
-	local list = redis:smembers('dev'..bot_id)
-  if database:get('bot:lang:'..msg.chat_id_) then
-  text = "<b>Sudo List :</b>\nֆ • • • • • • • • • • • • • ֆ\n• ✅ :- added\n• ❎ :- Deleted\nֆ • • • • • • • • • • • • • ֆ\n"
-else
-  text = "⛔┇قائمه المطورين  ،\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ \n✔┇تم رفعه مطور\n✖┇تم تنزيله من مطورين\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ \n"
-  end
-	for k,v in pairs(list) do
-			local keko11 = redis:get('sudoo'..v..''..bot_id)
-			local botlua = "✖"
- if keko11 == 'yes' then
- botlua = "✔"
-  if database:get('bot:lang:'..msg.chat_id_) then
-			text = text.."<b>|"..k.."|</b>"..botlua.." ~⪼(<code>"..v.."</code>)\n"
+     local list = redis:smembers('dev'..bot_id)
+     if database:get('bot:lang:'..msg.chat_id_) then
+     text = "<b>Mod List:</b>\n\n"
    else
-text = text.."<b>|"..k.."|</b>"..botlua.." ~⪼(<code>"..v.."</code>)\n"
-			end
-
-		else
-  if database:get('bot:lang:'..msg.chat_id_) then
-		 text = text.."<b>|"..k.."|</b>"..botlua.." ~⪼(<code>"..v.."</code>)\n"
-  else
-  text = text.."<b>|"..k.."|</b>"..botlua.." ~⪼(<code>"..v.."</code>)\n"
-			end
-		end
-
-	end
-	if #list == 0 then
-	   if database:get('bot:lang:'..msg.chat_id_) then
-text = "<b>Sudo List is empty !</b>"
-  else
-text = "• <code>لا يوجد مطورين</code> ⚠️"
-end
-end
-	send(msg.chat_id_, msg.id_, 1, text, 1, 'html')
-end
------------------------------------------
-
+     text = "👥┇قائمة المطورين ،\n-------------\n"
+     end
+     for k,v in pairs(list) do
+     local user_info = database:hgetall('user:'..v)
+   if user_info and user_info.username then
+   local username = user_info.username
+   text = text.."<b>|"..k.."|</b>~⪼(@"..username..")\n"
+   else
+   text = text.."<b>|"..k.."|</b>~⪼(<code>"..v.."</code>)\n"
+   end
+     end
+     if #list == 0 then
+   if database:get('bot:lang:'..msg.chat_id_) then
+   text = "<b>Mod List is empty !</b>"
+     else
+   text = "✖┇لايوجد مطورين"
+   end
+   end
+     send(msg.chat_id_, msg.id_, 1, text, 1, 'html')
+   end
 ------------------------------------
 local text = msg.content_.text_:gsub('ردود المطور','rep sudo list')
 if text:match("^[Rr][Ee][Pp] [Ss][Uu][Dd][Oo] [Ll][Ii][Ss][Tt]$") and tonumber(msg.sender_user_id_) == tonumber(sudo_add)  then
