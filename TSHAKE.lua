@@ -10423,7 +10423,7 @@ send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..result.sender_user_i
   end
 	else
 	redis:del('sudoo'..result.sender_user_id_..''..bot_id, 'no')
-	redis:del('dev'..bot_id, result.sender_user_id_)
+	redis:srem('dev'..bot_id, result.sender_user_id_)
   if database:get('bot:lang:'..msg.chat_id_) then
 
    send(msg.chat_id_, msg.id_, 1, '_User_ *'..result.sender_user_id_..'* _Demoted sudo._', 1, 'md')
@@ -10440,7 +10440,7 @@ end
 	function demote_by_username(extra, result, success)
 	if result.id_ then
 	redis:del('sudoo'..result.id_..''..bot_id, 'no')
-	redis:del('dev'..bot_id, result.id_)
+	redis:srem('dev'..bot_id, result.id_)
   if database:get('bot:lang:'..msg.chat_id_) then
 texts = '<b>User </b><code>'..result.id_..'</code> <b>Demoted sudo</b>'
 else
@@ -10461,7 +10461,7 @@ end
 	if text:match("^[Rr][Ee][Mm] [Ss][Uu][Dd][Oo] (%d+)$") and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
 	local apmd = {string.match(text, "^([Rr][Ee][Mm] [Ss][Uu][Dd][Oo]) (%d+)$")}
 	redis:del('sudoo'..apmd[2]..''..bot_id, 'no')
-	redis:del('dev'..bot_id, apmd[2])
+	redis:srem('dev'..bot_id, apmd[2])
   if database:get('bot:lang:'..msg.chat_id_) then
 	send(msg.chat_id_, msg.id_, 1, '_User_ *'..apmd[2]..'* _Demoted sudo._', 1, 'md')
 else
