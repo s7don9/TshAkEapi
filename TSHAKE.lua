@@ -10373,7 +10373,6 @@ exp_dat = math.floor(ex / 86400) + 1
 ..lock_tag.." المعرفات".."\n"
 ..lock_wp.." المواقع".."\n"
 ..lock_location.." الشبكات".."\n"
-..mute_spam.." الكلايش".."\n"
 ..mute_photo.." الصور".."\n\n"
 ..mute_note.." بصمه الفيديو".."\n\n"
 ..mute_text.." الدردشه".."\n"
