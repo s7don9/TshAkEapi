@@ -10634,7 +10634,7 @@ local text = msg.content_.text_:gsub('المطورين','sudo list')
 if text:match("^[Ss][Uu][Dd][Oo] [Ll][Ii][Ss][Tt]$") and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
      local list = redis:smembers('dev'..bot_id)
      if database:get('bot:lang:'..msg.chat_id_) then
-     text = "<b>Mod List:</b>\n\n"
+     text = "<b>Sudo List:</b>\n\n"
    else
      text = "👥┇قائمة المطورين ،\n-------------\n"
      end
@@ -10649,7 +10649,7 @@ if text:match("^[Ss][Uu][Dd][Oo] [Ll][Ii][Ss][Tt]$") and tonumber(msg.sender_use
      end
      if #list == 0 then
    if database:get('bot:lang:'..msg.chat_id_) then
-   text = "<b>Mod List is empty !</b>"
+   text = "<b>Sudo List is empty !</b>"
      else
    text = "✖┇لايوجد مطورين"
    end
