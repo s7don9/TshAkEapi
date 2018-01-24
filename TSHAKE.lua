@@ -4244,7 +4244,7 @@ local hash =  'bot:mods:'..msg.chat_id_
   if database:get('bot:lang:'..msg.chat_id_) then
   text = "<b>Mod List:</b>\n\n"
 else
-  text = "👥┇قائمة الادمنيه ،\n-------------\n"
+  text = "👥┇قائمة الادمنيه ،\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ \n"
   end
   for k,v in pairs(list) do
   local user_info = database:hgetall('user:'..v)
@@ -4273,7 +4273,7 @@ local hash =  'bot:vipgp:'..msg.chat_id_
   if database:get('bot:lang:'..msg.chat_id_) then
   text = "<b>Vip List:</b>\n\n"
 else
-  text = "👥┇قائمة الاعضاء المميزين ،\n-------------\n"
+  text = "👥┇قائمة الاعضاء المميزين ،\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ \n"
   end
 	for k,v in pairs(list) do
 	local user_info = database:hgetall('user:'..v)
@@ -10637,7 +10637,7 @@ if text:match("^[Ss][Uu][Dd][Oo] [Ll][Ii][Ss][Tt]$") and tonumber(msg.sender_use
      if database:get('bot:lang:'..msg.chat_id_) then
      text = "<b>Sudo List:</b>\n\n"
    else
-     text = "👥┇قائمة المطورين ،\n-------------\n"
+     text = "⛔️┇قائمه المطورين  ،\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ \n"
      end
      for k,v in pairs(list) do
      local user_info = database:hgetall('user:'..v)
