@@ -8741,8 +8741,8 @@ else
 end
 end
 end
-end
 getUser(msg.sender_user_id_, keko333)
+end
  local keko_info = nil
  function keko333(extra,result,success)
 keko_info ='['..result.first_name_..'](t.me/'..(result.username_ or 'لا يوجد معرف')..')'
@@ -8767,8 +8767,8 @@ end
 end
 end
 	end
-	end
   getUser(msg.sender_user_id_, keko333)
+	end
 	-----------------------------------------------------------------------------------------------
 if text:match("^[Cc][Ll][Ee][Aa][Nn] [Gg][Bb][Aa][Nn][Ll][Ii][Ss][Tt]$") and tonumber(msg.sender_user_id_) == tonumber(sudo_add) or text:match("^مسح قائمه العام$") and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
 if database:get('bot:lang:'..msg.chat_id_) then
