@@ -9112,7 +9112,6 @@ if database:get('bot:lang:'..msg.chat_id_) then
    end
 os.execute('rm -rf TSHAKE.lua')
 os.execute('wget https://raw.githubusercontent.com/moodlIMyIl/TshAkEapi/master/TSHAKE.lua')
-dofile('TSHAKE.lua')
  return false end
 
  local text = msg.content_.text_:gsub('ادمنيه المجموعه','admin group')
