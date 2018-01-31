@@ -1796,14 +1796,6 @@ elseif msg_type == 'MSG:NewUserLink' then
         getUser(msg.sender_user_id_,get_welcome)
       end
 elseif msg_type == 'MSG:NewUserAdd' then
-  if database:get('bot:tgservice:mute'..msg.chat_id_) then
-    local id = msg.id_
-    local msgs = {[0] = id}
-    local chat = msg.chat_id_
-       delete_msg(chat,msgs)
-          return
-   end
-      --vardump(msg)
 if msg.content_.ID == "MessageChatAddMembers" then
             if msg.content_.members_[0].type_.ID == 'UserTypeBot' then
       if database:get('bot:bots:mute'..msg.chat_id_) and not is_mod(msg.content_.members_[0].id_, msg.chat_id_) then
@@ -1827,6 +1819,13 @@ if msg.content_.ID == "MessageChatAddMembers" then
 	  end
  end
  end
+  if database:get('bot:tgservice:mute'..msg.chat_id_) then
+    local id = msg.id_
+    local msgs = {[0] = id}
+    local chat = msg.chat_id_
+       delete_msg(chat,msgs)
+          return
+   end
 
 elseif msg_type == 'MSG:Contact' then
  if not is_vip(msg.sender_user_id_, msg.chat_id_) then
