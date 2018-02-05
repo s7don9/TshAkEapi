@@ -403,26 +403,6 @@ var = true
   return var
 end
 -----------------------------------------------------------------------------------------------
-function get_info(user_id)
-  if database:hget('bot:username',user_id) then
-text = '@'..(string.gsub(database:hget('bot:username',user_id), 'false', '') or '')..''
-  end
-  get_user(user_id)
-  return text
-  --db:hrem('bot:username',user_id)
-end
-function get_user(user_id)
-  function dl_username(arg, data)
-username = data.username or ''
-
---vardump(data)
-database:hset('bot:username',data.id_,data.username_)
-  end
-  tdcli_function ({
-ID = "GetUser",
-user_id_ = user_id
-  }, dl_username, nil)
-end
 local function getMessage(chat_id, message_id,cb)
   tdcli_function ({
 ID = "GetMessage",
@@ -1525,11 +1505,16 @@ database:incr('user:msgs'..msg.chat_id_..':'..msg.sender_user_id_)
 	database:incr('group:msgs'..msg.chat_id_)
 if msg.content_.ID == "MessagePinMessage" then
   if database:get('pinnedmsg'..msg.chat_id_) and database:get('bot:pin:warn'..msg.chat_id_) then
-   send(msg.chat_id_, msg.id_, 1, "🎫┇الايدي ~⪼ ("..msg.sender_user_id_..") \n📌┇المعرف ~⪼ ("..get_info(msg.sender_user_id_)..")\n❕┇التثبيت مقفول لا تستطيع التثبيت حاليا️\n", 1, 'md')
+local keko_info = nil
+ function keko333(extra,result,success)
+  keko_info = '@'..(result.username_ or 'لا يوجد')..''
+   send(msg.chat_id_, msg.id_, 1, "🎫┇الايدي ~⪼ ("..msg.sender_user_id_..") \n📌┇المعرف ~⪼ "..keko_info.."\n❕┇التثبيت مقفول لا تستطيع التثبيت حاليا️\n", 1, 'md')
    unpinmsg(msg.chat_id_)
    local pin_id = database:get('pinnedmsg'..msg.chat_id_)
    pin(msg.chat_id_,pin_id,0)
    end
+end
+getUser(msg.sender_user_id_, keko333)
 end
 if database:get('bot:viewget'..msg.sender_user_id_) then
 if not msg.forward_info_ then
@@ -1552,7 +1537,7 @@ if msg_type == 'MSG:Photo' then
         if msg.content_.caption_ then
           check_filter_words(msg, msg.content_.caption_)
           if database:get('bot:links:mute'..msg.chat_id_) then
-	if msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Ss][Cc][Oo].[Pp][Ee]") or msg.content_.caption_:match("@") or msg.content_.caption_:match("#") or msg.content_.caption_:match("[\216-\219][\128-\191]") or msg.content_.caption_:match("[ASDFGHJKLQWERTYUIOPZXCVBNMasdfghjklqwertyuiopzxcvbnm]") then
+	if msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Ss][Cc][Oo].[Pp][Ee]") or msg.content_.caption_:match("@") or msg.content_.caption_:match("#") then
               local id = msg.id_
               local msgs = {[0] = id}
               local chat = msg.chat_id_
@@ -1603,7 +1588,7 @@ end
         if msg.content_.caption_ then
           check_filter_words(msg, msg.content_.caption_)
           if database:get('bot:links:mute'..msg.chat_id_) then
-	if msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Ss][Cc][Oo].[Pp][Ee]") or msg.content_.caption_:match("@") or msg.content_.caption_:match("#") or msg.content_.caption_:match("[\216-\219][\128-\191]") or msg.content_.caption_:match("[ASDFGHJKLQWERTYUIOPZXCVBNMasdfghjklqwertyuiopzxcvbnm]") then
+	if msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Ss][Cc][Oo].[Pp][Ee]") or msg.content_.caption_:match("@") or msg.content_.caption_:match("#") then
               local id = msg.id_
               local msgs = {[0] = id}
               local chat = msg.chat_id_
@@ -1654,7 +1639,7 @@ elseif msg.content_.ID == 'MessageUnsupported' then
         if msg.content_.caption_ then
           check_filter_words(msg, msg.content_.caption_)
           if database:get('bot:links:mute'..msg.chat_id_) then
-	if msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Ss][Cc][Oo].[Pp][Ee]") or msg.content_.caption_:match("@") or msg.content_.caption_:match("#") or msg.content_.caption_:match("[\216-\219][\128-\191]") or msg.content_.caption_:match("[ASDFGHJKLQWERTYUIOPZXCVBNMasdfghjklqwertyuiopzxcvbnm]") then
+	if msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Ss][Cc][Oo].[Pp][Ee]") or msg.content_.caption_:match("@") or msg.content_.caption_:match("#") then
               local id = msg.id_
               local msgs = {[0] = id}
               local chat = msg.chat_id_
@@ -1879,7 +1864,7 @@ elseif msg_type == 'MSG:Audio' then
         if msg.content_.caption_ then
           check_filter_words(msg, msg.content_.caption_)
           if database:get('bot:links:mute'..msg.chat_id_) then
-	if msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Ss][Cc][Oo].[Pp][Ee]") or msg.content_.caption_:match("@") or msg.content_.caption_:match("#") or msg.content_.caption_:match("[\216-\219][\128-\191]") or msg.content_.caption_:match("[ASDFGHJKLQWERTYUIOPZXCVBNMasdfghjklqwertyuiopzxcvbnm]") then
+	if msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Ss][Cc][Oo].[Pp][Ee]") or msg.content_.caption_:match("@") or msg.content_.caption_:match("#") then
               local id = msg.id_
               local msgs = {[0] = id}
               local chat = msg.chat_id_
@@ -1930,7 +1915,7 @@ elseif msg_type == 'MSG:Voice' then
         if msg.content_.caption_ then
           check_filter_words(msg, msg.content_.caption_)
           if database:get('bot:links:mute'..msg.chat_id_) then
-	if msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Ss][Cc][Oo].[Pp][Ee]") or msg.content_.caption_:match("@") or msg.content_.caption_:match("#") or msg.content_.caption_:match("[\216-\219][\128-\191]") or msg.content_.caption_:match("[ASDFGHJKLQWERTYUIOPZXCVBNMasdfghjklqwertyuiopzxcvbnm]") then
+	if msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Ss][Cc][Oo].[Pp][Ee]") or msg.content_.caption_:match("@") or msg.content_.caption_:match("#") then
               local id = msg.id_
               local msgs = {[0] = id}
               local chat = msg.chat_id_
@@ -2021,7 +2006,7 @@ elseif msg_type == 'MSG:Video' then
         if msg.content_.caption_ then
           check_filter_words(msg, msg.content_.caption_)
           if database:get('bot:links:mute'..msg.chat_id_) then
-	if msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Ss][Cc][Oo].[Pp][Ee]") or msg.content_.caption_:match("@") or msg.content_.caption_:match("#") or msg.content_.caption_:match("[\216-\219][\128-\191]") or msg.content_.caption_:match("[ASDFGHJKLQWERTYUIOPZXCVBNMasdfghjklqwertyuiopzxcvbnm]") then
+	if msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Ss][Cc][Oo].[Pp][Ee]") or msg.content_.caption_:match("@") or msg.content_.caption_:match("#") then
               local id = msg.id_
               local msgs = {[0] = id}
               local chat = msg.chat_id_
@@ -2072,7 +2057,7 @@ elseif msg_type == 'MSG:Gif' then
         if msg.content_.caption_ then
           check_filter_words(msg, msg.content_.caption_)
           if database:get('bot:links:mute'..msg.chat_id_) then
-	if msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Ss][Cc][Oo].[Pp][Ee]") or msg.content_.caption_:match("@") or msg.content_.caption_:match("#") or msg.content_.caption_:match("[\216-\219][\128-\191]") or msg.content_.caption_:match("[ASDFGHJKLQWERTYUIOPZXCVBNMasdfghjklqwertyuiopzxcvbnm]") then
+	if msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]") or msg.content_.caption_:match("[Tt][Ee][Ll][Ee][Ss][Cc][Oo].[Pp][Ee]") or msg.content_.caption_:match("@") or msg.content_.caption_:match("#") then
               local id = msg.id_
               local msgs = {[0] = id}
               local chat = msg.chat_id_
@@ -2178,7 +2163,7 @@ if text then
   local chat = msg.chat_id_
   local hash = 'bot:sens:spam'..msg.chat_id_
   if not database:get(hash) then
-sens = 300
+sens = 500
   else
 sens = tonumber(database:get(hash))
   end
@@ -2195,13 +2180,13 @@ if text then
   local chat = msg.chat_id_
   local hash = 'bot:sens:spam:warn'..msg.chat_id_
   if not database:get(hash) then
-sens = 300
+sens = 500
   else
 sens = tonumber(database:get(hash))
   end
   if database:get('bot:spam:warn'..msg.chat_id_) and string.len(text) > (sens) or ctrl_chars > (sens) or real_digits > (sens) then
 delete_msg(chat,msgs)
-  send(msg.chat_id_, 0, 1, "🎫┇الايدي ~⪼ ("..msg.sender_user_id_..")\n❕┇الكلايش تم قفلها ممنوع ارسالها ️\n🚷┇تم طردك من المجموعه", 1, 'html')
+  send(msg.chat_id_, 0, 1, "🎫┇الايدي ~⪼ ("..msg.sender_user_id_..")\n❕┇الكلايش تم قفلها ممنوع ارسالها", 1, 'html')
   end
 end
 
@@ -5070,7 +5055,8 @@ send(msg.chat_id_, msg.id_, 1, ""..infoo.."☑┇بالفعل تم قفل الت
 end
   end
   end
-end
+  end
+ getUser(msg.sender_user_id_, keko333)
 local keko_info = nil
    function keko333(extra,result,success)
 keko_info ='['..result.first_name_..'](t.me/'..(result.username_ or 'لا يوجد معرف')..')'
@@ -6914,16 +6900,14 @@ local infoo = "💬┇بواسطه ~⪼ [(] "..keko_info.." [)]\n┉ ┉ ┉ ┉
 if not database:get('anti-flood:'..msg.chat_id_) then
 if not database:get('anti-flood:warn'..msg.chat_id_) then
 if not database:get('anti-flood:del'..msg.chat_id_) then
-
 if database:get('bot:lang:'..msg.chat_id_) then
  send(msg.chat_id_, msg.id_, 1, '_> *Flood ban* has been *unlocked*', 1, 'md')
 else
 send(msg.chat_id_, msg.id_, 1, ""..infoo.."☑┇تم فتح التكرار"..lockmute.." ", 1, 'md')
 end
-
- database:set('anti-flood:'..msg.chat_id_,true)
- database:set('anti-flood:warn'..msg.chat_id_,true)
- database:set('anti-flood:del'..msg.chat_id_,true)
+database:set('anti-flood:'..msg.chat_id_,true)
+database:set('anti-flood:warn'..msg.chat_id_,true)
+database:set('anti-flood:del'..msg.chat_id_,true)
   else
 if database:get('bot:lang:'..msg.chat_id_) then
   send(msg.chat_id_, msg.id_, 1, "_> *Flood ban* is Already_ *Unlocked*", 1, 'md')
@@ -6931,7 +6915,7 @@ else
 send(msg.chat_id_, msg.id_, 1, ""..infoo.."☑┇بالفعل تم فتح التكرار"..lockmute.." ", 1, 'md')
 end
   end
-end
+  end
   end
   end
   end
@@ -9218,9 +9202,9 @@ end
 	end
 	------------
   if database:get('bot:spam:mute'..msg.chat_id_) then
-	mute_spam = '`lock | 🔐`'
-	else
 	mute_spam = '`unlock | 🔓`'
+	else
+	mute_spam = '`lock | 🔐`'
 end
 
 	if database:get('anti-flood:warn'..msg.chat_id_) then
@@ -9472,9 +9456,9 @@ if database:get('bot:contact:mute'..msg.chat_id_) then
    	end
    	------------
 if database:get('bot:spam:mute'..msg.chat_id_) then
-   	mute_spam = '✔️┇'
-   	else
    	mute_spam = '✖️┇'
+   	else
+   	mute_spam = '✔️┇'
    	end
    	------------
  if database:get('bot:english:mute'..msg.chat_id_) then
@@ -9644,9 +9628,9 @@ exp_dat = math.floor(ex / 86400) + 1
 end
 
 	if database:get('bot:spam:warn'..msg.chat_id_) then
-	mute_spam = '`lock | 🔐`'
-	else
 	mute_spam = '`unlock | 🔓`'
+	else
+	mute_spam = '`lock | 🔐`'
 	end
 	------------
 	if database:get('bot:gifs:warn'..msg.chat_id_) then
@@ -9807,9 +9791,9 @@ mute_video = '✖️┇'
   end
 
 if database:get('bot:spam:warn'..msg.chat_id_) then
-mute_spam = '✔️┇'
-else
 mute_spam = '✖️┇'
+else
+mute_spam = '✔️┇'
 end
 ------------
 if database:get('bot:gifs:warn'..msg.chat_id_) then
@@ -10276,7 +10260,7 @@ exp_dat = math.floor(ex / 86400) + 1
   send(msg.chat_id_, msg.id_, 1, TXT, 1, 'md')
    end
   -----------------------------------------------------------------------------------------------
-if text == 'change dev text' or text == 'تغير امر المطور بالكليشه' and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
+if (text and text == 'change dev text') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) or (text and text == 'تغير امر المطور بالكليشه') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
 if database:get('bot:lang:'..msg.chat_id_) then
 send(msg.chat_id_, msg.id_, 1, '<code» send the</code> <b>help</b>', 1, 'html')
 else
@@ -10297,7 +10281,7 @@ redis:set('text_sudo'..bot_id, text)
 send(msg.chat_id_, msg.id_, 1, text , 1, 'html')
   return false end
  end
-if text == 'del dev text' or text == 'مسح امر المطور بالكليشه' and tonumber(msg.sender_user_id_) == tonumber(sudo_add)  then
+if (text and text == 'del dev text') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) or (text and text == 'مسح امر المطور بالكليشه') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
  redis:del('text_sudo'..bot_id, text)
 if database:get('bot:lang:'..msg.chat_id_) then
 send(msg.chat_id_, msg.id_, 1, '<b>Deleted</b>', 1, 'html')
@@ -10784,6 +10768,15 @@ else
 end
 end
 
+	if text:match("^[Dd][Ee][Ll][Pp][Hh][Oo][Tt][Oo]$") or text:match("^مسح الصوره") and is_mod(msg.sender_user_id_, msg.chat_id_) then
+https.request('https://api.telegram.org/bot'..token..'/deleteChatPhoto?chat_id='..msg.chat_id_)
+if database:get('bot:lang:'..msg.chat_id_) then
+   send(msg.chat_id_, msg.id_, 1, '_Photo Group Deleted!_', 1, 'md')
+else
+   send(msg.chat_id_, msg.id_, 1, '🗑┇تم مسح الصوره', 1, 'md')
+end
+end
+
 local text = msg.content_.text_:gsub('وضع وصف','setabout')
        if text:match("^[Ss][Ee][Tt][Aa][Bb][Oo][Uu][Tt] (.*)$") and is_mod(msg.sender_user_id_, msg.chat_id_) then
        local text = {string.match(text, "^([Ss][Ee][Tt][Aa][Bb][Oo][Uu][Tt]) (.*)$")}
@@ -10868,15 +10861,20 @@ end
   -----------------------------------------------------------------------------------------------
   if text:match('^المده1 (-%d+)$') and is_sudo(msg) then
  local txt = {string.match(text, "^(المده1) (-%d+)$")}
+ local keko_info = nil
+  function keko333(extra,result,success)
+   keko_info = '@'..(result.username_ or 'لا يوجد')..''
  local timeplan1 = 2592000
  database:setex("bot:charge:"..txt[2],timeplan1,true)
 	   send(msg.chat_id_, msg.id_, 1, '☑┇المجموعه ('..txt[2]..') تم اعادة تفعيلها المدة 30 يوم', 1, 'md')
 	 send(txt[2], 0, 1, '☑┇تم تفعيل مدة المجموعه 30 يوم', 1, 'md')
 	   for k,v in pairs(sudo_users) do
- send(v, 0, 1, "🔘┇قام بتفعيل مجموعه المده كانت 30 يوم \n🎫┇ايدي المطور ~⪼ ("..msg.sender_user_id_..")\n📜┇معرف المطور ~⪼ ("..get_info(msg.sender_user_id_)..")\n🌐┇معلومات المجموعه \n\n🎫┇ايدي المجموعه ~⪼ ("..msg.chat_id_..")\nⓂ┇اسم المجموعه ~⪼ ("..chat.title_..")" , 1, 'md')
+ send(v, 0, 1, "🔘┇قام بتفعيل مجموعه المده كانت 30 يوم \n🎫┇ايدي المطور ~⪼ ("..msg.sender_user_id_..")\n📜┇معرف المطور ~⪼ "..keko_info.."\n🌐┇معلومات المجموعه \n\n🎫┇ايدي المجموعه ~⪼ ("..msg.chat_id_..")\nⓂ┇اسم المجموعه ~⪼ ("..chat.title_..")" , 1, 'md')
  end
 	   database:set("bot:enable:"..txt[2],true)
   end
+   getUser(msg.sender_user_id_, keko333)
+   end
   -----------------------------------------------------------------------------------------------
   if text:match('^[Pp][Ll][Aa][Nn]1 (-%d+)$') and is_sudo(msg) then
  local txt = {string.match(text, "^([Pp][Ll][Aa][Nn]1) (-%d+)$")}
@@ -10892,15 +10890,20 @@ end
   -----------------------------------------------------------------------------------------------
   if text:match('^المده2 (-%d+)$') and is_sudo(msg) then
  local txt = {string.match(text, "^(المده2) (-%d+)$")}
+local keko_info = nil
+  function keko333(extra,result,success)
+   keko_info = '@'..(result.username_ or 'لا يوجد')..''
  local timeplan2 = 7776000
  database:setex("bot:charge:"..txt[2],timeplan2,true)
 	   send(msg.chat_id_, msg.id_, 1, '☑┇المجموعه ('..txt[2]..') تم اعادة تفعيلها المدة 90 يوم', 1, 'md')
 	   send(txt[2], 0, 1, '☑┇تم تفعيل مدة المجموعه 90 يوم', 1, 'md')
 	   for k,v in pairs(sudo_users) do
- send(v, 0, 1, "🔘┇قام بتفعيل مجموعه المده كانت 90 يوم \n🎫┇ايدي المطور ~⪼ ("..msg.sender_user_id_..")\n📜┇معرف المطور ~⪼ ("..get_info(msg.sender_user_id_)..")\n🌐┇معلومات المجموعه \n\n🎫┇ايدي المجموعه ~⪼ ("..msg.chat_id_..")\nⓂ┇اسم المجموعه ~⪼ ("..chat.title_..")" , 1, 'md')
+ send(v, 0, 1, "🔘┇قام بتفعيل مجموعه المده كانت 90 يوم \n🎫┇ايدي المطور ~⪼ ("..msg.sender_user_id_..")\n📜┇معرف المطور ~⪼ "..keko_info.."\n🌐┇معلومات المجموعه \n\n🎫┇ايدي المجموعه ~⪼ ("..msg.chat_id_..")\nⓂ┇اسم المجموعه ~⪼ ("..chat.title_..")" , 1, 'md')
  end
 	   database:set("bot:enable:"..txt[2],true)
   end
+ getUser(msg.sender_user_id_, keko333)
+ end
 -------------------------------------------------------------------------------------------------
   if text:match('^[Pp][Ll][Aa][Nn]2 (-%d+)$') and is_sudo(msg) then
  local txt = {string.match(text, "^([Pp][Ll][Aa][Nn]2) (-%d+)$")}
@@ -10916,14 +10919,19 @@ end
   -----------------------------------------------------------------------------------------------
   if text:match('^المده3 (-%d+)$') and is_sudo(msg) then
  local txt = {string.match(text, "^(المده3) (-%d+)$")}
+local keko_info = nil
+  function keko333(extra,result,success)
+   keko_info = '@'..(result.username_ or 'لا يوجد')..''
  database:set("bot:charge:"..txt[2],true)
 	   send(msg.chat_id_, msg.id_, 1, '☑┇المجموعه ('..txt[2]..') تم اعادة تفعيلها المدة لا نهائية', 1, 'md')
 	   send(txt[2], 0, 1, '☑┇تم تفعيل مدة المجموعه لا نهائية', 1, 'md')
 	   for k,v in pairs(sudo_users) do
-send(v, 0, 1, "🔘┇قام بتفعيل مجموعه المده كانت لا نهائية \n🎫┇ايدي المطور ~⪼ ("..msg.sender_user_id_..")\n📜┇معرف المطور ~⪼ ("..get_info(msg.sender_user_id_)..")\n🌐┇معلومات المجموعه \n\n🎫┇ايدي المجموعه ~⪼ ("..msg.chat_id_..")\nⓂ┇اسم المجموعه ~⪼ ("..chat.title_..")" , 1, 'md')
+send(v, 0, 1, "🔘┇قام بتفعيل مجموعه المده كانت لا نهائية \n🎫┇ايدي المطور ~⪼ ("..msg.sender_user_id_..")\n📜┇معرف المطور ~⪼ "..keko_info.."\n🌐┇معلومات المجموعه \n\n🎫┇ايدي المجموعه ~⪼ ("..msg.chat_id_..")\nⓂ┇اسم المجموعه ~⪼ ("..chat.title_..")" , 1, 'md')
  end
 	   database:set("bot:enable:"..txt[2],true)
   end
+ getUser(msg.sender_user_id_, keko333)
+ end
   -----------------------------------------------------------------------------------------------
   if text:match('^[Pp][Ll][Aa][Nn]3 (-%d+)$') and is_sudo(msg) then
  local txt = {string.match(text, "^([Pp][Ll][Aa][Nn]3) (-%d+)$")}
@@ -10947,6 +10955,9 @@ if ress then
 return false end
 end
   local txt = {string.match(text, "^([Aa][Dd][Dd])$")}
+local keko_info = nil
+  function keko333(extra,result,success)
+   keko_info = '@'..(result.username_ or 'لا يوجد')..''
   if database:get("bot:charge:"..msg.chat_id_) then
 if database:get('bot:lang:'..msg.chat_id_) then
 send(msg.chat_id_, msg.id_, 1, '*Bot is already Added Group*', 1, 'md')
@@ -10965,16 +10976,21 @@ end
 if database:get('bot:lang:'..msg.chat_id_) then
 	send(v, 0, 1, "*> Your ID :* _"..msg.sender_user_id_.."_\n*> added bot to new group*" , 1, 'md')
 else
-send(v, 0, 1, "🔘┇قام بتفعيل مجموعه جديده \n🎫┇ايدي المطور ~⪼ ("..msg.sender_user_id_..")\n📜┇معرف المطور ~⪼ ("..get_info(msg.sender_user_id_)..")\n🌐┇معلومات المجموعه \n\n🎫┇ايدي المجموعه ~⪼ ("..msg.chat_id_..")\nⓂ┇اسم المجموعه ~⪼ ("..chat.title_..")" , 1, 'md')
+send(v, 0, 1, "🔘┇قام بتفعيل مجموعه جديده \n🎫┇ايدي المطور ~⪼ ("..msg.sender_user_id_..")\n📜┇معرف المطور ~⪼ "..keko_info.."\n🌐┇معلومات المجموعه \n\n🎫┇ايدي المجموعه ~⪼ ("..msg.chat_id_..")\nⓂ┇اسم المجموعه ~⪼ ("..chat.title_..")" , 1, 'md')
 end
  end
 	   database:set("bot:enable:"..msg.chat_id_,true)
   end
 end
+ getUser(msg.sender_user_id_, keko333)
+ end
   -----------------------------------------------------------------------------------------------
 local text = msg.content_.text_:gsub('تعطيل','rem')
   if text:match('^[Rr][Ee][Mm]$') and is_sudo(msg) then
  local txt = {string.match(text, "^([Rr][Ee][Mm])$")}
+local keko_info = nil
+  function keko333(extra,result,success)
+   keko_info = '@'..(result.username_ or 'لا يوجد')..''
 if not database:get("bot:charge:"..msg.chat_id_) then
 if database:get('bot:lang:'..msg.chat_id_) then
 send(msg.chat_id_, msg.id_, 1, '*Bot is already remove Group*', 1, 'md')
@@ -10993,12 +11009,13 @@ end
 if database:get('bot:lang:'..msg.chat_id_) then
 	send(v, 0, 1, "*> Your ID :* _"..msg.sender_user_id_.."_\n*> Removed bot from new group*" , 1, 'md')
 else
-send(v, 0, 1, "🔘┇قام بتعطيل مجموعه \n🎫┇ايدي المطور ~⪼ ("..msg.sender_user_id_..")\n📜┇معرف المطور ~⪼ ("..get_info(msg.sender_user_id_)..")\n🌐┇معلومات المجموعه \n\n🎫┇ايدي المجموعه ~⪼ ("..msg.chat_id_..")\nⓂ┇اسم المجموعه ~⪼ ("..chat.title_..")" , 1, 'md')
+send(v, 0, 1, "🔘┇قام بتعطيل مجموعه \n🎫┇ايدي المطور ~⪼ ("..msg.sender_user_id_..")\n📜┇معرف المطور ~⪼ "..keko_info.."\n🌐┇معلومات المجموعه \n\n🎫┇ايدي المجموعه ~⪼ ("..msg.chat_id_..")\nⓂ┇اسم المجموعه ~⪼ ("..chat.title_..")" , 1, 'md')
 end
  end
   end
   end
-
+ getUser(msg.sender_user_id_, keko333)
+ end
   -----------------------------------------------------------------------------------------------
 if text:match('^[Jj][Oo][Ii][Nn] (-%d+)') and is_sudo(msg) then
    local txt = {string.match(text, "^([Jj][Oo][Ii][Nn]) (-%d+)$")}
@@ -11079,8 +11096,7 @@ end
 end
 end
 ----------------------------------------------------------------------------------------------
-
-  if text == "enable reply bot" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "Enable Reply bot" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "تفعيل ردود البوت" and is_owner(msg.sender_user_id_, msg.chat_id_) then
+if (text and text == 'enable reply bot') and is_owner(msg.sender_user_id_, msg.chat_id_) or (text and text == 'Enable Reply Bot') and is_owner(msg.sender_user_id_, msg.chat_id_) or (text and text == 'تفعيل ردود البوت') and is_owner(msg.sender_user_id_, msg.chat_id_) then
   if not database:get('bot:rep:mute'..msg.chat_id_) then
   if database:get('bot:lang:'..msg.chat_id_) then
 send(msg.chat_id_, msg.id_, 1, '> *Replies bot is already enabled*️', 1, 'md')
@@ -11096,7 +11112,7 @@ send(msg.chat_id_, msg.id_, 1, '☑┇تم تفعيل ردود البوت', 1, '
 end
 end
 end
-  if text == "disable reply bot" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "Disable Reply bot" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "تعطيل ردود البوت" and is_owner(msg.sender_user_id_, msg.chat_id_) then
+if (text and text == 'disable reply bot') and is_owner(msg.sender_user_id_, msg.chat_id_) or (text and text == 'Disable Reply Bot') and is_owner(msg.sender_user_id_, msg.chat_id_) or (text and text == 'تعطيل ردود البوت') and is_owner(msg.sender_user_id_, msg.chat_id_) then
   if database:get('bot:rep:mute'..msg.chat_id_) then
   if database:get('bot:lang:'..msg.chat_id_) then
 send(msg.chat_id_, msg.id_, 1, '> *Replies bot is already disabled*️', 1, 'md')
@@ -11113,7 +11129,7 @@ end
 end
   end
 
-if text == "enable id photo" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "Enable id photo" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "تفعيل الايدي بالصوره" and is_owner(msg.sender_user_id_, msg.chat_id_) then
+if (text and text == 'enable id photo') and is_owner(msg.sender_user_id_, msg.chat_id_) or (text and text == 'Enable id photo') and is_owner(msg.sender_user_id_, msg.chat_id_) or (text and text == 'تفعيل الايدي بالصوره') and is_owner(msg.sender_user_id_, msg.chat_id_) then
 if not database:get('bot:id:photo'..msg.chat_id_) then
 if database:get('bot:lang:'..msg.chat_id_) then
   send(msg.chat_id_, msg.id_, 1, '> *id photo bot is already enabled*️', 1, 'md')
@@ -11129,7 +11145,7 @@ else
   end
 end
 end
-if text == "disable id photo" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "Disable id photo" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "تعطيل الايدي بالصوره" and is_owner(msg.sender_user_id_, msg.chat_id_) then
+if (text and text == 'disable id photo') and is_owner(msg.sender_user_id_, msg.chat_id_) or (text and text == 'Disable id photo') and is_owner(msg.sender_user_id_, msg.chat_id_) or (text and text == 'تعطيل الايدي بالصوره') and is_owner(msg.sender_user_id_, msg.chat_id_) then
 if database:get('bot:id:photo'..msg.chat_id_) then
 if database:get('bot:lang:'..msg.chat_id_) then
   send(msg.chat_id_, msg.id_, 1, '> *id photo bot is already disabled*️', 1, 'md')
@@ -11146,7 +11162,7 @@ database:set('bot:id:photo'..msg.chat_id_,true)
 end
 end
 
-if text == "enable bc" and tonumber(msg.sender_user_id_) == tonumber(sudo_add) or text == "Enable Bc" and tonumber(msg.sender_user_id_) == tonumber(sudo_add) or text == "تفعيل الاذاعه" and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
+if (text and text == 'enable bc') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) or (text and text == 'Enable Bc') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) or (text and text == 'تفعيل الاذاعه') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
 if not database:get('bot:bc:groups') then
 if database:get('bot:lang:'..msg.chat_id_) then
   send(msg.chat_id_, msg.id_, 1, '> *bc bot is already enabled*️', 1, 'md')
@@ -11162,7 +11178,7 @@ else
   end
 end
 end
-if text == "disable bc" and tonumber(msg.sender_user_id_) == tonumber(sudo_add) or text == "Disable Bc" and tonumber(msg.sender_user_id_) == tonumber(sudo_add) or text == "تعطيل الاذاعه" and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
+if (text and text == 'disable bc') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) or (text and text == 'Disable Bc') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) or (text and text == 'تعطيل الاذاعه') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
 if database:get('bot:bc:groups') then
 if database:get('bot:lang:'..msg.chat_id_) then
   send(msg.chat_id_, msg.id_, 1, '> *bc bot is already disabled*️', 1, 'md')
@@ -11178,8 +11194,7 @@ database:set('bot:bc:groups',true)
   end
 end
 end
-
-if text == "enable leave" and tonumber(msg.sender_user_id_) == tonumber(sudo_add) or text == "Enable Leave" and tonumber(msg.sender_user_id_) == tonumber(sudo_add) or text == "تفعيل المغادره" and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
+if (text and text == 'enable leave') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) or (text and text == 'Enable Leave') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) or (text and text == 'تفعيل المغادره') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
 if not database:get('bot:leave:groups') then
 if database:get('bot:lang:'..msg.chat_id_) then
   send(msg.chat_id_, msg.id_, 1, '> *leave bot is already enabled*️', 1, 'md')
@@ -11195,7 +11210,7 @@ else
   end
 end
 end
-if text == "disable leave" and tonumber(msg.sender_user_id_) == tonumber(sudo_add) or text == "Disable Leave" and tonumber(msg.sender_user_id_) == tonumber(sudo_add) or text == "تعطيل المغادره" and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
+if (text and text == 'disable leave') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) or (text and text == 'Disable Leave') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) or (text and text == 'تعطيل المغادره') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
 if database:get('bot:leave:groups') then
 if database:get('bot:lang:'..msg.chat_id_) then
   send(msg.chat_id_, msg.id_, 1, '> *leave bot is already disabled*️', 1, 'md')
@@ -11212,8 +11227,7 @@ database:set('bot:leave:groups'..msg.chat_id_,true)
 end
 end
 	-----------------------------------------------------------------------------------------------
-
-  if text == "enable reply sudo" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "Enable Reply sudo" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "تفعيل ردود المطور" and is_owner(msg.sender_user_id_, msg.chat_id_) then
+if (text and text == 'enable reply sudo') and is_owner(msg.sender_user_id_, msg.chat_id_)  or (text and text == 'Enable Reply sudo') and is_owner(msg.sender_user_id_, msg.chat_id_) or (text and text == 'تفعيل ردود المطور') and is_owner(msg.sender_user_id_, msg.chat_id_) then
   if not database:get('bot:repsudo:mute'..msg.chat_id_) then
   if database:get('bot:lang:'..msg.chat_id_) then
 send(msg.chat_id_, msg.id_, 1, '> *Replies sudo is already enabled*️', 1, 'md')
@@ -11229,7 +11243,7 @@ send(msg.chat_id_, msg.id_, 1, '☑┇تم تفعيل ردود المطور', 1,
 end
 end
 end
-  if text == "disable reply sudo" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "Disable Reply sudo" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "تعطيل ردود المطور" and is_owner(msg.sender_user_id_, msg.chat_id_) then
+if (text and text == 'disable reply sudo') and is_owner(msg.sender_user_id_, msg.chat_id_)  or (text and text == 'Disable Reply sudo') and is_owner(msg.sender_user_id_, msg.chat_id_) or (text and text == 'تعطيل ردود المطور') and is_owner(msg.sender_user_id_, msg.chat_id_) then
   if database:get('bot:repsudo:mute'..msg.chat_id_) then
   if database:get('bot:lang:'..msg.chat_id_) then
 send(msg.chat_id_, msg.id_, 1, '> *Replies sudo is already disabled*️', 1, 'md')
@@ -11245,8 +11259,7 @@ send(msg.chat_id_, msg.id_, 1, 'تم تعطيل ردود المطور', 1, 'md')
 end
 end
   end
-
-  if text == "enable reply owner" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "Enable Reply owner" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "تفعيل ردود المدير" and is_owner(msg.sender_user_id_, msg.chat_id_) then
+if (text and text == 'enable reply owner') and is_owner(msg.sender_user_id_, msg.chat_id_)  or (text and text == 'Enable Reply owner') and is_owner(msg.sender_user_id_, msg.chat_id_) or (text and text == 'تفعيل ردود المدير') and is_owner(msg.sender_user_id_, msg.chat_id_) then
   if not database:get('bot:repowner:mute'..msg.chat_id_) then
   if database:get('bot:lang:'..msg.chat_id_) then
 send(msg.chat_id_, msg.id_, 1, '> *Replies owner is already enabled*️', 1, 'md')
@@ -11262,7 +11275,7 @@ send(msg.chat_id_, msg.id_, 1, '☑┇تم تفعيل ردود المدير', 1,
 end
 end
 end
-  if text == "disable reply owner" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "Disable Reply owner" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "تعطيل ردود المدير" and is_owner(msg.sender_user_id_, msg.chat_id_) then
+if (text and text == 'disable reply owner') and is_owner(msg.sender_user_id_, msg.chat_id_)  or (text and text == 'Disable Reply owner') and is_owner(msg.sender_user_id_, msg.chat_id_) or (text and text == 'تعطيل ردود المدير') and is_owner(msg.sender_user_id_, msg.chat_id_) then
   if database:get('bot:repowner:mute'..msg.chat_id_) then
   if database:get('bot:lang:'..msg.chat_id_) then
 send(msg.chat_id_, msg.id_, 1, '> *Replies owner is already disabled*️', 1, 'md')
@@ -11283,7 +11296,7 @@ end
 send(msg.chat_id_, msg.id_, 1, "*"..msg.chat_id_.."*", 1, 'md')
   end
 	-----------------------------------------------------------------------------------------------
-  if text == "enable id" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "Enable id" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "تفعيل الايدي" and is_owner(msg.sender_user_id_, msg.chat_id_) then
+if (text and text == 'enable id') and is_owner(msg.sender_user_id_, msg.chat_id_)  or (text and text == 'Enable Id') and is_owner(msg.sender_user_id_, msg.chat_id_) or (text and text == 'تفعيل الايدي') and is_owner(msg.sender_user_id_, msg.chat_id_) then
   if not database:get('bot:id:mute'..msg.chat_id_) then
   if database:get('bot:lang:'..msg.chat_id_) then
 send(msg.chat_id_, msg.id_, 1, '> *ID is already enabled*️', 1, 'md')
@@ -11299,7 +11312,7 @@ send(msg.chat_id_, msg.id_, 1, '☑┇تم تفعيل الايدي', 1, 'md')
 end
 end
 end
-  if text == "disable id" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "Disable id" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "تعطيل الايدي" and is_owner(msg.sender_user_id_, msg.chat_id_) then
+if (text and text == 'disable id') and is_owner(msg.sender_user_id_, msg.chat_id_)  or (text and text == 'Disable Id') and is_owner(msg.sender_user_id_, msg.chat_id_) or (text and text == 'تعطيل الايدي') and is_owner(msg.sender_user_id_, msg.chat_id_) then
   if database:get('bot:id:mute'..msg.chat_id_) then
   if database:get('bot:lang:'..msg.chat_id_) then
 send(msg.chat_id_, msg.id_, 1, '> *ID is already disabled*️', 1, 'md')
@@ -11317,6 +11330,9 @@ end
   end
 	-----------------------------------------------------------------------------------------------
 if  text:match("^[Ii][Dd]$") and msg.reply_to_message_id_ == 0 or text:match("^ايدي$") and msg.reply_to_message_id_ == 0 then
+local keko_info = nil
+ function keko333(extra,result,success)
+  keko_info = '@'..(result.username_ or 'لا يوجد')..''
 local function getpro(extra, result, success)
 local user_msgs = database:get('user:msgs'..msg.chat_id_..':'..msg.sender_user_id_)
    if result.photos_[0] then
@@ -11361,9 +11377,9 @@ end
 if not database:get('bot:id:mute'..msg.chat_id_) then
   if not database:get('bot:id:photo'..msg.chat_id_) then
    if database:get('bot:lang:'..msg.chat_id_) then
-sendPhoto(msg.chat_id_, msg.id_, 0, 1, nil, result.photos_[0].sizes_[1].photo_.persistent_id_,"> Group ID : "..msg.chat_id_.."\n> Your ID : "..msg.sender_user_id_.."\n> UserName : "..get_info(msg.sender_user_id_).."\n> Your Rank : "..t.."\n> Msgs : "..user_msgs,msg.id_,msg.id_.."")
+sendPhoto(msg.chat_id_, msg.id_, 0, 1, nil, result.photos_[0].sizes_[1].photo_.persistent_id_,"> Group ID : "..msg.chat_id_.."\n> Your ID : "..msg.sender_user_id_.."\n> UserName : "..keko_info.."\n> Your Rank : "..t.."\n> Msgs : "..user_msgs,msg.id_,msg.id_.."")
 else
-  sendPhoto(msg.chat_id_, msg.id_, 0, 1, nil, result.photos_[0].sizes_[1].photo_.persistent_id_,"\n🎫┇ايديك ~⪼ ("..msg.sender_user_id_..")\n📜┇معرفك ~⪼ ( "..get_info(msg.sender_user_id_).." )\n📡┇موقعك ~⪼ "..t.."\n📨┇رسائلك ~⪼ {"..user_msgs.."}\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ",msg.id_,msg.id_.."")
+  sendPhoto(msg.chat_id_, msg.id_, 0, 1, nil, result.photos_[0].sizes_[1].photo_.persistent_id_,"\n🎫┇ايديك ~⪼ ("..msg.sender_user_id_..")\n📜┇معرفك ~⪼ "..keko_info.."\n📡┇موقعك ~⪼ "..t.."\n📨┇رسائلك ~⪼ {"..user_msgs.."}\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ",msg.id_,msg.id_.."")
    end
    else
 if is_sudo(msg) then
@@ -11404,9 +11420,9 @@ t = 'عضو فقط'
 end
 end
    if database:get('bot:lang:'..msg.chat_id_) then
-send(msg.chat_id_, msg.id_, 1, "<b>> Group ID :</b> "..msg.chat_id_.."\n<b>> Your ID :</b> "..msg.sender_user_id_.."\n<b>> UserName :</b> "..get_info(msg.sender_user_id_).."\n<b>> Your Rank :</b> "..t.."\n<b>> Msgs : </b><code>"..user_msgs.."</code>", 1, 'html')
+send(msg.chat_id_, msg.id_, 1, "<b>> Group ID :</b> "..msg.chat_id_.."\n<b>> Your ID :</b> "..msg.sender_user_id_.."\n<b>> UserName :</b> "..keko_info.."\n<b>> Your Rank :</b> "..t.."\n<b>> Msgs : </b><code>"..user_msgs.."</code>", 1, 'html')
    else
-send(msg.chat_id_, msg.id_, 1, "🎫┇ايديك ~⪼ ("..msg.sender_user_id_..")\n📜┇معرفك ~⪼ ( "..get_info(msg.sender_user_id_).." )\n📡┇موقعك ~⪼ "..t.."\n📨┇رسائلك ~⪼ <b>{"..user_msgs.."}</b>\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉", 1, 'html')
+send(msg.chat_id_, msg.id_, 1, "🎫┇ايديك ~⪼ ("..msg.sender_user_id_..")\n📜┇معرفك ~⪼ "..keko_info.."\n📡┇موقعك ~⪼ "..t.."\n📨┇رسائلك ~⪼ <b>{"..user_msgs.."}</b>\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉", 1, 'html')
 end
 end
 else
@@ -11457,9 +11473,9 @@ end
    if not database:get('bot:id:mute'..msg.chat_id_) then
    if not database:get('bot:id:photo'..msg.chat_id_) then
 if database:get('bot:lang:'..msg.chat_id_) then
-send(msg.chat_id_, msg.id_, 1, "You Have'nt Profile Photo!!\n\n> <b>> Group ID :</b> "..msg.chat_id_.."\n<b>> Your ID :</b> "..msg.sender_user_id_.."\n<b>> UserName :</b> "..get_info(msg.sender_user_id_).."\n<b>> Your Rank :</b> "..t.."\n<b>> Msgs : </b><code>"..user_msgs.."</code>", 1, 'html')
+send(msg.chat_id_, msg.id_, 1, "You Have'nt Profile Photo!!\n\n> <b>> Group ID :</b> "..msg.chat_id_.."\n<b>> Your ID :</b> "..msg.sender_user_id_.."\n<b>> UserName :</b> "..keko_info.."\n<b>> Your Rank :</b> "..t.."\n<b>> Msgs : </b><code>"..user_msgs.."</code>", 1, 'html')
    else
-send(msg.chat_id_, msg.id_, 1, "❕┇انت لا تملك صوره لحسابك\n🎫┇ايديك ~⪼ ("..msg.sender_user_id_..")\n📜┇معرفك ~⪼ ( "..get_info(msg.sender_user_id_).." )\n📡┇موقعك ~⪼ "..t.."\n📨┇رسائلك ~⪼ <b>{"..user_msgs.."}</b> \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ", 1, 'html')
+send(msg.chat_id_, msg.id_, 1, "❕┇انت لا تملك صوره لحسابك\n🎫┇ايديك ~⪼ ("..msg.sender_user_id_..")\n📜┇معرفك ~⪼ "..keko_info.."\n📡┇موقعك ~⪼ "..t.."\n📨┇رسائلك ~⪼ <b>{"..user_msgs.."}</b> \n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ", 1, 'html')
 end
 else
 if is_sudo(msg) then
@@ -11500,9 +11516,9 @@ t = 'عضو فقط'
 end
 end
 if database:get('bot:lang:'..msg.chat_id_) then
-send(msg.chat_id_, msg.id_, 1, "<b>> Group ID :</b> "..msg.chat_id_.."\n<b>> Your ID :</b> "..msg.sender_user_id_.."\n<b>> UserName :</b> "..get_info(msg.sender_user_id_).."\n<b>> Your Rank :</b> "..t.."\n<b>> Msgs : </b><code>"..user_msgs.."</code>", 1, 'html')
+send(msg.chat_id_, msg.id_, 1, "<b>> Group ID :</b> "..msg.chat_id_.."\n<b>> Your ID :</b> "..msg.sender_user_id_.."\n<b>> UserName :</b> "..keko_info.."\n<b>> Your Rank :</b> "..t.."\n<b>> Msgs : </b><code>"..user_msgs.."</code>", 1, 'html')
    else
-send(msg.chat_id_, msg.id_, 1, "🎫┇ايديك ~⪼ ("..msg.sender_user_id_..")\n📜┇معرفك ~⪼ ( "..get_info(msg.sender_user_id_).." )\n📡┇موقعك ~⪼ "..t.."\n📨┇رسائلك ~⪼ <b>{"..user_msgs.."}</b>\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉", 1, 'html')
+send(msg.chat_id_, msg.id_, 1, "🎫┇ايديك ~⪼ ("..msg.sender_user_id_..")\n📜┇معرفك ~⪼ "..keko_info.."\n📡┇موقعك ~⪼ "..t.."\n📨┇رسائلك ~⪼ <b>{"..user_msgs.."}</b>\n┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉", 1, 'html')
 end
 end
 else
@@ -11520,6 +11536,8 @@ user_id_ = msg.sender_user_id_,
 offset_ = 0,
 limit_ = 1
   }, getpro, nil)
+end
+getUser(msg.sender_user_id_, keko333)
 end
 
 
@@ -11552,7 +11570,7 @@ end
 getUser(memb[2],whois)
 end
    -----------------------------------------------------------------------------------------------
-   if text == "enable pin" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "Enable id" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "تفعيل التثبيت" and is_owner(msg.sender_user_id_, msg.chat_id_) then
+if (text and text == 'enable pin') and is_owner(msg.sender_user_id_, msg.chat_id_)  or (text and text == 'Enable Pin') and is_owner(msg.sender_user_id_, msg.chat_id_) or (text and text == 'تفعيل التثبيت') and is_owner(msg.sender_user_id_, msg.chat_id_) then
    if not database:get('bot:pin:mute'..msg.chat_id_) then
    if database:get('bot:lang:'..msg.chat_id_) then
  send(msg.chat_id_, msg.id_, 1, '> *Pin is already enabled*️', 1, 'md')
@@ -11568,7 +11586,7 @@ end
  end
  end
  end
-   if text == "disable id" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "Disable id" and is_owner(msg.sender_user_id_, msg.chat_id_) or text == "تعطيل التثبيت" and is_owner(msg.sender_user_id_, msg.chat_id_) then
+ if (text and text == 'disable pin') and is_owner(msg.sender_user_id_, msg.chat_id_)  or (text and text == 'disable Pin') and is_owner(msg.sender_user_id_, msg.chat_id_) or (text and text == 'تفعيل التثبيت') and is_owner(msg.sender_user_id_, msg.chat_id_) then
    if database:get('bot:pin:mute'..msg.chat_id_) then
    if database:get('bot:lang:'..msg.chat_id_) then
  send(msg.chat_id_, msg.id_, 1, '> *Pin is already disabled*️', 1, 'md')
@@ -11830,6 +11848,7 @@ send(msg.chat_id_, msg.id_, 1, text, 1, 'md')
 *| link |* `اظهار الرابط`
 *| rules |* `اظهار القوانين`
 *| bots |* `اظهار البوتات`
+*| delphoto |* `مسح صوره المجموعه`
 *======================*
 *| bad |* `منع كلمه`
 *| unbad |* `الغاء منع كلمه`
@@ -11973,8 +11992,7 @@ send(msg.chat_id_, msg.id_, 1, text, 1, 'md')
 ]]
 send(msg.chat_id_, msg.id_, 1, text, 1, 'md')
    end
-
-if text == 'استعاده الاوامر' and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
+if (text and text == 'استعاده الاوامر') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
 redis:del('help'..bot_id, text)
 redis:del('h1'..bot_id, text)
 redis:del('h2'..bot_id, text)
@@ -11988,8 +12006,7 @@ else
  send(msg.chat_id_, msg.id_, 1, '☑️┇تم استعاده جميع كلايش الاوامر', 1, 'html')
   end
   end
-
-if text == 'تغير امر الاوامر' and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
+if (text and text == 'تغير امر الاوامر') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
 if database:get('bot:lang:'..msg.chat_id_) then
 send(msg.chat_id_, msg.id_, 1, '<code» send the</code> <b>help</b>', 1, 'html')
 else
@@ -12032,7 +12049,7 @@ local help = redis:get('help'..bot_id)
 send(msg.chat_id_, msg.id_, 1, (help or text), 1, 'md')
    end
 
-if text == 'تغير امر م1' and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
+if (text and text == 'تغير امر م1') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
 if database:get('bot:lang:'..msg.chat_id_) then
 send(msg.chat_id_, msg.id_, 1, '<code» send the</code> <b>help</b>', 1, 'html')
 else
@@ -12098,8 +12115,7 @@ local h1 = redis:get('h1'..bot_id)
 ]]
 send(msg.chat_id_, msg.id_, 1, (h1 or text), 1, 'md')
    end
-
-if text == 'تغير امر م2' and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
+if (text and text == 'تغير امر م2') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
  if database:get('bot:lang:'..msg.chat_id_) then
  send(msg.chat_id_, msg.id_, 1, '<code» send the</code> <b>help</b>', 1, 'html')
  else
@@ -12157,7 +12173,7 @@ if text == 'تغير امر م2' and tonumber(msg.sender_user_id_) == tonumber(s
 ]]
 send(msg.chat_id_, msg.id_, 1, (h2 or text), 1, 'md')
    end
-if text == 'تغير امر م3' and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
+if (text and text == 'تغير امر م3') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
  if database:get('bot:lang:'..msg.chat_id_) then
  send(msg.chat_id_, msg.id_, 1, '<code» send the</code> <b>help</b>', 1, 'html')
  else
@@ -12212,7 +12228,7 @@ local h3 = redis:get('h3'..bot_id)
 ]]
 send(msg.chat_id_, msg.id_, 1, (h3 or text), 1, 'md')
    end
-if text == 'تغير امر م4' and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
+if (text and text == 'تغير امر م4') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
   if database:get('bot:lang:'..msg.chat_id_) then
   send(msg.chat_id_, msg.id_, 1, '<code» send the</code> <b>help</b>', 1, 'html')
   else
@@ -12284,11 +12300,12 @@ local text =  [[
 🔇┇المكتومين
 🤖┇البوتات
 📝┇القوانين
+📝┇الصوره
 ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉
 ]]
 send(msg.chat_id_, msg.id_, 1, (h4 or text), 1, 'html')
    end
-if text == 'تغير امر م5' and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
+if (text and text == 'تغير امر م5') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
   if database:get('bot:lang:'..msg.chat_id_) then
   send(msg.chat_id_, msg.id_, 1, '<code» send the</code> <b>help</b>', 1, 'html')
   else
@@ -12369,7 +12386,7 @@ local h5 = redis:get('h5'..bot_id)
 ]]
 send(msg.chat_id_, msg.id_, 1, (h5 or text), 1, 'html')
    end
-if text == 'تغير امر م6' and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
+if (text and text == 'تغير امر م6') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
   if database:get('bot:lang:'..msg.chat_id_) then
   send(msg.chat_id_, msg.id_, 1, '<code» send the</code> <b>help</b>', 1, 'html')
   else
