@@ -1505,16 +1505,11 @@ database:incr('user:msgs'..msg.chat_id_..':'..msg.sender_user_id_)
 	database:incr('group:msgs'..msg.chat_id_)
 if msg.content_.ID == "MessagePinMessage" then
   if database:get('pinnedmsg'..msg.chat_id_) and database:get('bot:pin:warn'..msg.chat_id_) then
-local keko_info = nil
- function keko333(extra,result,success)
-  keko_info = '@'..(result.username_ or 'لا يوجد')..''
-   send(msg.chat_id_, msg.id_, 1, "🎫┇الايدي ~⪼ ("..msg.sender_user_id_..") \n📌┇المعرف ~⪼ "..keko_info.."\n❕┇التثبيت مقفول لا تستطيع التثبيت حاليا️\n", 1, 'md')
+   send(msg.chat_id_, msg.id_, 1, "🎫┇الايدي ~⪼ ("..msg.sender_user_id_..")\n❕┇التثبيت مقفول لا تستطيع التثبيت حاليا️\n", 1, 'md')
    unpinmsg(msg.chat_id_)
    local pin_id = database:get('pinnedmsg'..msg.chat_id_)
    pin(msg.chat_id_,pin_id,0)
    end
-end
-getUser(msg.sender_user_id_, keko333)
 end
 if database:get('bot:viewget'..msg.sender_user_id_) then
 if not msg.forward_info_ then
