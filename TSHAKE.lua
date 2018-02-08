@@ -11581,7 +11581,7 @@ if (text and text == 'enable pin') and is_owner(msg.sender_user_id_, msg.chat_id
  end
  end
  end
- if (text and text == 'disable pin') and is_owner(msg.sender_user_id_, msg.chat_id_)  or (text and text == 'disable Pin') and is_owner(msg.sender_user_id_, msg.chat_id_) or (text and text == 'تفعيل التثبيت') and is_owner(msg.sender_user_id_, msg.chat_id_) then
+ if (text and text == 'disable pin') and is_owner(msg.sender_user_id_, msg.chat_id_)  or (text and text == 'disable Pin') and is_owner(msg.sender_user_id_, msg.chat_id_) or (text and text == 'تعطيل التثبيت') and is_owner(msg.sender_user_id_, msg.chat_id_) then
    if database:get('bot:pin:mute'..msg.chat_id_) then
    if database:get('bot:lang:'..msg.chat_id_) then
  send(msg.chat_id_, msg.id_, 1, '> *Pin is already disabled*️', 1, 'md')
