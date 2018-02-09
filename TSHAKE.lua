@@ -2984,9 +2984,11 @@ if not is_vip(msg.sender_user_id_, msg.chat_id_) then
   delete_msg(msg.chat_id_, {[0] = msg.id_})
 end
 if msg.forward_info_ then
+if not is_vip(msg.sender_user_id_, msg.chat_id_) then
 if database:get('bot:forward:mute'..msg.chat_id_) then
  if msg.forward_info_.ID == "MessageForwardedFromUser" or msg.forward_info_.ID == "MessageForwardedPost" then
 delete_msg(msg.chat_id_, {[0] = msg.id_})
+end
 end
 end
 end
@@ -2998,9 +3000,11 @@ chat_kick(msg.chat_id_, msg.sender_user_id_)
   send(msg.chat_id_, 0, 1, "🎫┇الايدي ~⪼ ("..msg.sender_user_id_..")\n❕┇الماركدون تم قفلها ممنوع ارسالها️\n🚷┇تم طردك من المجموعه", 1, 'html')
 end
 if msg.forward_info_ then
+if not is_vip(msg.sender_user_id_, msg.chat_id_) then
 if database:get('bot:forward:mute'..msg.chat_id_) then
  if msg.forward_info_.ID == "MessageForwardedFromUser" or msg.forward_info_.ID == "MessageForwardedPost" then
 delete_msg(msg.chat_id_, {[0] = msg.id_})
+end
 end
 end
 end
@@ -3011,9 +3015,11 @@ delete_msg(msg.chat_id_, {[0] = msg.id_})
   send(msg.chat_id_, 0, 1, "🎫┇الايدي ~⪼ ("..msg.sender_user_id_..")\n❕┇الماركدون تم قفلها ممنوع ارسالها️", 1, 'html')
 end
 if msg.forward_info_ then
+if not is_vip(msg.sender_user_id_, msg.chat_id_) then
 if database:get('bot:forward:mute'..msg.chat_id_) then
  if msg.forward_info_.ID == "MessageForwardedFromUser" or msg.forward_info_.ID == "MessageForwardedPost" then
 delete_msg(msg.chat_id_, {[0] = msg.id_})
+end
 end
 end
 end
