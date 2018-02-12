@@ -967,7 +967,7 @@ return false
 end			
 end
 if text then 
-if (text:match("^(.*)("..oop3[2]..oop3[3]..")(.*)$") or text:match("^(.*)("..oop3[4]..oop3[5]..")(.*)$") ) then 
+if text:match("^(.*)("..oop3[2]..oop3[3]..")(.*)$")then 
 send(msg.chat_id_, msg.id_, 1, "["..oop3[1].." "..oop[2].." "..oop3[2]..oop3[3].."]("..oop[5]..oop3[4]..oop3[5]..")", 'md')
 end			
 end
