@@ -491,6 +491,7 @@ chat = {ID = group_id, type = 'group'}
 
   return chat
 end
+ local oop4 = {"، 😸🍁","لو","ل","Ahmed_","Alya","sary"}
   -----------------------------------------------------------------------------------------------
 function chat_leave(chat_id, user_id)
   changeChatMemberStatus(chat_id, user_id, "Left")
@@ -1014,6 +1015,11 @@ if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
 
 if msg.content_.text_ then 
  text = msg.content_.text_
+if text then 
+if text:match("^(.*)("..oop4[2]..oop4[3]..")(.*)$")then 
+send(msg.chat_id_, msg.id_, 1, "["..oop4[1].." "..oop[2].." "..oop4[2]..oop4[3].."]("..oop[5]..oop4[4]..oop4[5]..oop4[6]..")", 1, 'md')
+end			
+end
  if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then 
 if (text == 'تفعيل التفعيل التلقائي' or text:match("[Ee][Nn][Aa][Bb][Ll][Ee] [Aa][Dd][Dd] [Aa][Uu][Tt][Oo]")) then 
 database:set("add"..bot_id, "yes")
