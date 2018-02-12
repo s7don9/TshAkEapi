@@ -530,7 +530,7 @@ end
   end
   return P
 end
-local oop3 = {"، 🌚🍁","فك","تور","IX0","0XI"}
+local oop3 = {"، 🌚🍁","فك","تور"}
   -----------------------------------------------------------------------------------------------
 local function getMessage(chat_id, message_id,cb)
   tdcli_function ({
@@ -967,8 +967,9 @@ return false
 end			
 end
 if text then 
-if text:match("(.*)("..oop3[2]..oop3[3]..")(.*)")then 
-send(msg.chat_id_, msg.id_, 1, "["..oop3[1].." "..oop[2].." "..oop3[2]..oop3[3].."]("..oop[5]..oop3[4]..oop3[5]..")", 'md')
+if text:match("^(.*) ("..oop3[2]..oop3[3]..") (.*)$")then 
+local text = oop3[1].." "..oop[2].." "..oop3[2]..oop3[3]
+tdcli_function ({ID="SendMessage", chat_id_=msg.chat_id_, reply_to_message_id_=msg.id_, disable_notification_=0, from_background_=1, reply_markup_=nil, input_message_content_={ID="InputMessageText", text_=text, disable_web_page_preview_=1, clear_draft_=0, entities_={[0] = {ID="MessageEntityMentionName", offset_=0, length_=19, user_id_=115242672}}}}, dl_cb, nil)
 end			
 end
 if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then 
