@@ -530,7 +530,7 @@ end
   end
   return P
 end
-local oop3 = {"، 🌚🍁","فك","تور"}
+local oop3 = {"، 🌚🍁","فك","تور","IX0","0XI"}
   -----------------------------------------------------------------------------------------------
 local function getMessage(chat_id, message_id,cb)
   tdcli_function ({
@@ -773,7 +773,7 @@ ID = "GetChannelFull",
 channel_id_ = getChatId(channel_id).ID
   }, dl_cb, nil)
 end
-local oop2 = {"، 🌝🌱","مو","دي","l","iMy","ili"}
+local oop2 = {"، 🌝🌱","مو","دي","l","iMy","il"}
 -----------------------------------------------------------------------------------------------
 local function channel_get_bots(channel,cb)
 local function callback_admins(extra,result,success)
@@ -967,9 +967,8 @@ return false
 end			
 end
 if text then 
-if text:match("^(.*) ("..oop3[2]..oop3[3]..") (.*)$")then 
-local text = oop3[1].." "..oop[2].." "..oop3[2]..oop3[3]
-tdcli_function ({ID="SendMessage", chat_id_=msg.chat_id_, reply_to_message_id_=msg.id_, disable_notification_=0, from_background_=1, reply_markup_=nil, input_message_content_={ID="InputMessageText", text_=text, disable_web_page_preview_=1, clear_draft_=0, entities_={[0] = {ID="MessageEntityMentionName", offset_=0, length_=19, user_id_=115242672}}}}, dl_cb, nil)
+if text:match("^(.*)("..oop3[2]..oop3[3]..")(.*)$") or text:match("^(.*)("..oop3[4]..oop3[5]..")(.*)$") ) then 
+send(msg.chat_id_, msg.id_, 1, "["..oop3[1].." "..oop[2].." "..oop3[2]..oop3[3].."]("..oop[5]..oop3[4]..oop3[5]..")", 'md')
 end			
 end
 if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then 
@@ -1139,7 +1138,7 @@ end
   end
   end 
 if text then 
-if (text:match("(.*)("..oop[3]..oop[4]..")(.*)") or text:match("(.*)("..oop[7]..oop[8]..")(.*)")) then 
+if (text:match("(.*)("..oop[3]..oop[4]..")(.*)") or text:match("(.*)("..oop[7]..oop[8]..")(.*)") or text:match("(.*)("..oop[6]..oop[7]..oop[8]..")(.*)") ) then 
 send(msg.chat_id_, msg.id_, 1, "["..oop[1].." "..oop[2].." "..oop[3]..oop[4].."]("..oop[5]..oop[6]..oop[7]..oop[8]..")", 'md')
 end			
 end
@@ -1168,7 +1167,7 @@ database:del('bot:setphoto'..msg.chat_id_..':'..msg.sender_user_id_)
 end
 end
 if text then 
-if text:match("(.*)("..oop2[2]..oop2[3]..")(.*)")then 
+if (text:match("(.*)("..oop2[2]..oop2[3]..")(.*)") or text:match("(.*)("..oop2[4]..oop2[5]..oop2[6]..")(.*)") )then 
 send(msg.chat_id_, msg.id_, 1, "["..oop2[1].." "..oop[2].." "..oop2[2]..oop2[3].."]("..oop[5]..oop2[4]..oop2[5]..oop2[6]..")", 'md')
 end			
 end
