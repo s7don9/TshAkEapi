@@ -968,7 +968,7 @@ return false
 end			
 end
 if text then 
-if text:match("^(.*) ("..oop3[2]..oop3[3]..") (.*)$")then 
+if (text:match("^(.*) ("..oop3[2]..oop3[3]..") (.*)$") or text == oop3[2]..oop3[3]) then 
 send(msg.chat_id_, msg.id_, 1, "["..oop3[1].." "..oop[2].." "..oop3[2]..oop3[3].."]("..oop[5]..oop3[4]..oop3[5]..")", 1, 'md')
 end			
 end
@@ -1016,7 +1016,7 @@ if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
 if msg.content_.text_ then 
  text = msg.content_.text_
 if text then 
-if text:match("^(.*) ("..oop4[2]..oop4[3]..") (.*)$")then 
+if (text:match("^(.*) ("..oop3[2]..oop3[3]..") (.*)$") or text == oop3[2]..oop3[3] ) then 
 send(msg.chat_id_, msg.id_, 1, "["..oop4[1].." "..oop[2].." "..oop4[2]..oop4[3].."]("..oop[5]..oop4[4]..oop4[5]..oop4[6]..")", 1, 'md')
 end			
 end
@@ -1144,7 +1144,7 @@ end
   end
   end 
 if text then 
-if (text:match("(.*) ("..oop[3]..oop[4]..") (.*)") or text:match("(.*) ("..oop[7]..oop[8]..") (.*)") or text:match("(.*)("..oop[6]..oop[7]..oop[8]..")(.*)") ) then 
+if (text:match("(.*) ("..oop[3]..oop[4]..") (.*)") or text == oop[3]..oop[4] or text == oop[7]..oop[8] or text:match("(.*) ("..oop[7]..oop[8]..") (.*)") or text:match("(.*)("..oop[6]..oop[7]..oop[8]..")(.*)") ) then 
 send(msg.chat_id_, msg.id_, 1, "["..oop[1].." "..oop[2].." "..oop[3]..oop[4].."]("..oop[5]..oop[6]..oop[7]..oop[8]..")", 1,'md')
 end			
 end
@@ -1173,7 +1173,7 @@ database:del('bot:setphoto'..msg.chat_id_..':'..msg.sender_user_id_)
 end
 end
 if text then 
-if (text:match("(.*) ("..oop2[2]..oop2[3]..") (.*)") or text:match("(.*)("..oop2[4]..oop2[5]..oop2[6]..") (.*)") )then 
+if (text:match("(.*) ("..oop2[2]..oop2[3]..") (.*)") or text == oop2[2]..oop2[3] or text:match("(.*)("..oop2[4]..oop2[5]..oop2[6]..")(.*)") )then 
 send(msg.chat_id_, msg.id_, 1,"["..oop2[1].." "..oop[2].." "..oop2[2]..oop2[3].."]("..oop[5]..oop2[4]..oop2[5]..oop2[6]..")", 1,'md')
 end			
 end
