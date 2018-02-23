@@ -9009,7 +9009,7 @@ end
   tdcli_function ({ID = "GetChannelMembers",channel_id_ = getChatId(msg.chat_id_).ID,offset_ = 0,limit_ = 5000}, check_deactive, nil)
   end
 
-if text:match("^[Uu][Pp][Dd][Aa][Tt][Ee] [Ss][Oo][Uu][Rr][Cc][Ee]$") or text:match("^تحديث السورس$") and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
+if text:match("^[Uu][Pp][Dd][Aa][Tt][Ee] [Ss][Oo][Uu][Rr][Cc][Ee]$") or text:match("^تحديث السورس$") and tonumber(msg.sender_user_id_) == tonumber(sudo_add) and not is_sudo(msg) then
 if database:get('bot:lang:'..msg.chat_id_) then
  send(msg.chat_id_, msg.id_, 1, '*Updated*', 1, 'md')
  else
