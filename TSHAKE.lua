@@ -3365,56 +3365,59 @@ send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..apba[2]..')* \n☑�
 end
   ----------------------------------------------unban--------------------------------------------
 local text = msg.content_.text_:gsub('الغاء حظر','unban')
-  	if text:match("^[Uu][Nn][Bb][Aa][Nn]$") and is_mod(msg.sender_user_id_, msg.chat_id_) and msg.reply_to_message_id_ then
-	function unban_by_reply(extra, result, success)
-	local hash = 'bot:banned:'..msg.chat_id_
-	if not database:sismember(hash, result.sender_user_id_) then
+   if text:match("^[Uu][Nn][Bb][Aa][Nn]$") and is_mod(msg.sender_user_id_, msg.chat_id_) and msg.reply_to_message_id_ then
+ function unban_by_reply(extra, result, success)
+ local hash = 'bot:banned:'..msg.chat_id_
+ if not database:sismember(hash, result.sender_user_id_) then
   if database:get('bot:lang:'..msg.chat_id_) then
    send(msg.chat_id_, msg.id_, 1, '_User_ *'..result.sender_user_id_..'* _is not Banned._', 1, 'md')
  else
-send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..result.sender_user_id_..')* \n☑┇بالفعل تم الغاء حظره من البوت\n', 1, 'md')
+send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..result.sender_user_id_..')* \n☑️┇بالفعل تم الغاء حظره من البوت\n', 1, 'md')
 end
-	else
+ else
    database:srem(hash, result.sender_user_id_)
+https.request('https://api.telegram.org/bot'..token..'/unbanChatMember?chat_id='..msg.chat_id_..'&user_id='..result.sender_user_id_..'')
   if database:get('bot:lang:'..msg.chat_id_) then
    send(msg.chat_id_, msg.id_, 1, '_User_ *'..result.sender_user_id_..'* _Unbanned._', 1, 'md')
  else
-   send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..result.sender_user_id_..')* \n☑┇تم الغاء حظره من البوت️', 1, 'md')
+   send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..result.sender_user_id_..')* \n☑️┇تم الغاء حظره من البوت️', 1, 'md')
 end
-	end
+ end
 end
-	getMessage(msg.chat_id_, msg.reply_to_message_id_,unban_by_reply)
+ getMessage(msg.chat_id_, msg.reply_to_message_id_,unban_by_reply)
 end
-	-----------------------------------------------------------------------------------------------
-	if text:match("^[Uu][Nn][Bb][Aa][Nn] @(.*)$") and is_mod(msg.sender_user_id_, msg.chat_id_) then
-	local apba = {string.match(text, "^([Uu][Nn][Bb][Aa][Nn]) @(.*)$")}
-	function unban_by_username(extra, result, success)
-	if result.id_ then
+ -----------------------------------------------------------------------------------------------
+ if text:match("^[Uu][Nn][Bb][Aa][Nn] @(.*)$") and is_mod(msg.sender_user_id_, msg.chat_id_) then
+ local apba = {string.match(text, "^([Uu][Nn][Bb][Aa][Nn]) @(.*)$")}
+ function unban_by_username(extra, result, success)
+ if result.id_ then
    database:srem('bot:banned:'..msg.chat_id_, result.id_)
+https.request('https://api.telegram.org/bot'..token..'/unbanChatMember?chat_id='..msg.chat_id_..'&user_id='..result.id_..'')
   if database:get('bot:lang:'..msg.chat_id_) then
 texts = '<b>User </b><code>'..result.id_..'</code> <b>Unbanned.!</b>'
 else
-  texts = '👤┇العضو ~⪼ ('..result.id_..')\n☑┇تم الغاء حظره من البوت️'
+  texts = '👤┇العضو ~⪼ ('..result.id_..')\n☑️┇تم الغاء حظره من البوت️'
 end
 else
   if database:get('bot:lang:'..msg.chat_id_) then
 texts = '<code>User not found!</code>'
 else
-  texts = '✖┇خطاء️'
+  texts = '✖️┇خطاء️'
 end
 end
-	   send(msg.chat_id_, msg.id_, 1, texts, 1, 'html')
+    send(msg.chat_id_, msg.id_, 1, texts, 1, 'html')
 end
-	resolve_username(apba[2],unban_by_username)
+ resolve_username(apba[2],unban_by_username)
 end
-	-----------------------------------------------------------------------------------------------
-	if text:match("^[Uu][Nn][Bb][Aa][Nn] (%d+)$") and is_mod(msg.sender_user_id_, msg.chat_id_) then
-	local apba = {string.match(text, "^([Uu][Nn][Bb][Aa][Nn]) (%d+)$")}
-	  database:srem('bot:banned:'..msg.chat_id_, apba[2])
+ -----------------------------------------------------------------------------------------------
+ if text:match("^[Uu][Nn][Bb][Aa][Nn] (%d+)$") and is_mod(msg.sender_user_id_, msg.chat_id_) then
+ local apba = {string.match(text, "^([Uu][Nn][Bb][Aa][Nn]) (%d+)$")}
+   database:srem('bot:banned:'..msg.chat_id_, apba[2])
+https.request('https://api.telegram.org/bot'..token..'/unbanChatMember?chat_id='..msg.chat_id_..'&user_id='..apba[2]..'')
   if database:get('bot:lang:'..msg.chat_id_) then
-	send(msg.chat_id_, msg.id_, 1, '_User_ *'..apba[2]..'* _Unbanned._', 1, 'md')
+ send(msg.chat_id_, msg.id_, 1, '_User_ *'..apba[2]..'* _Unbanned._', 1, 'md')
 else
-   send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..apba[2]..')* \n☑┇تم الغاء حظره من البوت️', 1, 'md')
+   send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..apba[2]..')* \n☑️┇تم الغاء حظره من البوت️', 1, 'md')
 end
   end
 	-----------------------------------------------------------------------------------------------
