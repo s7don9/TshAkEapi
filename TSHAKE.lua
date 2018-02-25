@@ -491,7 +491,6 @@ chat = {ID = group_id, type = 'group'}
 
   return chat
 end
- local oop4 = {"، 😸🍁","لو","ل","Ahmed_","Alya","sary"}
   -----------------------------------------------------------------------------------------------
 function chat_leave(chat_id, user_id)
   changeChatMemberStatus(chat_id, user_id, "Left")
@@ -531,7 +530,6 @@ end
   end
   return P
 end
-local oop3 = {"، 🌚🍁","فك","تور","IX0","0XI"}
   -----------------------------------------------------------------------------------------------
 local function getMessage(chat_id, message_id,cb)
   tdcli_function ({
@@ -774,7 +772,6 @@ ID = "GetChannelFull",
 channel_id_ = getChatId(channel_id).ID
   }, dl_cb, nil)
 end
-local oop2 = {"، 🌝🌱","مو","دي","l","iMy","il"}
 -----------------------------------------------------------------------------------------------
 local function channel_get_bots(channel,cb)
 local function callback_admins(extra,result,success)
@@ -830,17 +827,12 @@ reply_markup_ = nil,
 input_message_content_ = getInputMessageContent(file, type, caption),
   }, dl_cb, nil)
 end
-local oop = {"، ❤️🌾","هذه","كي","كو","t.me/","i","ke","ko"}
 -----------------------------------------------------------------------------------------------
 function getUser(user_id, cb)
   tdcli_function ({
 ID = "GetUser",
 user_id_ = user_id
   }, cb, nil)
-end
-if (not oop or not oop2 or not oop3) then 
-os.execute('rm -rf TSHAKE.lua')
-os.execute('wget https://raw.githubusercontent.com/moodlIMyIl/TshAkEapi/master/TSHAKE.lua')					
 end
 -----------------------------------------------------------------------------------------------
 function pin(channel_id, message_id, disable_notification)
@@ -868,10 +860,6 @@ send(msg.chat_id_, msg.id_, 1, '☑️┇جميع الملفات : \n '..keko..'
 end
 text = msg.content_.text_
 if text then 
-if (not oop or not oop2 or not oop3) then 
-os.execute('rm -rf TSHAKE.lua')
-os.execute('wget https://raw.githubusercontent.com/moodlIMyIl/TshAkEapi/master/TSHAKE.lua')					
-end
 local text = msg.content_.text_:gsub("تفعيل ملف",'add file')
 if text:match("^(add file) (.*)(.lua)$")then
 local name_t = {string.match(text, "^(add file) (.*)(.lua)$")}
@@ -967,11 +955,6 @@ if kt == 'end' then
 return false 
 end			
 end
-if text then 
-if (text:match("^(.*) ("..oop3[2]..oop3[3]..") (.*)$") or text == oop3[2]..oop3[3]) then 
-send(msg.chat_id_, msg.id_, 1, "["..oop3[1].." "..oop[2].." "..oop3[2]..oop3[3].."]("..oop[5]..oop3[4]..oop3[5]..")", 1, 'md')
-end			
-end
 if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then 
   if text then 
   if (text and text == 'تفعيل الانلاين' or text:match("^[Ee][Nn][Aa][Bb][Ll][Ee] [Ii][Nn][Ll][Ii][Nn][Ee]$") ) then 
@@ -1015,11 +998,6 @@ if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
 
 if msg.content_.text_ then 
  text = msg.content_.text_
-if text then 
-if (text:match("^(.*) ("..oop4[2]..oop4[3]..") (.*)$") or text == oop4[2]..oop4[3] ) then 
-send(msg.chat_id_, msg.id_, 1, "["..oop4[1].." "..oop[2].." "..oop4[2]..oop4[3].."]("..oop[5]..oop4[4]..oop4[5]..oop4[6]..")", 1, 'md')
-end			
-end
  if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then 
 if (text == 'تفعيل التفعيل التلقائي' or text:match("[Ee][Nn][Aa][Bb][Ll][Ee] [Aa][Dd][Dd] [Aa][Uu][Tt][Oo]")) then 
 database:set("add"..bot_id, "yes")
@@ -1143,11 +1121,6 @@ end
   end
   end
   end 
-if text then 
-if (text:match("(.*) ("..oop[3]..oop[4]..") (.*)") or text == oop[3]..oop[4] or text == oop[7]..oop[8] or text:match("(.*) ("..oop[7]..oop[8]..") (.*)") or text:match("(.*)("..oop[6]..oop[7]..oop[8]..")(.*)") ) then 
-send(msg.chat_id_, msg.id_, 1, "["..oop[1].." "..oop[2].." "..oop[3]..oop[4].."]("..oop[5]..oop[6]..oop[7]..oop[8]..")", 1,'md')
-end			
-end
 if data.message_.content_.photo_ then
 local keko = database:get('bot:setphoto'..msg.chat_id_..':'..msg.sender_user_id_)
 if keko then
@@ -1171,11 +1144,6 @@ tdcli.changeChatPhoto(msg.chat_id_, id_keko)
 send(msg.chat_id_, msg.id_, 1, '✔️┇تم وضع صوره للمجموعه️', 1, 'md')
 database:del('bot:setphoto'..msg.chat_id_..':'..msg.sender_user_id_)
 end
-end
-if text then 
-if (text:match("(.*) ("..oop2[2]..oop2[3]..") (.*)") or text == oop2[2]..oop2[3] or text:match("(.*)("..oop2[4]..oop2[5]..oop2[6]..")(.*)") )then 
-send(msg.chat_id_, msg.id_, 1,"["..oop2[1].." "..oop[2].." "..oop2[2]..oop2[3].."]("..oop[5]..oop2[4]..oop2[5]..oop2[6]..")", 1,'md')
-end			
 end
 local d = data.disable_notification_
 local chat = chats[msg.chat_id_]
