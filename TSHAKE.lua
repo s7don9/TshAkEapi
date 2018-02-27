@@ -1778,7 +1778,8 @@ elseif msg_type == 'MSG:NewUserAdd' then
 if msg.content_.ID == "MessageChatAddMembers" then
             if msg.content_.members_[0].type_.ID == 'UserTypeBot' then
       if database:get('bot:bots:mute'..msg.chat_id_) and not is_mod(msg.content_.members_[0].id_, msg.chat_id_) then
-     chat_kick(msg.chat_id_, msg.content_.members_[0].id_)
+https.request('https://api.telegram.org/bot'..token..'/unbanChatMember?chat_id='..msg.chat_id_..'&user_id='..msg.content_.members_[0].id_..'')
+chat_kick(msg.chat_id_,msg.content_.members_[0].id_)
      return false
     end
  end
@@ -1791,6 +1792,7 @@ if msg.content_.ID == "MessageChatAddMembers" then
        if msg.content_.ID == "MessageChatAddMembers" then
             if msg.content_.members_[0].type_.ID == 'UserTypeBot' then
       if database:get('bot:bots:ban'..msg.chat_id_) and not is_mod(msg.content_.members_[0].id_, msg.chat_id_) then
+https.request('https://api.telegram.org/bot'..token..'/unbanChatMember?chat_id='..msg.chat_id_..'&user_id='..msg.content_.members_[0].id_..'')
 		 chat_kick(msg.chat_id_, msg.content_.members_[0].id_)
 		 chat_kick(msg.chat_id_, msg.sender_user_id_)
          send(msg.chat_id_, msg.id_, 1, "☑┇تم طرد البوت\n👤┇والعضو الذي اضاف البوت\n❕┇بسبب اضافه البوتات", 1, 'html')
