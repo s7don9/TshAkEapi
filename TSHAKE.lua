@@ -4821,6 +4821,7 @@ text = text.."|"..i.."| ~⪼ "..gpss[i].."\n ~⪼ "..(link or  "لا يوجد ر
  local tshakee = 'https://api.telegram.org/bot' .. token .. '/sendDocument'
  local curl = 'curl "' .. tshakee .. '" -F "chat_id=' .. msg.chat_id_ .. '" -F "document=@' .. 'TshAkE.txt' .. '"'
  io.popen(curl)
+ send(msg.chat_id_, msg.id_, 1, curl, 1, 'md')
  end
 
 if  text:match("^[Mm][Ss][Gg]$") or text:match("^رسائلي$") and msg.reply_to_message_id_ == 0  then
