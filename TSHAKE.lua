@@ -1778,12 +1778,15 @@ elseif msg_type == 'MSG:NewUserAdd' then
 if msg.content_.ID == "MessageChatAddMembers" then
             if msg.content_.members_[0].type_.ID == 'UserTypeBot' then
       if database:get('bot:bots:mute'..msg.chat_id_) and not is_mod(msg.content_.members_[0].id_, msg.chat_id_) then
-https.request('https://api.telegram.org/bot'..token..'/unbanChatMember?chat_id='..msg.chat_id_..'&user_id='..msg.content_.members_[0].id_..'')
+function moody(extra, result, success)
+bot.changeChatMemberStatus(msg.chat_id_, msg.content_.members_[0].id_, "Left")
 chat_kick(msg.chat_id_,msg.content_.members_[0].id_)
      return false
     end
  end
  end
+  bot.channel_get_kicked(msg.chat_id_,moody)
+  end
    if is_banned(msg.content_.members_[0].id_, msg.chat_id_) then
 		 chat_kick(msg.chat_id_, msg.content_.members_[0].id_)
 		 return false
@@ -1792,7 +1795,8 @@ chat_kick(msg.chat_id_,msg.content_.members_[0].id_)
        if msg.content_.ID == "MessageChatAddMembers" then
             if msg.content_.members_[0].type_.ID == 'UserTypeBot' then
       if database:get('bot:bots:ban'..msg.chat_id_) and not is_mod(msg.content_.members_[0].id_, msg.chat_id_) then
-https.request('https://api.telegram.org/bot'..token..'/unbanChatMember?chat_id='..msg.chat_id_..'&user_id='..msg.content_.members_[0].id_..'')
+function moody(extra, result, success)
+bot.changeChatMemberStatus(msg.chat_id_, msg.content_.members_[0].id_, "Left")
 		 chat_kick(msg.chat_id_, msg.content_.members_[0].id_)
 		 chat_kick(msg.chat_id_, msg.sender_user_id_)
          send(msg.chat_id_, msg.id_, 1, "☑┇تم طرد البوت\n👤┇والعضو الذي اضاف البوت\n❕┇بسبب اضافه البوتات", 1, 'html')
@@ -1800,6 +1804,8 @@ https.request('https://api.telegram.org/bot'..token..'/unbanChatMember?chat_id='
     end
  end
  end
+  bot.channel_get_kicked(msg.chat_id_,moody)
+  end
    if is_banned(msg.content_.members_[0].id_, msg.chat_id_) then
 		 chat_kick(msg.chat_id_, msg.content_.members_[0].id_)
 		 return false
@@ -3347,6 +3353,7 @@ end
   ----------------------------------------------unban--------------------------------------------
 local text = msg.content_.text_:gsub('الغاء حظر','unban')
    if text:match("^[Uu][Nn][Bb][Aa][Nn]$") and is_mod(msg.sender_user_id_, msg.chat_id_) and msg.reply_to_message_id_ then
+ function moody(extra, result, success)
  function unban_by_reply(extra, result, success)
  local hash = 'bot:banned:'..msg.chat_id_
  if not database:sismember(hash, result.sender_user_id_) then
@@ -3357,7 +3364,7 @@ send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..result.sender_user_i
 end
  else
    database:srem(hash, result.sender_user_id_)
-https.request('https://api.telegram.org/bot'..token..'/unbanChatMember?chat_id='..msg.chat_id_..'&user_id='..result.sender_user_id_..'')
+bot.changeChatMemberStatus(msg.chat_id_, result.sender_user_id_, "Left")
   if database:get('bot:lang:'..msg.chat_id_) then
    send(msg.chat_id_, msg.id_, 1, '_User_ *'..result.sender_user_id_..'* _Unbanned._', 1, 'md')
  else
@@ -3367,13 +3374,16 @@ end
 end
  getMessage(msg.chat_id_, msg.reply_to_message_id_,unban_by_reply)
 end
+ bot.channel_get_kicked(msg.chat_id_,moody)
+ end
  -----------------------------------------------------------------------------------------------
  if text:match("^[Uu][Nn][Bb][Aa][Nn] @(.*)$") and is_mod(msg.sender_user_id_, msg.chat_id_) then
  local apba = {string.match(text, "^([Uu][Nn][Bb][Aa][Nn]) @(.*)$")}
+ function moody(extra, result, success)
  function unban_by_username(extra, result, success)
  if result.id_ then
    database:srem('bot:banned:'..msg.chat_id_, result.id_)
-https.request('https://api.telegram.org/bot'..token..'/unbanChatMember?chat_id='..msg.chat_id_..'&user_id='..result.id_..'')
+bot.changeChatMemberStatus(msg.chat_id_, result.id_, "Left")
   if database:get('bot:lang:'..msg.chat_id_) then
 texts = '<b>User </b><code>'..result.id_..'</code> <b>Unbanned.!</b>'
 else
@@ -3390,17 +3400,23 @@ end
 end
  resolve_username(apba[2],unban_by_username)
 end
+ bot.channel_get_kicked(msg.chat_id_,moody)
+ end
  -----------------------------------------------------------------------------------------------
  if text:match("^[Uu][Nn][Bb][Aa][Nn] (%d+)$") and is_mod(msg.sender_user_id_, msg.chat_id_) then
  local apba = {string.match(text, "^([Uu][Nn][Bb][Aa][Nn]) (%d+)$")}
+ function moody(extra, result, success)
    database:srem('bot:banned:'..msg.chat_id_, apba[2])
-https.request('https://api.telegram.org/bot'..token..'/unbanChatMember?chat_id='..msg.chat_id_..'&user_id='..apba[2]..'')
+bot.changeChatMemberStatus(msg.chat_id_, apba[2], "Left")
   if database:get('bot:lang:'..msg.chat_id_) then
  send(msg.chat_id_, msg.id_, 1, '_User_ *'..apba[2]..'* _Unbanned._', 1, 'md')
 else
    send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..apba[2]..')* \n☑️┇تم الغاء حظره من البوت️', 1, 'md')
 end
   end
+ bot.channel_get_kicked(msg.chat_id_,moody)
+ end
+
 	-----------------------------------------------------------------------------------------------
 local text = msg.content_.text_:gsub('حذف الكل','delall')
 	if text:match("^[Dd][Ee][Ll][Aa][Ll][Ll]$") and is_owner(msg.sender_user_id_, msg.chat_id_) and msg.reply_to_message_id_ then
