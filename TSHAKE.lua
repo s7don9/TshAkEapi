@@ -10372,6 +10372,7 @@ local text = msg.content_.text_:gsub('نعم','yes')
 if text:match("^[Yy][Ee][Ss]$") then
 local yess = redis:get('kickyess'..msg.sender_user_id_..''..bot_id)
 if yess == 'kickyes' then
+chat_kick(msg.chat_id_, msg.sender_user_id_)
 redis:del('kickyess'..msg.sender_user_id_..''..bot_id, 'kickyes')
 redis:del('kicknoo'..msg.sender_user_id_..''..bot_id, 'kickno')
 if database:get('bot:lang:'..msg.chat_id_) then
