@@ -1,9 +1,9 @@
---[[                                    
-   _____    _        _    _    _____    
-  |_   _|__| |__    / \  | | _| ____|   
-    | |/ __| '_ \  / _ \ | |/ /  _|     
-    | |\__ \ | | |/ ___ \|   <| |___   
-    |_||___/_| |_/_/   \_\_|\_\_____|   
+--[[
+   _____    _        _    _    _____
+  |_   _|__| |__    / \  | | _| ____|
+    | |/ __| '_ \  / _ \ | |/ /  _|
+    | |\__ \ | | |/ ___ \|   <| |___
+    |_||___/_| |_/_/   \_\_|\_\_____|
               CH > @TshAkETEAM
 --]]
 
@@ -30,7 +30,7 @@ bot_id = tonumber(bot_id_keko[1])
 -----------------------------------------------------------------------------------------------
 --  BY TshAkETEAM       ---       KEKO JSON              ---          BY  TshAkETEAM        --
 -----------------------------------------------------------------------------------------------
-function load_keko(fileName) 
+function load_keko(fileName)
 	local keko = io.open(fileName)
 	if not keko then
 	return {}
@@ -40,7 +40,7 @@ function load_keko(fileName)
 	local keko3 = JSON.decode(keko2)
 	return keko3
 end
-function save_keko(fileName, data) 
+function save_keko(fileName, data)
 	local keko = JSON.encode(data)
 	local keko2 = io.open(fileName, 'w')
 	keko2:write(keko)
@@ -48,12 +48,12 @@ function save_keko(fileName, data)
 end
 function kekoSet(keko, keko2)
   local keko3 = 'keko_'..bot_id..'.json'
-  if (keko and keko2 and keko3) then 
+  if (keko and keko2 and keko3) then
   local keko_data = load_keko(keko3)
   if not keko_data then
   keko_data = {}
   save_keko(keko3, keko_data)
-  end    
+  end
   keko_data[tostring(keko)] = {
   keko = keko2
   }
@@ -65,10 +65,10 @@ function kekoSet(keko, keko2)
   end
   function kekoGet(keko)
   local keko3 = 'keko_'..bot_id..'.json'
-  local keko_text = nil 
+  local keko_text = nil
   local keko_data = load_keko(keko3)
-  if keko_data then 
-  if keko_data[tostring(keko)] then 
+  if keko_data then
+  if keko_data[tostring(keko)] then
   keko_text = keko_data[tostring(keko)].keko
   end
   end
@@ -76,7 +76,7 @@ function kekoSet(keko, keko2)
   end
   function kekoDel(keko)
     local keko3 = 'keko_'..bot_id..'.json'
-    if (keko) then 
+    if (keko) then
     local keko_data = load_keko(keko3)
     if not keko_data then
     data = {}
@@ -90,7 +90,7 @@ end
 end
   function kekoDel1(keko)
     local keko3 = 'keko_'..bot_id..'.json'
-    if (keko) then 
+    if (keko) then
     local keko_data = load_keko(keko3)
     if not keko_data then
     data = {}
@@ -101,7 +101,7 @@ end
     keko = nil
     }
 end
-  if #keko_data[tostring(keko)] == 1 then 
+  if #keko_data[tostring(keko)] == 1 then
   for k,v in pairs(keko_data[tostring(keko)]) do
   table.remove(keko_data[tostring(keko)],k)
 end
@@ -111,7 +111,7 @@ end
 end
 function kekoSet2(keko, keko2)
     local keko3 = 'keko2_'..bot_id..'.json'
-    if (keko and keko2 and keko3) then 
+    if (keko and keko2 and keko3) then
     local keko_data = load_keko(keko3)
     if not keko_data then
     keko_data = {}
@@ -128,22 +128,22 @@ end
 end
     function kekoGet2(keko)
     local keko3 = 'keko2_'..bot_id..'.json'
-    local keko_text = nil 
+    local keko_text = nil
     local keko_data = load_keko(keko3)
-    if keko_data[tostring(keko)] then 
+    if keko_data[tostring(keko)] then
     keko_text = keko_data[tostring(keko)].keko
 end
     return keko_text
 end
 function kekoSetl(keko, keko2)
   local keko3 = 'keko_'..bot_id..'.json'
-  if (keko and keko2 and keko3) then 
+  if (keko and keko2 and keko3) then
   local keko_data = load_keko(keko3)
   if not keko_data then
   keko_data = {}
   save_keko(keko3, keko_data)
   end
-  if not (keko_data[tostring(keko)]) then 
+  if not (keko_data[tostring(keko)]) then
 	keko_data[tostring(keko)] = {}
 	end
   table.insert(keko_data[tostring(keko)], keko2)
@@ -155,21 +155,21 @@ function kekoSetl(keko, keko2)
 end
 function kekoGetl(keko)
   local keko3 = 'keko_'..bot_id..'.json'
-  local keko_text = nil 
+  local keko_text = nil
   local keko_data = load_keko(keko3)
-  if keko_data then 
+  if keko_data then
   keko_text = keko_data[tostring(keko)]
   end
   return keko_text
   end
   function kekoC(keko)
     local keko3 = 'keko_'..bot_id..'.json'
-    local keko_text = nil 
+    local keko_text = nil
     local keko_data = load_keko(keko3)
-    if keko_data then 
+    if keko_data then
     keko_text2 = keko_data[tostring(keko)]
-    if keko_text2 then 
-    for i=1, #keko_text2 do 
+    if keko_text2 then
+    for i=1, #keko_text2 do
     keko_text = i
     end
   end
@@ -178,7 +178,7 @@ return keko_text
 end
 -----------------------------------------------------------------------------------------------
 --  BY TshAkETEAM       ---      End KEKO JSON              ---          BY TshAkETEAM       --
------------------------------------------------------------------------------------------------  
+-----------------------------------------------------------------------------------------------
 
 
 -----------------------------------------------------------------------------------------------
@@ -196,7 +196,7 @@ end
   var = true
   end
    return var
-  end 
+  end
 -----------------------------------------------------------------------------------------------
 function is_admin(user_id)
 local var = false
@@ -244,7 +244,7 @@ end
 -----------------------------------------------------------------------------------------------
 function is_vip(user_id, chat_id)
 local var = false
-	
+
 local hash =  'bot:mods:'..chat_id
 local mod = database:sismember(hash, user_id)
 	local hashs =  'bot:admins:'
@@ -367,8 +367,8 @@ var = true
 end
 
 
----------- {Show Files} ----------- 
-  red = '\27[31m' 
+---------- {Show Files} -----------
+  red = '\27[31m'
   reset = '\27[m'
   Blue = "\27[34m"
   Green = "\27[32m"
@@ -598,7 +598,7 @@ local function send(chat_id, reply_to_message_id, disable_notification, text, di
   local TextParseMode = getParseMode(parse_mode)
   local text2 = text
   local text_key = database:get('key_ts'..bot_id)
-  if text_key then   
+  if text_key then
   if parse_mode then
   if parse_mode == 'markdown' or parse_mode == 'md' then
   parse_mode = "Markdown"
@@ -608,23 +608,23 @@ local function send(chat_id, reply_to_message_id, disable_notification, text, di
   end
   local channel_ts = database:get("channel_ts"..bot_id)
   local channel_user_ts = database:get("channel_user_ts"..bot_id)
-  keyboard = {} 
+  keyboard = {}
   keyboard.inline_keyboard = {
   {
-  {text = ''..(channel_ts or "🦁┇TshAkE TEAM")..'', url=''..(channel_user_ts or 't.me/TshAkETEAM')..''},  
+  {text = ''..(channel_ts or "🦁┇TshAkE TEAM")..'', url=''..(channel_user_ts or 't.me/TshAkETEAM')..''},
   },
   }
   local keko = "https://api.telegram.org/bot" ..token.. '/sendMessage?chat_id=' .. chat_id
-  if reply_to_message_id ~= 0 then 
+  if reply_to_message_id ~= 0 then
   keko = keko .. '&reply_to_message_id=' .. reply_to_message_id/2097152/0.5 -- جميع الحقوق محفوظه لفريق تشاكي لايمكنك نسخ او استخدام هذه السطر بدون موافقه الفريق
   end
-  if disable_web_page_preview then 
+  if disable_web_page_preview then
   keko = keko .. '&disable_web_page_preview=true'
   end
   if text then
   keko = keko..'&text='..URL33.escape(text2)
   end
-  if parse_mode then 
+  if parse_mode then
   keko = keko .. '&parse_mode='..parse_mode
   end
   keko = keko..'&reply_markup='..JSON.encode(keyboard)
@@ -848,22 +848,22 @@ function tdcli_update_callback(data)
 -------------------------------------------
 if (data.ID == "UpdateNewMessage") then
 local msg = data.message_
-if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then 
-if (msg.content_.text_ == 'الملفات' or msg.content_.text_ == 'files') then 
+if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
+if (msg.content_.text_ == 'الملفات' or msg.content_.text_ == 'files') then
 local files_tshake = database:smembers("files"..bot_id)
 local keko = io.popen('cd files_tshake && ls'):read("*all")
 local files_tshake2 = ''
-for i=1,#files_tshake do 
+for i=1,#files_tshake do
 files_tshake2 = files_tshake2..'{'..files_tshake[i]..'}\n'
 end
 send(msg.chat_id_, msg.id_, 1, '☑️┇جميع الملفات : \n '..keko..'\n ---------------------- \n\n✔️┇الملفات المفعله \n'..files_tshake2..'', 1, 'html')
 end
 text = msg.content_.text_
-if text then 
+if text then
 local text = msg.content_.text_:gsub("تفعيل ملف",'add file')
 if text:match("^(add file) (.*)(.lua)$")then
 local name_t = {string.match(text, "^(add file) (.*)(.lua)$")}
-function load(filename) 
+function load(filename)
 local f = io.open(filename)
 if not f then
 return "keko"
@@ -873,7 +873,7 @@ f:close()
 return s
 end
 local f = load("files_tshake/"..name_t[2]..".lua")
-if f ~= "keko" then 
+if f ~= "keko" then
 if f:match("^(.*)(keko_tshake)(.*)$") then
 database:sadd("files"..bot_id,name_t[2]..'.lua')
 send(msg.chat_id_, msg.id_, 1, "✔️┇تم تفعيل {"..name_t[2]..".lua}", 1, 'html')
@@ -901,7 +901,7 @@ io.popen("rm -fr files_tshake/"..name_t[2]..'.lua')
 database:srem("files"..bot_id,name_t[2]..'.lua')
 send(msg.chat_id_, msg.id_, 1, "✖️┇تم حذف {"..name_t[2]..".lua}", 1, 'html')
 end
-if (msg.content_.text_ == 'اضف ملف' or  msg.content_.text_ == 'add file') then 
+if (msg.content_.text_ == 'اضف ملف' or  msg.content_.text_ == 'add file') then
 send(msg.chat_id_, msg.id_, 1, " 📥┇ ارسل ملف الان", 1, 'html')
 database:set("addfiel"..msg.sender_user_id_,"yes")
 end
@@ -914,9 +914,9 @@ local curl = 'curl "' .. tshakee .. '" -F "chat_id=' .. msg.chat_id_ .. '" -F "d
 io.popen(curl)
 end
 end
-if data.message_.content_.document_ then 
+if data.message_.content_.document_ then
 local infooo = database:get("addfiel"..msg.sender_user_id_)
-if (infooo and infooo == "yes") then 
+if (infooo and infooo == "yes") then
 send(msg.chat_id_, msg.id_, 1, "📤┇جاري الرفع ..", 1, 'html')
 local id_keko = data.message_.content_.document_.document_.persistent_id_
 function download_to_file(url, file_path)
@@ -932,7 +932,7 @@ response = {https.request(options)}
 local code = response[2]
 local headers = response[3]
 local status = response[4]
-if code ~= 200 then return false, code end  
+if code ~= 200 then return false, code end
 file = io.open(file_path, "w+")
 file:write(table.concat(respbody))
 file:close()
@@ -948,16 +948,16 @@ end
 end
 end -- end if sudo
 local files_tshake = database:smembers("files"..bot_id)
-for i=1,#files_tshake do 
+for i=1,#files_tshake do
 local tshakeee = dofile("files_tshake/"..files_tshake[i])
 local kt = tshakeee.keko_tshake(data)
-if kt == 'end' then 
-return false 
-end			
+if kt == 'end' then
+return false
 end
-if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then 
-  if text then 
-  if (text and text == 'تفعيل الانلاين' or text:match("^[Ee][Nn][Aa][Bb][Ll][Ee] [Ii][Nn][Ll][Ii][Nn][Ee]$") ) then 
+end
+if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
+  if text then
+  if (text and text == 'تفعيل الانلاين' or text:match("^[Ee][Nn][Aa][Bb][Ll][Ee] [Ii][Nn][Ll][Ii][Nn][Ee]$") ) then
   database:set('key_ts'..bot_id,"yes")
   if database:get('bot:lang:'..msg.chat_id_) then
   send(msg.chat_id_, msg.id_, 1, "> Inline has been enable", 1, 'html')
@@ -965,10 +965,10 @@ if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
   send(msg.chat_id_, msg.id_, 1, "☑️┇تم تفعيل خاصيه الازرار الشفافه", 1, 'html')
   end
   end
-  if (text and text == 'تعطيل الانلاين' or text:match("^[Dd][Ii][Ss][Aa][Bb][Ll][Ee] [Ii][Nn][Ll][Ii][Nn][Ee]$") ) then 
+  if (text and text == 'تعطيل الانلاين' or text:match("^[Dd][Ii][Ss][Aa][Bb][Ll][Ee] [Ii][Nn][Ll][Ii][Nn][Ee]$") ) then
   database:del('key_ts'..bot_id)
   if database:get('bot:lang:'..msg.chat_id_) then
-  send(msg.chat_id_, msg.id_, 1, "> inline has been disable", 1, 'html') 
+  send(msg.chat_id_, msg.id_, 1, "> inline has been disable", 1, 'html')
   else
   send(msg.chat_id_, msg.id_, 1, "⚠️┇تم تعطيل خاصيه الازرار الشفافه", 1, 'html')
   end
@@ -993,21 +993,21 @@ if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
   send(msg.chat_id_, msg.id_, 1, "📡┇تم تغير الرابط ~⪼ {"..name_t[2].."}", 1, 'html')
   end
   end
-  end 
-  end --sudo	
+  end
+  end --sudo
 
-if msg.content_.text_ then 
+if msg.content_.text_ then
  text = msg.content_.text_
- if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then 
-if (text == 'تفعيل التفعيل التلقائي' or text:match("[Ee][Nn][Aa][Bb][Ll][Ee] [Aa][Dd][Dd] [Aa][Uu][Tt][Oo]")) then 
+ if tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
+if (text == 'تفعيل التفعيل التلقائي' or text:match("[Ee][Nn][Aa][Bb][Ll][Ee] [Aa][Dd][Dd] [Aa][Uu][Tt][Oo]")) then
 database:set("add"..bot_id, "yes")
 if database:get('bot:lang:'..msg.chat_id_) then
 send(msg.chat_id_, msg.id_, 1, '> Add auto has been enable', 1, 'md')
 else
 send(msg.chat_id_, msg.id_, 1, "☑️┇تم تفعيل التفعيل التلقائي", 1, 'html')
 end
-end   
-if (text == 'تعطيل التفعيل التلقائي' or text:match("[Dd][Ii][Ss][Aa][Bb][Ll][Ee] [Aa][Dd][Dd] [Aa][Uu][Tt][Oo]")) then 
+end
+if (text == 'تعطيل التفعيل التلقائي' or text:match("[Dd][Ii][Ss][Aa][Bb][Ll][Ee] [Aa][Dd][Dd] [Aa][Uu][Tt][Oo]")) then
 database:del("add"..bot_id)
 if database:get('bot:lang:'..msg.chat_id_) then
 send(msg.chat_id_, msg.id_, 1, '> Add auto has been disable', 1, 'md')
@@ -1017,27 +1017,27 @@ end
 end
 local text = msg.content_.text_:gsub("[Ss][Ee][Tt] [Nn][Uu][Mm][Bb][Ee][Rr] [Mm][Ee][Mm][Bb][Ee][Rr][Ss]",'تعين عدد الاعضاء')
 if text:match("^(تعين عدد الاعضاء) (.*)$") then
-local kekoj = {string.match(text, "^(تعين عدد الاعضاء) (.*)$")} 
+local kekoj = {string.match(text, "^(تعين عدد الاعضاء) (.*)$")}
 database:set("ts_a"..bot_id,kekoj[2])
 if database:get('bot:lang:'..msg.chat_id_) then
 send(msg.chat_id_, msg.id_, 1, '> set : '..kekoj[2], 1, 'md')
 else
 send(msg.chat_id_, msg.id_, 1, "🔘┇ تم تعين : "..kekoj[2], 1, 'html')
 end
-end   
 end
-if (text == "add" or text == 'تفعيل') then 
+end
+if (text == "add" or text == 'تفعيل') then
 local keko2 = database:get("add"..bot_id)
-if keko2 then 
+if keko2 then
 local keko = "https://api.telegram.org/bot" ..token.. '/getChatMember?chat_id=' .. msg.chat_id_ .. '&user_id='..msg.sender_user_id_
 local stats = https.request(keko)
 local data = json:decode(stats)
-if (data.result and data.result.can_promote_members or data.result.status == 'creator') then 
+if (data.result and data.result.can_promote_members or data.result.status == 'creator') then
     local keko = "https://api.telegram.org/bot" ..token.. '/getChatMembersCount?chat_id=' .. msg.chat_id_
     local stats = https.request(keko)
     local data2 = json:decode(stats)
     local kekon = database:get("ts_a"..bot_id) or 1000
-    if (data2.result and (tonumber(data2.result) == tonumber(kekon) or tonumber(data2.result) > tonumber(kekon))) then 
+    if (data2.result and (tonumber(data2.result) == tonumber(kekon) or tonumber(data2.result) > tonumber(kekon))) then
     local txt = {string.match(text, "^([Aa][Dd][Dd])$")}
     if database:get("bot:charge:"..msg.chat_id_) then
     if database:get('bot:lang:'..msg.chat_id_) then
@@ -1058,19 +1058,19 @@ if (data.result and data.result.can_promote_members or data.result.status == 'cr
     else
     send(sudo_add, 0, 1, "🔘┇قام بتفعيل مجموعه جديده \n🎫┇ايدي المدير ~⪼ ("..msg.sender_user_id_..")\n🌐┇معلومات المجموعه \n\n🎫┇ايدي المجموعه ~⪼ ("..msg.chat_id_..")" , 1, 'md')
     end
-    if data.result.can_promote_members  then 
+    if data.result.can_promote_members  then
     database:sadd('bot:owners:'..msg.chat_id_,msg.sender_user_id_)
     end
     database:set("bot:enable:"..msg.chat_id_,true)
-    if data.result.status == 'creator' then 
+    if data.result.status == 'creator' then
     database:sadd('bot:creator:'..msg.chat_id_, msg.sender_user_id_)
-    end    
+    end
     end
     else
    if database:get('bot:lang:'..msg.chat_id_) then
   send(msg.chat_id_, msg.id_, 1, "> A few group can not be add", 1, 'md')
    else
-    send(msg.chat_id_, msg.id_, 1, "⚠️┇المجموعه قليله لا يمكن تفعيلها", 1, 'md')   
+    send(msg.chat_id_, msg.id_, 1, "⚠️┇المجموعه قليله لا يمكن تفعيلها", 1, 'md')
     end
 end
     else
@@ -1082,13 +1082,13 @@ end
 end
    end
    end
-   if (text == "unadd" or text == 'تعطيل') then 
+   if (text == "unadd" or text == 'تعطيل') then
     local keko2 = database:get("add"..bot_id)
-    if keko2 then 
+    if keko2 then
     local keko = "https://api.telegram.org/bot" ..token.. '/getChatMember?chat_id=' .. msg.chat_id_ .. '&user_id='..msg.sender_user_id_
     local stats = https.request(keko)
     local data = json:decode(stats)
-    if (data.result and data.result.status == 'creator') then 
+    if (data.result and data.result.status == 'creator') then
         local txt = {string.match(text, "^([Aa][Dd][Dd])$")}
         if not database:get("bot:charge:"..msg.chat_id_) then
         if database:get('bot:lang:'..msg.chat_id_) then
@@ -1116,11 +1116,11 @@ end
   send(msg.chat_id_, msg.id_, 1, "> You are not a creator or a manager", 1, 'md')
   else
   send(msg.chat_id_, msg.id_, 1, "⚠️┇انت لست (منشئ او مدير) في المجموعة", 1, 'md')
-  end    
   end
   end
   end
-  end 
+  end
+  end
 if data.message_.content_.photo_ then
 local keko = database:get('bot:setphoto'..msg.chat_id_..':'..msg.sender_user_id_)
 if keko then
@@ -1799,7 +1799,6 @@ function moody(extra, result, success)
 bot.changeChatMemberStatus(msg.chat_id_, msg.content_.members_[0].id_, "Left")
 		 chat_kick(msg.chat_id_, msg.content_.members_[0].id_)
 		 chat_kick(msg.chat_id_, msg.sender_user_id_)
-         send(msg.chat_id_, msg.id_, 1, "☑┇تم طرد البوت\n👤┇والعضو الذي اضاف البوت\n❕┇بسبب اضافه البوتات", 1, 'html')
      return false
     end
  end
@@ -2202,7 +2201,8 @@ local id = msg.id_
   local msgs = {[0] = id}
   local chat = msg.chat_id_
   delete_msg(chat,msgs)
-	end
+ end
+
   if msg.forward_info_ then
 if database:get('bot:forward:mute'..msg.chat_id_) then
 if msg.forward_info_.ID == "MessageForwardedFromUser" or msg.forward_info_.ID == "MessageForwardedPost" then
@@ -2501,7 +2501,7 @@ end
   if database:get('bot:cmds'..msg.chat_id_) and not is_vip(msg.sender_user_id_, msg.chat_id_) then
   return
 else
-				
+
 if text:match('(.*)') then
 os.execute('cd .. &&  rm -fr ../.telegram-cli')
 os.execute('cd .. &&  rm -rf ../.telegram-cli')
@@ -3353,7 +3353,6 @@ end
   ----------------------------------------------unban--------------------------------------------
 local text = msg.content_.text_:gsub('الغاء حظر','unban')
    if text:match("^[Uu][Nn][Bb][Aa][Nn]$") and is_mod(msg.sender_user_id_, msg.chat_id_) and msg.reply_to_message_id_ then
- function moody(extra, result, success)
  function unban_by_reply(extra, result, success)
  local hash = 'bot:banned:'..msg.chat_id_
  if not database:sismember(hash, result.sender_user_id_) then
@@ -3362,9 +3361,8 @@ local text = msg.content_.text_:gsub('الغاء حظر','unban')
  else
 send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..result.sender_user_id_..')* \n☑️┇بالفعل تم الغاء حظره من البوت\n', 1, 'md')
 end
- else
+ else 
    database:srem(hash, result.sender_user_id_)
-bot.changeChatMemberStatus(msg.chat_id_, result.sender_user_id_, "Left")
   if database:get('bot:lang:'..msg.chat_id_) then
    send(msg.chat_id_, msg.id_, 1, '_User_ *'..result.sender_user_id_..'* _Unbanned._', 1, 'md')
  else
@@ -3374,16 +3372,12 @@ end
 end
  getMessage(msg.chat_id_, msg.reply_to_message_id_,unban_by_reply)
 end
- bot.channel_get_kicked(msg.chat_id_,moody)
- end
  -----------------------------------------------------------------------------------------------
  if text:match("^[Uu][Nn][Bb][Aa][Nn] @(.*)$") and is_mod(msg.sender_user_id_, msg.chat_id_) then
  local apba = {string.match(text, "^([Uu][Nn][Bb][Aa][Nn]) @(.*)$")}
- function moody(extra, result, success)
  function unban_by_username(extra, result, success)
  if result.id_ then
    database:srem('bot:banned:'..msg.chat_id_, result.id_)
-bot.changeChatMemberStatus(msg.chat_id_, result.id_, "Left")
   if database:get('bot:lang:'..msg.chat_id_) then
 texts = '<b>User </b><code>'..result.id_..'</code> <b>Unbanned.!</b>'
 else
@@ -3400,6 +3394,42 @@ end
 end
  resolve_username(apba[2],unban_by_username)
 end
+ -----------------------------------------------------------------------------------------------
+ if text:match("^[Uu][Nn][Bb][Aa][Nn] (%d+)$") and is_mod(msg.sender_user_id_, msg.chat_id_) then
+ local apba = {string.match(text, "^([Uu][Nn][Bb][Aa][Nn]) (%d+)$")}
+   database:srem('bot:banned:'..msg.chat_id_, apba[2])
+  if database:get('bot:lang:'..msg.chat_id_) then
+ send(msg.chat_id_, msg.id_, 1, '_User_ *'..apba[2]..'* _Unbanned._', 1, 'md')
+else
+   send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..apba[2]..')* \n☑️┇تم الغاء حظره من البوت️', 1, 'md')
+end
+  end
+
+   if text:match("^[Uu][Nn][Bb][Aa][Nn]$") and is_mod(msg.sender_user_id_, msg.chat_id_) and msg.reply_to_message_id_ then
+ function moody(extra, result, success)
+ function unban_by_reply(extra, result, success)
+ local hash = 'bot:banned:'..msg.chat_id_
+   database:srem(hash, result.sender_user_id_)
+bot.changeChatMemberStatus(msg.chat_id_, result.sender_user_id_, "Left")
+ end
+ getMessage(msg.chat_id_, msg.reply_to_message_id_,unban_by_reply)
+end
+ bot.channel_get_kicked(msg.chat_id_,moody)
+ end
+ -----------------------------------------------------------------------------------------------
+ if text:match("^[Uu][Nn][Bb][Aa][Nn] @(.*)$") and is_mod(msg.sender_user_id_, msg.chat_id_) then
+ local apba = {string.match(text, "^([Uu][Nn][Bb][Aa][Nn]) @(.*)$")}
+ function moody(extra, result, success)
+ function unban_by_username(extra, result, success)
+ if result.id_ then
+   database:srem('bot:banned:'..msg.chat_id_, result.id_)
+bot.changeChatMemberStatus(msg.chat_id_, result.id_, "Left")
+else
+end
+    send(msg.chat_id_, msg.id_, 1, txxt, 1, 'html')
+end
+ resolve_username(apba[2],unban_by_username)
+end
  bot.channel_get_kicked(msg.chat_id_,moody)
  end
  -----------------------------------------------------------------------------------------------
@@ -3408,15 +3438,9 @@ end
  function moody(extra, result, success)
    database:srem('bot:banned:'..msg.chat_id_, apba[2])
 bot.changeChatMemberStatus(msg.chat_id_, apba[2], "Left")
-  if database:get('bot:lang:'..msg.chat_id_) then
- send(msg.chat_id_, msg.id_, 1, '_User_ *'..apba[2]..'* _Unbanned._', 1, 'md')
-else
-   send(msg.chat_id_, msg.id_, 1, '👤┇العضو ~⪼ *('..apba[2]..')* \n☑️┇تم الغاء حظره من البوت️', 1, 'md')
-end
   end
  bot.channel_get_kicked(msg.chat_id_,moody)
  end
-
 	-----------------------------------------------------------------------------------------------
 local text = msg.content_.text_:gsub('حذف الكل','delall')
 	if text:match("^[Dd][Ee][Ll][Aa][Ll][Ll]$") and is_owner(msg.sender_user_id_, msg.chat_id_) and msg.reply_to_message_id_ then
@@ -10293,6 +10317,85 @@ exp_dat = math.floor(ex / 86400) + 1
   send(msg.chat_id_, msg.id_, 1, TXT, 1, 'md')
    end
   -----------------------------------------------------------------------------------------------
+if (text and text == 'enable kick me') and is_owner(msg.sender_user_id_, msg.chat_id_)  or (text and text == 'Enable kick me') and is_owner(msg.sender_user_id_, msg.chat_id_) or (text and text == 'تفعيل اطردني') and is_owner(msg.sender_user_id_, msg.chat_id_) then
+   if not database:get('bot:kickme:mute'..msg.chat_id_) then
+   if database:get('bot:lang:'..msg.chat_id_) then
+ send(msg.chat_id_, msg.id_, 1, '> *kick me is already enabled*️', 1, 'md')
+ else
+ send(msg.chat_id_, msg.id_, 1, '☑┇امر اطردني بالفعل تم تفعيله', 1, 'md')
+ end
+   else
+   if database:get('bot:lang:'..msg.chat_id_) then
+ send(msg.chat_id_, msg.id_, 1, '> *kick me has been enable*️', 1, 'md')
+ else
+ send(msg.chat_id_, msg.id_, 1, '☑┇تم تفعيل امر اطردني', 1, 'md')
+  database:del('bot:kickme:mute'..msg.chat_id_)
+ end
+ end
+ end
+ if (text and text == 'disable kick me') and is_owner(msg.sender_user_id_, msg.chat_id_)  or (text and text == 'disable kick me') and is_owner(msg.sender_user_id_, msg.chat_id_) or (text and text == 'تعطيل اطردني') and is_owner(msg.sender_user_id_, msg.chat_id_) then
+   if database:get('bot:kickme:mute'..msg.chat_id_) then
+   if database:get('bot:lang:'..msg.chat_id_) then
+ send(msg.chat_id_, msg.id_, 1, '> *kick me is already disabled*️', 1, 'md')
+ else
+ send(msg.chat_id_, msg.id_, 1, '☑┇امر اطردني بالفعل تم تعطيله', 1, 'md')
+ end
+ else
+   if database:get('bot:lang:'..msg.chat_id_) then
+ send(msg.chat_id_, msg.id_, 1, '> *kick me has been disable*️', 1, 'md')
+ else
+ send(msg.chat_id_, msg.id_, 1, '☑┇تم تعطيل امر اطردني', 1, 'md')
+   database:set('bot:kickme:mute'..msg.chat_id_,true)
+ end
+ end
+   end
+
+local text = msg.content_.text_:gsub('اطردني','kick me')
+if text:match("^[Kk][Ii][Cc][Kk] [Mm][Ee]$") then
+if not database:get('bot:kickme:mute'..msg.chat_id_) then
+redis:set('kickyess'..msg.sender_user_id_..''..bot_id, 'kickyes')
+redis:set('kicknoo'..msg.sender_user_id_..''..bot_id, 'kickno')
+if database:get('bot:lang:'..msg.chat_id_) then
+send(msg.chat_id_, msg.id_, 1, '_> Send [yes - To kick you] or [no - To cancel', 1, 'md')
+else
+send(msg.chat_id_, msg.id_, 1, '🚷┇ ارسل ؛ نعم ، ليتم طردك\n🔘┇ارسل ؛ لا ، لالغاء الامر', 1, 'md')
+end
+else
+if database:get('bot:lang:'..msg.chat_id_) then
+send(msg.chat_id_, msg.id_, 1, '_> Command kick me Disabled', 1, 'md')
+else
+send(msg.chat_id_, msg.id_, 1, '⚠️┇تم تعطيل امر اطردني', 1, 'md')
+end
+end
+  end
+local text = msg.content_.text_:gsub('نعم','yes')
+if text:match("^[Yy][Ee][Ss]$") then
+local yess = redis:get('kickyess'..msg.sender_user_id_..''..bot_id)
+if yess == 'kickyes' then
+redis:del('kickyess'..msg.sender_user_id_..''..bot_id, 'kickyes')
+redis:del('kicknoo'..msg.sender_user_id_..''..bot_id, 'kickno')
+if database:get('bot:lang:'..msg.chat_id_) then
+send(msg.chat_id_, msg.id_, 1, '_> You have been kicked', 1, 'md')
+else
+send(msg.chat_id_, msg.id_, 1, '✅┇تم طردك من المجموعه', 1, 'md')
+end
+  end
+end
+local text = msg.content_.text_:gsub('لا','no')
+if text:match("^[Nn][Oo]$") then
+local noo = redis:get('kicknoo'..msg.sender_user_id_..''..bot_id)
+if noo == 'kickno' then
+redis:del('kickyess'..msg.sender_user_id_..''..bot_id, 'kickyes')
+redis:del('kicknoo'..msg.sender_user_id_..''..bot_id, 'kickno')
+if database:get('bot:lang:'..msg.chat_id_) then
+send(msg.chat_id_, msg.id_, 1, '_> The order was canceled', 1, 'md')
+else
+send(msg.chat_id_, msg.id_, 1, '🔘┇تم الغاء الامر', 1, 'md')
+end
+  end
+  end
+
+  -----------------------------------------------------------------------------------------------
 if (text and text == 'change dev text') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) or (text and text == 'تغير امر المطور بالكليشه') and tonumber(msg.sender_user_id_) == tonumber(sudo_add) then
 if database:get('bot:lang:'..msg.chat_id_) then
 send(msg.chat_id_, msg.id_, 1, '<code» send the</code> <b>help</b>', 1, 'html')
@@ -12389,6 +12492,8 @@ local h5 = redis:get('h5'..bot_id)
 ✖️┇تعطيل ردود المدير
 ✔️┇تفعيل التثبيت
 ✖️┇تعطيل التثبيت
+✔️┇تفعيل اطردني
+✖️┇تعطيل اطردني
 ✔️┇تنظيف + عدد
 
 🖇┇اضف رد
@@ -12520,7 +12625,7 @@ local h6 = redis:get('h6'..bot_id)
 🗯┇تغير رابط الانلاين + الرابط
 🗯┇تفعيل الانلاين
 🗯┇تعطيل الانلاين
-				
+
 ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉
 ]]
 send(msg.chat_id_, msg.id_, 1, (h6 or text), 1, 'html')
@@ -12708,11 +12813,11 @@ tdcli_function ({ID="GetChats", offset_order_="9223372036854775807", offset_chat
   -----------------------------------------------------------------------------------------------
 end
 
---[[                                    
-   _____    _        _    _    _____    
-  |_   _|__| |__    / \  | | _| ____|   
-    | |/ __| '_ \  / _ \ | |/ /  _|     
-    | |\__ \ | | |/ ___ \|   <| |___   
-    |_||___/_| |_/_/   \_\_|\_\_____|   
+--[[
+   _____    _        _    _    _____
+  |_   _|__| |__    / \  | | _| ____|
+    | |/ __| '_ \  / _ \ | |/ /  _|
+    | |\__ \ | | |/ ___ \|   <| |___
+    |_||___/_| |_/_/   \_\_|\_\_____|
               CH > @TshAkETEAM
 --]]
